@@ -22,9 +22,12 @@ h4 {
 
 :root {
     --menu-background: #09101a;
+    --menu-card: #04060d;
     --menu-border: #132031;
     --menu-font: #4bb7ff;
     --menu-font-dull: #0369af;
+    --radio-border: #233d9b;
+    --radio-check: #6d91a9;
 }
 
 .modal-panel, .modal-button {

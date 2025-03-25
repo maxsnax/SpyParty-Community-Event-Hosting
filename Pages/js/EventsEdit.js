@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Create the select element (dropdown)
         const selectElement = document.createElement("select");
+        selectElement.classList.add("Dropdown");
         selectElement.name = `${label.toLowerCase()}-tiebreaker`;
         selectElement.dataset.order = index; // Set the correct order on the select element
 
@@ -62,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event handler for when a tiebreaker option is changed
     function handleTiebreakerChange(event) {
-        const tiebreakerDiv = document.getElementById("tiebreaker-container");
+        const tiebreakerDiv = document.getElementById("tiebreaker-options");
         const dropdowns = tiebreakerDiv.querySelectorAll("select");
         var option = event.target;
 
@@ -157,6 +158,7 @@ divNames.forEach((name) => {
 
     // Create increment button
     const incButton = document.createElement("button");
+    incButton.classList.add("inc-dec-button");
     incButton.textContent = "+";
     incButton.addEventListener("click", (event) => {
         event.preventDefault(); // Prevent default behavior
@@ -165,6 +167,7 @@ divNames.forEach((name) => {
 
     // Create decrement button
     const decButton = document.createElement("button");
+    decButton.classList.add("inc-dec-button");
     decButton.textContent = "-";
     decButton.addEventListener("click", (event) => {
         event.preventDefault(); // Prevent default behavior

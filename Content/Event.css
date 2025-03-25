@@ -202,18 +202,46 @@
     width: 100%;
     padding: 1rem;
     flex-grow: 1;
+    border-radius: 10px;
 }
 
 .settings-options-panel {
     display: flex;
     flex-flow: column nowrap;
-    background-color: #04060d;
+    background-color: var(--menu-card);
     height: 40vh;
     overflow: auto;
+    align-items: center;
+}
+
+/*
+    Scrollbar
+*/
+.settings-options-panel::-webkit-scrollbar {
+    margin-left: 1rem;
+    padding-left: 1rem;
+    background: var(--menu-card);
+}
+
+/* Background of the scrollbar track */
+.settings-options-panel::-webkit-scrollbar-track {
+    background: var(--menu-card);
+    border-radius: 15px;
+    margin-right: 100px;
+}
+
+/* Scrollbar handle */
+.settings-options-panel::-webkit-scrollbar-thumb {
+    background: var(--menu-font-dull);
+}
+
+/* Scrollbar handle on hover */
+.settings-options-panel::-webkit-scrollbar-thumb:hover {
+    background: var(--menu-font);
 }
 
 #hover-text-div {
-    background: black;
+    background: var(--menu-card);
     height: 15vh;
     margin-top: 2%;
     margin-bottom: 0 auto;
@@ -240,20 +268,19 @@
      justify-self: center !important;
  }
 
- .dropdown-container {
-     display: flex;
+ .wtl {
+     width: 100%;
+     align-items: center;
+     justify-content: center;
  }
 
 .option-label {
-    width: 15vw;
+    width: 50%;
+    text-align: right;
+    padding: 0.25rem;
+    margin: 0.25rem;
     align-self: center;
     justify-content: center;
-}
-
-.incremental-button {
-    width: 2vw;
-    height: 2vh;
-    text-align: center;
 }
 
 .RadioButton {
@@ -261,5 +288,76 @@
     word-wrap: break-word !important;
     max-width: 100% !important;
     display: flex !important;
-    gap: 20px !important;
+}
+
+
+/* Custom Radiobuttons state */
+.RadioButton input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    min-width: 1.5rem; /* Disobeys normal width */
+    max-width: 1.5rem; /* Disobeys normal width */
+    min-height: 1.5rem;
+    max-height: 1.5rem;
+    border-radius: 50%;
+    border: 0.15rem solid;
+    border-color: var(--radio-border);
+    position: relative;
+    cursor: pointer;
+}
+
+/* Label styling */
+.RadioButton input[type="radio"] + label {
+    display: inline-flex;
+    align-items: center; /* Ensures radio button and text are aligned */
+    cursor: pointer; /* Makes the label clickable */
+    padding-left: 0.5rem; /* Adds padding between the button and the text */
+}
+
+/* Inner dot when checked */
+.RadioButton input[type="radio"]:checked::before {
+    background-color: transparent;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--radio-check) !important;
+    content: "\00A0\2713\00A0" !important;
+    font-weight: bolder;
+    font-size: 1.25rem;
+    border: none;
+}
+
+.dropdown-container {
+    display: flex;
+    margin: 0.25rem;
+/*    text-align: center;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+}
+
+.Dropdown {
+    background: #03236b;
+    color: white;
+/*    font-weight: bold;*/
+    border: 0.2rem solid #2a46b3;
+}
+
+
+.inc-dec-button {
+    border: 0.20rem solid var(--radio-border);
+    border-radius: .5rem;
+    width: .5rem;
+    height: .5rem;
+    padding: 1rem;
+    display: inline-flex;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--menu-font);
+    font-size: 2rem;
+    line-height: 50px;
+    background: transparent;
 }
