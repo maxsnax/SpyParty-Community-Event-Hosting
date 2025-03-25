@@ -95,3 +95,166 @@
     border: none;
     font-weight: bold;
 }
+
+/*.modal-foreground {*/
+/*    top: none !important;*/
+    /*left: 25% !important;*/
+/*    margin: auto;*/
+    /*width: 50%;
+    justify-content: center;
+    align-content: center;
+}*/
+
+/* Acts as overall container for our modal popup*/
+.modal-dialog {
+    min-width: 100vw !important;
+    min-height: 100vh;
+    margin: 0 auto !important;
+    max-width: none;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Contains the Title and the Main Panel */
+.modal-panel {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 70vw;
+    min-height: 65vh;
+}
+
+.modal-header {
+    border-bottom: 0 !important;
+}
+
+.close-button-div {
+    display: flex !important;
+    align-self: end !important;
+    margin-right: 15vw !important;
+}
+
+.button-close {
+    width: 10vw !important;
+    height: 6vh !important;
+}
+
+/* Contains the Main Content of Settings/Options Buttons */
+.main-panel {
+    display: flex;
+    flex-wrap: nowrap;
+    font-family: 'Lucida Console';
+/*    font-weight: bold;*/
+    position: relative;
+    flex-grow: 1;
+    background-color: var(--menu-background) !important;
+}
+
+.title-panel {
+    text-align: center;
+    margin-top: 1vh auto;
+}
+
+.title-font {
+    font-size: 3rem;
+    color: #4bb7ff;
+    text-align: center;
+}
+
+.text-font {
+    font-size: 1rem !important;
+    color: #246ddb;
+}
+
+.settings-list-panel {
+    display: flex;
+    flex-flow: column;
+    width: 30%;
+    padding: 1rem;
+    margin-left: 0;
+    font-size: 1rem;
+    white-space: nowrap;
+    background-color: black;
+    color: #246ddb;
+}
+
+
+.list-group-item {
+    background-color: black !important;
+    color: var(--menu-font-dull) !important;
+    border: 0 !important;
+}
+
+.list-group-item:hover {
+    color: var(--menu-font) !important;
+}
+
+.settings-options-column {
+    display:flex;
+    flex-direction: column;
+/*    margin-right: 2%;*/
+/*    padding-right: 2%;*/
+}
+
+.settings-options-panel {
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: #04060d;
+    margin-left: 2%;
+    padding-top: 5%;
+    padding-left:2%;
+    padding-right: 2%;
+
+    height: 40vh;
+    min-width:45vw;
+
+    overflow: auto;
+    width: 90%;
+}
+
+#hover-text-div {
+    background: black;
+    width: 45vw;
+    height: 15vh;
+    margin-left: 2%;
+    margin-top: 2%;
+    margin-bottom: 0 auto;
+    padding-left: 2%;
+    padding-top: 2%;
+}
+
+ .checkbox {
+    border-radius: 90px;
+    background-color: blue;
+}
+
+ h3 {
+    font-size: 1rem !important;
+    font-weight: bold !important;
+ }
+
+ .option-div {
+     margin-bottom: 15px;
+ }
+
+ .option-heading {
+     justify-self: center !important;
+ }
+
+ .dropdown-container {
+     display: flex;
+ }
+
+.option-label {
+    width: 15vw;
+    align-self: center;
+    justify-content: center;
+}
+
+.incremental-button {
+    width: 2vw;
+    height: 2vh;
+    text-align: center;
+}

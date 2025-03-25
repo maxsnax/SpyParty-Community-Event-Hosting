@@ -103,6 +103,42 @@ namespace SML.Pages {
         protected global::System.Web.UI.WebControls.Label EventNameLabel;
 
         /// <summary>
+        /// DivisionsButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DivisionsButton;
+
+        /// <summary>
+        /// PlayersButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button PlayersButton;
+
+        /// <summary>
+        /// SettingsButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button SettingsButton;
+
+        /// <summary>
+        /// QuitButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button QuitButton;
+
+        /// <summary>
         /// EditPanel control.
         /// </summary>
         /// <remarks>
@@ -110,5 +146,14 @@ namespace SML.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl EditPanel;
+
+        /// <summary>
+        /// hfUserAuthorized control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfUserAuthorized;
     }
 }

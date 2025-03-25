@@ -448,6 +448,7 @@
     <Content Include="Pages\Events.aspx" />
     <Content Include="Pages\EventsCreateNew.aspx" />
     <Content Include="Pages\EventsEdit.aspx" />
+    <Content Include="Pages\js\EventsEdit.js" />
     <Content Include="Pages\Players.aspx" />
     <Content Include="Pages\Scoreboard.aspx" />
     <Content Include="Pages\Upload.aspx" />

@@ -20,6 +20,20 @@ h4 {
     text-decoration: underline;
 }
 
+:root {
+    --menu-background: #09101a;
+    --menu-border: #132031;
+    --menu-font: #4bb7ff;
+    --menu-font-dull: #0369af;
+}
+
+.modal-panel, .modal-button {
+    border: 3px solid var(--menu-border);
+    border-radius: 15px;
+    background-color: var(--menu-background);
+    color: var(--menu-font);
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .body-content {
