@@ -124,6 +124,7 @@
     align-items: center;
     min-width: 70vw;
     min-height: 65vh;
+    max-width: 80%;
 }
 
 .modal-header {
@@ -149,6 +150,7 @@
 /*    font-weight: bold;*/
     position: relative;
     flex-grow: 1;
+
     background-color: var(--menu-background) !important;
 }
 
@@ -192,37 +194,32 @@
 }
 
 .settings-options-column {
-    display:flex;
+    display: flex;
     flex-direction: column;
-/*    margin-right: 2%;*/
-/*    padding-right: 2%;*/
+    flex-grow: 1;
+    max-width: 70%;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.settings-options-panel, #hover-text-div {
+    width: 100%;
+    padding: 1rem;
 }
 
 .settings-options-panel {
     display: flex;
     flex-flow: column nowrap;
     background-color: #04060d;
-    margin-left: 2%;
-    padding-top: 5%;
-    padding-left:2%;
-    padding-right: 2%;
-
     height: 40vh;
-    min-width:45vw;
-
     overflow: auto;
-    width: 90%;
 }
 
 #hover-text-div {
     background: black;
-    width: 45vw;
     height: 15vh;
-    margin-left: 2%;
     margin-top: 2%;
     margin-bottom: 0 auto;
-    padding-left: 2%;
-    padding-top: 2%;
 }
 
  .checkbox {
@@ -237,6 +234,9 @@
 
  .option-div {
      margin-bottom: 15px;
+     max-width: 100%;
+     flex-wrap: wrap;
+     gap: 10px;
  }
 
  .option-heading {
@@ -257,4 +257,19 @@
     width: 2vw;
     height: 2vh;
     text-align: center;
+}
+
+/*.RadioButtonList {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+*/
+
+.RadioButton {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    max-width: 100% !important;
+    display: flex !important;
+    gap: 20px !important;
 }

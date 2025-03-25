@@ -79,6 +79,7 @@
                                 <a class="list-group-item list-group-item-action" href="#tiebreaker-options"><h3 data-tip="Apply different tiebreakers for the scoreboard.">Tiebreaker</h3></a>
                                 <a class="list-group-item list-group-item-action" href="#wtl-values"><h3 data-tip="Change the points applied to a Win, Tie, or Loss.">W/T/L Values</h3></a>
                                 <a class="list-group-item list-group-item-action" href="#forfeit-processing"><h3 data-tip="Determine what happens when a player forfeits during the event.">Forfeit Processing</h3></a>
+                                <a class="list-group-item list-group-item-action" href="#upload-restrictions"><h3 data-tip="Dynamically add matches without registering the player. Anyone can upload replays of two players and they will be added as registered players.">Upload Restrictions</h3></a>
                             </div>
                             <div id="settings-options" class="settings-options-column">
                                 <div class="settings-options-panel" data-bs-spy="scroll" data-bs-target="settings-list" data-bs-offset="0" tabindex="0"> <!--class="modal-body" -->
@@ -86,30 +87,39 @@
                                     <!-- Settings Options -->
                                     <!---------------------->
                                     <!-- Event Type -->
-                                    <div id="scrollspyHeading1" class="option-div">
-                                        <h3 id="event-type-options" class="option-heading">Event Type</h3>
+                                    <div id="event-type-options" class="option-div">
+                                        <h3 class="option-heading">Event Type</h3>
                                         <asp:RadioButtonList runat="server">
-                                            <asp:ListItem>Tournament</asp:ListItem>
-                                            <asp:ListItem>League</asp:ListItem>
+                                            <asp:ListItem class="RadioButton">Tournament</asp:ListItem>
+                                            <asp:ListItem class="RadioButton">League</asp:ListItem>
                                         </asp:RadioButtonList>
                                     </div>
                                     <!-- Tiebreakers -->
-                                    <div id="tiebreaker-container" class="option-div">
-                                        <h3 id="tiebreaker-options" class="option-heading">Tiebreaker</h3>
+                                    <div id="tiebreaker-options" class="option-div">
+                                        <h3 class="option-heading">Tiebreaker</h3>
                                         
                                     </div>
                                     <!-- W/T/L Values -->
-                                    <div id="scrollspyHeading3" class="option-div">
-                                        <h3 id="wtl-values" class="option-heading">W/T/L Values</h3>
+                                    <div id="wtl-values" class="option-div">
+                                        <h3 class="option-heading">W/T/L Values</h3>
                                         <!-- Add in more divs and buttons in js file -->
                                     </div>
-                                    <div id="scrollspyHeading4" class="option-div">
-                                        <h3 id="forfeit-processing" class="option-heading">Forfeit Processing</h3>
+                                    <div id="forfeit-processing" class="option-div">
+                                        <h3 class="option-heading">Forfeit Processing</h3>
                                         <asp:RadioButtonList runat="server">
-                                            <asp:ListItem>Automatically drop player from event</asp:ListItem>
-                                            <asp:ListItem>Allow forfeit from a single match</asp:ListItem>
+                                            <asp:ListItem class="RadioButton">Automatically drop player from event</asp:ListItem>
+                                            <asp:ListItem class="RadioButton">Allow forfeit from a single match</asp:ListItem>
                                         </asp:RadioButtonList>                                    
                                     </div>
+                                    <!-- Player Restrictions on Match Upload -->
+                                    <div id="upload-restrictions" class="option-div">
+                                        <h3 class="option-heading">Upload Restrictions</h3>
+                                        <asp:RadioButtonList runat="server">
+                                            <asp:ListItem class="RadioButton">Allow unregistered players to upload matches</asp:ListItem>
+                                            <asp:ListItem class="RadioButton">Require players be added to this Event to upload matches</asp:ListItem>
+                                        </asp:RadioButtonList>
+                                    </div>
+
                                 </div>
                                 <!---------------------->
                                 <!-- Hover Option Text -->

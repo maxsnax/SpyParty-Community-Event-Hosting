@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "Quaternary",
         "Quinary",
     ];
-    const tiebreakerContainer = document.getElementById("tiebreaker-container");
+    const tiebreakerContainer = document.getElementById("tiebreaker-options");
 
     // Dropdown options
     const options = [
@@ -127,8 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // ======================================================
 //  Adding W/T/L Points Values Buttons
 // ======================================================
-const pointsHeading = document.getElementById("scrollspyHeading3");
-pointsHeading.addEventListener("mouseover", handleHoverEvent);
+const pointsHeading = document.getElementById("wtl-values");
 
 const divNames = ["win", "tie", "loss", "forfeit"];
 const divs = Object.fromEntries(
