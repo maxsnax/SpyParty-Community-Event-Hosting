@@ -593,6 +593,7 @@
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Results.cs" />
+    <Compile Include="Models\Season.cs" />
     <Compile Include="Pages\Events.aspx.cs">
       <DependentUpon>Events.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -21,7 +21,7 @@ namespace SML {
         private string replayDirectoryLocation;
         private List<Match> matchList = new List<Match>();
 
-        public List<Tuple<int, string>> LoadSeasons() {
+        public List<Season> LoadSeasons() {
             using UnitOfWork uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
             
             return uow.SeasonsRepo.LoadSeasons();

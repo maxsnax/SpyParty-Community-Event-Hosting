@@ -14,10 +14,11 @@ using System.Linq;
 using SML.Models;
 using static SML.Models.Player;
 
+
 namespace SML {
     public class ScoreboardService {
 
-        public List<Tuple<int, string>> LoadSeasons() {
+        public List<Season> LoadSeasons() {
             using UnitOfWork uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
 
             return uow.SeasonsRepo.LoadSeasons();

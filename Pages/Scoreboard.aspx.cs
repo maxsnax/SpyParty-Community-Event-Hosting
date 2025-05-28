@@ -15,6 +15,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static SML.Util;
 using static SML.Models.Player;
 using static SML.Models.Division;
+using static SML.Models.Season;
 using SML.Models;
 using SML.DAL;
 using System.Configuration;
@@ -43,19 +44,28 @@ namespace SML {
 
                 CreateSeasonTable();
             }
+
+            // Ensure the master page is correctly cast before accessing EnableDynamicBackground
+            SiteMaster master = Master as SiteMaster;
+            if (master != null) {
+                master.EnableDynamicBackground = true; // Enable background effect for this page
+            }
+
         }
 
 
 
         private void PopulateSeasons() {
             ScoreboardService dataLayer = new ScoreboardService();
-            List<Tuple<int, string>> seasons = dataLayer.LoadSeasons(); // Fetch seasons
+            List<Season> seasons = dataLayer.LoadSeasons()
+                //.Where(s => s.Status == "open")
+                .OrderBy(s => s.Name)
+                .ToList();
 
-            if (seasons.Count > 0) {
-                selectSeasonList.Items.Clear(); // Clear existing items
-                foreach (var season in seasons) {
-                    selectSeasonList.Items.Add(new ListItem(season.Item2, season.Item1.ToString()));
-                }
+            selectSeasonList.Items.Clear();
+
+            foreach (var season in seasons) {
+                selectSeasonList.Items.Add(new ListItem(season.Name, season.SeasonID.ToString()));
             }
         }
 

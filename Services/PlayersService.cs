@@ -24,7 +24,7 @@ namespace SML {
             _uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
         }
 
-        public List<Tuple<int, string>> LoadSeasons() {
+        public List<Season> LoadSeasons() {
             return _uow.SeasonsRepo.LoadSeasons();
         }
 

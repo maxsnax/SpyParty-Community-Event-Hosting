@@ -90,20 +90,22 @@ namespace SML.DAL.Repositories {
         }
 
 
-        public List<Tuple<int, string>> LoadSeasons() {
+        public List<Season> LoadSeasons() {
             System.Diagnostics.Debug.WriteLine($"LoadSeasons()");
 
-            List<Tuple<int, string>> seasons = new List<Tuple<int, string>>();
+            List<Season> seasons = new List<Season>();
 
             try {
-                string query = "SELECT season_ID, season_name FROM dbo.Season";
+                string query = "SELECT season_ID, season_name, status FROM dbo.Season";
 
                 using SqlCommand command = new SqlCommand(query, _connection, _transaction);
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read()) {
-                    int seasonID = reader.GetInt32(0); // season_ID
-                    string seasonName = reader.GetString(1); // season_name
-                    seasons.Add(new Tuple<int, string>(seasonID, seasonName));
+                    seasons.Add(new Season(
+                        reader.GetInt32(0),
+                        reader.GetString(1),
+                        reader.GetString(2)
+                    ));
                 }
             }
             catch (Exception ex) {

@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using ListItem = System.Web.UI.WebControls.ListItem;
 using static SML.Models.Replays;
 using Match = SML.Models.Match;
+using Season = SML.Models.Season;
 using SML.Models;
 
 namespace SML {
@@ -44,13 +45,16 @@ namespace SML {
         // On initial page load, populate the seasons for user to choose from and initialize empty player data
         // =======================================================================================
         private void PopulateSeasons() {
-            List<Tuple<int, string>> seasons = dataLayer.LoadSeasons(); // Fetch seasons
+            ScoreboardService dataLayer = new ScoreboardService();
+            List<Season> seasons = dataLayer.LoadSeasons()
+                .Where(s => s.Status == "open")
+                .OrderBy(s => s.Name)
+                .ToList();
 
-            if (seasons.Count > 0) {
-                selectSeasonList.Items.Clear(); // Clear existing items
-                foreach (var season in seasons) {
-                    selectSeasonList.Items.Add(new ListItem(season.Item2, season.Item1.ToString()));
-                }
+            selectSeasonList.Items.Clear();
+
+            foreach (var season in seasons) {
+                selectSeasonList.Items.Add(new ListItem(season.Name, season.SeasonID.ToString()));
             }
         }
 
