@@ -77,7 +77,8 @@ namespace SML {
                 List<Division> divisions = dataLayer.FetchOrderSortedDivisions(seasonID);
 
                 foreach (Division division in divisions) {
-                    division.Players = dataLayer.FetchPlayerSortedDivisions(division);
+                    //division.Players = dataLayer.FetchPlayerSortedDivisions(division);
+                    division.Players = dataLayer.FetchPlayerLoadOrder(division);
 
                     // Create a table for each rank
                     HtmlTable rankTable = new HtmlTable();

@@ -131,6 +131,16 @@ namespace SML {
             return playersList;
         }
 
+        public List<Player> FetchPlayerLoadOrder(Division division) {
+            using UnitOfWork uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
+
+            List<Player> playersList = uow.SeasonsRepo.GetPlayersFromDivision(division);
+
+            playersList = playersList.OrderBy(p => p.LoadOrder).ToList(); // Primary sorting by points
+
+            return playersList;
+        }
+
         public List<Division> FetchOrderSortedDivisions(int seasonID) {
             using UnitOfWork uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
 

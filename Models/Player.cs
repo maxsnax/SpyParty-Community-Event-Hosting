@@ -17,6 +17,7 @@ namespace SML.Models {
         public int Losses { get; set; } = 0;
         public int Ties { get; set; } = 0;
         public int Points => (Wins * 2) + Ties;
+        public int LoadOrder { get; set; } = 0;
         public Results Results { get; set; } = new Results();
 
         public Player() { }
@@ -45,7 +46,8 @@ namespace SML.Models {
                    $"Losses: {Losses}, " +
                    $"Ties: {Ties}, " +
                    $"Points: {Points}, " +
-                   $"Results: {Results}";
+                   $"Results: {Results}" +
+                   $"LoadOrder: {LoadOrder}";
         }
 
 

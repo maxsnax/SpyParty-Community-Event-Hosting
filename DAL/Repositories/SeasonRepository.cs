@@ -172,8 +172,8 @@ namespace SML.DAL.Repositories {
 
             List<Player> playersList = new List<Player>();
 
-            string query = "SELECT player_id, player_name, forfeit, division_id, season_id, username, win, loss, tie, spy_shot, spy_mission_win, spy_civilian_shot, spy_timeout, sniper_shot, sniper_mission_win, sniper_civilian_shot, sniper_timeout FROM Player " +
-                "WHERE season_id = @seasonID AND division_id = @divisionID";
+            string query = "SELECT player_id, player_name, forfeit, division_id, season_id, username, win, loss, tie, load_order, spy_shot, spy_mission_win, spy_civilian_shot, spy_timeout, sniper_shot, sniper_mission_win, sniper_civilian_shot, sniper_timeout " +
+                "FROM Player WHERE season_id = @seasonID AND division_id = @divisionID";
 
             using SqlCommand command = new SqlCommand(query, _connection, _transaction);
 
@@ -193,17 +193,17 @@ namespace SML.DAL.Repositories {
                         Wins = reader.GetInt32(6),
                         Losses = reader.GetInt32(7),
                         Ties = reader.GetInt32(8),
+                        LoadOrder = reader.IsDBNull(9) ? 0 : reader.GetInt32(9),
 
-                        // Assign the Results object
                         Results = new Results {
-                            Spy_SpyShot = reader.GetInt32(9),
-                            Spy_MissionsWin = reader.GetInt32(10),
-                            Spy_CivilianShot = reader.GetInt32(11),
-                            Spy_TimeOut = reader.GetInt32(12),
-                            Sniper_SpyShot = reader.GetInt32(13),
-                            Sniper_MissionsWin = reader.GetInt32(14),
-                            Sniper_CivilianShot = reader.GetInt32(15),
-                            Sniper_TimeOut = reader.GetInt32(16)
+                            Spy_SpyShot = reader.GetInt32(10),
+                            Spy_MissionsWin = reader.GetInt32(11),
+                            Spy_CivilianShot = reader.GetInt32(12),
+                            Spy_TimeOut = reader.GetInt32(13),
+                            Sniper_SpyShot = reader.GetInt32(14),
+                            Sniper_MissionsWin = reader.GetInt32(15),
+                            Sniper_CivilianShot = reader.GetInt32(16),
+                            Sniper_TimeOut = reader.GetInt32(17)
                         }
                     });
                 }
@@ -214,6 +214,7 @@ namespace SML.DAL.Repositories {
 
             return playersList;
         }
+
 
 
         public void CreateSeason(string name, string password) {
