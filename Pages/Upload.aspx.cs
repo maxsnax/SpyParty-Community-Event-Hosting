@@ -34,6 +34,12 @@ namespace SML {
                 //}
             }
 
+            // Ensure the master page is correctly cast before accessing EnableDynamicBackground
+            SiteMaster master = Master as SiteMaster;
+            if (master != null) {
+                master.EnableDynamicBackground = true; // Enable background effect for this page
+            }
+
         }
 
         protected void Session_End(object sender, EventArgs e) {

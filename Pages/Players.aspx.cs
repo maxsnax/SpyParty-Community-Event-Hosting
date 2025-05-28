@@ -22,6 +22,13 @@ namespace SML {
             if (!IsPostBack) {
                 LoadPlayersData();
             }
+
+            // Ensure the master page is correctly cast before accessing EnableDynamicBackground
+            SiteMaster master = Master as SiteMaster;
+            if (master != null) {
+                master.EnableDynamicBackground = true; // Enable background effect for this page
+            }
+
         }
 
         private void LoadPlayersData() {

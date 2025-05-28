@@ -15,7 +15,20 @@ namespace SML.Pages {
 
         protected void Page_Load(object sender, EventArgs e) {
 
-            LoadEventsData();
+            if (!IsPostBack) {
+                LoadEventsData();
+                EventGridView.Sort("season_name", SortDirection.Ascending);
+
+            }
+            else {
+                LoadEventsData();
+            }
+            // Ensure the master page is correctly cast before accessing EnableDynamicBackground
+            SiteMaster master = Master as SiteMaster;
+            if (master != null) {
+                master.EnableDynamicBackground = true; // Enable background effect for this page
+            }
+
 
         }
 
