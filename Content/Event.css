@@ -96,14 +96,66 @@
     font-weight: bold;
 }
 
-/*.modal-foreground {*/
-/*    top: none !important;*/
-    /*left: 25% !important;*/
-/*    margin: auto;*/
-    /*width: 50%;
-    justify-content: center;
-    align-content: center;
-}*/
+/*
+    Players
+*/
+.players-table th td {
+    font-size: .75rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    overflow: auto;
+    margin: 0px;
+    padding: 0px;
+    flex-grow: 1;
+}
+
+/*
+    Scrollable grid
+
+*/
+.grid-container {
+    width: 100%;
+    max-width: 60vw; /* Set max width */
+    height: 50vh; /* Set height to enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    border: 1px solid #ddd; /* Optional: Border around table */
+}
+
+.scrollable-grid {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.scrollable-grid th, .scrollable-grid td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+/* CSS for the dropdown button */
+.forfeit-dropdown {
+    background-color: red;
+    color: white;
+}
+
+.active-dropdown {
+    background-color: green;
+    color: white;
+}
+
+/* Optional: style the dropdown options */
+.forfeit-dropdown option {
+    background-color: white;
+    color: black;
+}
+
+.active-dropdown option {
+    background-color: white;
+    color: black;
+}
+
 
 /* Acts as overall container for our modal popup*/
 .modal-dialog {
@@ -268,11 +320,6 @@
      justify-self: center !important;
  }
 
- .wtl {
-     width: 100%;
-     align-items: center;
-     justify-content: center;
- }
 
 .option-label {
     width: 50%;

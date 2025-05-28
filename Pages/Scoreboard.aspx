@@ -16,7 +16,12 @@
 
             
             <asp:Panel runat="server" ID="masterTablePanel" CssClass="master-table">
-                <asp:DropDownList ID="selectSeasonList" runat="server" CssClass="seasonDropDown"></asp:DropDownList>
+                <asp:DropDownList ID="selectSeasonList"
+                    AutoPostBack="True"
+                    OnSelectedIndexChanged="Season_Selected_Change"
+                    runat="server"
+                    CssClass="seasonDropDown">
+                </asp:DropDownList>
             </asp:Panel>
             
 

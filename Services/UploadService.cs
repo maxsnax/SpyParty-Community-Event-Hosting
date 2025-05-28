@@ -266,7 +266,12 @@ namespace SML {
 
                 // Upload all the matches to SQL first in case we run into any issues before uploading Blobs
                 foreach (Match match in matchList) {
-                    SaveMatchToSQL(match, uow);
+                    try {
+                        SaveMatchToSQL(match, uow);
+                    } catch (Exception ex) {
+
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
                 }
 
                 // Less likely to have issues, and lost replays is less important than saving the replay data to SQL

@@ -50,6 +50,9 @@ namespace SML {
 
         }
 
+        /*
+         * Refactor into folowing function
+         */
         public DataTable GetEventData(GridView table, string eventName) {
 
 
@@ -59,6 +62,10 @@ namespace SML {
             // Return to store in viewstate as eventData
             return rawData;
         }
+        public DataTable FetchEventData(string eventName) {
+            return _uow.SeasonsRepo.GetPlayersFromSeason(eventName);
+        }
+
 
         public bool CheckEventName(string eventName) {
             bool taken = _uow.SeasonsRepo.CheckSeasonName(eventName);

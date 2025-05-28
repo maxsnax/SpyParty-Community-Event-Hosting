@@ -1,14 +1,9 @@
 ﻿using AjaxControlToolkit;
-using Microsoft.Ajax.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection.Metadata;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Xml.Linq;
 
 namespace SML.Pages {
     public partial class EventsEdit : System.Web.UI.Page {
@@ -30,11 +25,13 @@ namespace SML.Pages {
 
         private void LoadEventsData() {
             string eventName = Request.QueryString["season"];
-
+            _eventName = eventName;
 
             if (string.IsNullOrEmpty(eventName)) {
                 System.Diagnostics.Debug.WriteLine($"{eventName} event not found.");
                 EventNameLabel.Text = $"Event not found.";
+                Response.Redirect("/Pages/EventsEdit.aspx?season=SML+1");
+
             }
             else if (_eventsService.CheckEventName(eventName) == false) {
                 System.Diagnostics.Debug.WriteLine($"{eventName} event not found.");
@@ -60,6 +57,7 @@ namespace SML.Pages {
 
 
                 EventNameLabel.Text = $"{eventName}";
+                LoadGrid();
 
                 //PopulateAuthenticatedUI();
             }
@@ -82,6 +80,108 @@ namespace SML.Pages {
             HttpContext.Current.Session["AuthorizedEvent"] = _eventName;
             Response.Redirect("/Pages/EventsEdit.aspx?season=" + HttpUtility.UrlEncode(_eventName));
 
+        }
+
+        private void LoadGrid() {
+            System.Diagnostics.Debug.WriteLine($"Fetching {_eventName} Data");
+            DataTable eventData = _eventsService.FetchEventData(_eventName);
+
+            if (eventData == null || eventData.Rows.Count == 0) {
+                Console.WriteLine("No event data found.");
+                PlayersGridView.DataSource = null;
+                PlayersGridView.DataBind();
+                return;
+            }
+
+            // Log the number of rows retrieved
+            System.Diagnostics.Debug.WriteLine($"Data retrieved: {eventData.Rows.Count} rows");
+
+            // Log the first row as an example
+            foreach (DataRow row in eventData.Rows) {
+                System.Diagnostics.Debug.WriteLine($"Player: {row["player_name"]}, Division: {row["division_name"]}");
+            }
+
+            PlayersGridView.DataSource = eventData;
+            PlayersGridView.DataBind();
+        }
+        protected void PlayersGridView_RowDataBound(object sender, GridViewRowEventArgs e) {
+            if (e.Row.RowType == DataControlRowType.DataRow) {
+                // Find the DropDownList control inside the ItemTemplate
+                DropDownList ddlForfeit = (DropDownList)e.Row.FindControl("PlayerForfeit");
+
+                // Check if the DropDownList is not null
+                if (ddlForfeit != null) {
+                    // Get the 'forfeit' value from the DataRow
+                    string forfeitValue = DataBinder.Eval(e.Row.DataItem, "forfeit").ToString();
+
+                    // Set the selected value of the DropDownList to match the 'forfeit' value
+                    foreach (ListItem item in ddlForfeit.Items) {
+                        if (item.Value == forfeitValue) {
+                            item.Selected = true;
+                            break;
+                        }
+                    }
+
+                    // Apply the appropriate class based on the 'forfeit' value
+                    //if (ddlForfeit.SelectedValue == "Forfeit") {
+                    //    ddlForfeit.Attributes.Add("styles", "background-color: red");
+                    //}
+                    //else if (ddlForfeit.SelectedValue == "Active") {
+                    //    ddlForfeit.Attributes.Add("styles", "background-color: green"); // Green background for "Active"
+                    //}
+                }
+            }
+        }
+
+        protected void Forfeit_SelectedIndexChanged(object sender, EventArgs e) {
+            //DropDownList ddlForfeit = (DropDownList)sender;
+
+            //// Apply the appropriate class based on the 'forfeit' value
+            //if (ddlForfeit.SelectedValue == "Forfeit") {
+            //    ddlForfeit.Attributes.Add("styles", "background-color: red");
+            //}
+            //else if (ddlForfeit.SelectedValue == "Active") {
+            //    ddlForfeit.Attributes.Add("styles", "background-color: green"); // Green background for "Active"
+            //}
+        }
+
+
+
+        protected void Players_RowEditing(object sender, GridViewEditEventArgs e) {
+            PlayersGridView.EditIndex = e.NewEditIndex;
+            //LoadGrid(); // Reload data to reflect changes
+        }
+
+        protected void Players_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e) {
+            PlayersGridView.EditIndex = -1;
+            //LoadGrid(); // Reload data to reset edit mode
+        }
+
+        protected void Players_RowUpdating(object sender, GridViewUpdateEventArgs e) {
+            try {
+                int playerID = Convert.ToInt32(PlayersGridView.DataKeys[e.RowIndex].Value);
+                GridViewRow row = PlayersGridView.Rows[e.RowIndex];
+
+                string division = GetCellValue(row, 2);
+                string forfeit = GetCellValue(row, 3);
+
+                // Update via the Business Layer
+                //_eventsService.UpdatePlayer(playerID, division, forfeit);
+                System.Diagnostics.Debug.WriteLine($"Update Player {playerID}, {division} ,{forfeit}");
+
+                PlayersGridView.EditIndex = -1;
+                LoadGrid(); // Refresh data
+            }
+            catch (Exception ex) {
+                // Handle/log error (you can use logging frameworks like Serilog)
+                Console.WriteLine("Error updating player: " + ex.Message);
+            }
+        }
+
+        // Helper method to get text from a GridView cell safely
+        private string GetCellValue(GridViewRow row, int cellIndex) {
+            TextBox textBox = row.Cells[cellIndex].Controls[0] as TextBox;
+            return textBox != null ? textBox.Text.Trim() : string.Empty;
         }
 
 
@@ -359,6 +459,8 @@ namespace SML.Pages {
 
             System.Diagnostics.Debug.WriteLine("RadioButton Click");
         }
+
+
 
 
     }

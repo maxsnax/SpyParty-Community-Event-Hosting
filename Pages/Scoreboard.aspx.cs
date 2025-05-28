@@ -25,11 +25,26 @@ namespace SML {
 
 
         protected void Page_Load(object sender, EventArgs e) {
+            if (!IsPostBack) {
+                PopulateSeasons();
 
-            PopulateSeasons();
-            CreateSeasonTable();
+                // Check if there's a previously selected season
+                if (Session["SelectedSeason"] != null) {
+                    string lastSeason = Session["SelectedSeason"].ToString();
+                    ListItem item = selectSeasonList.Items.FindByValue(lastSeason);
+                    if (item != null) {
+                        selectSeasonList.ClearSelection();
+                        item.Selected = true;
+                    }
+                }
+                else if (selectSeasonList.Items.Count > 0) {
+                    selectSeasonList.SelectedIndex = 0;
+                }
 
+                CreateSeasonTable();
+            }
         }
+
 
 
         private void PopulateSeasons() {
@@ -43,6 +58,15 @@ namespace SML {
                 }
             }
         }
+
+        protected void Season_Selected_Change(object sender, EventArgs e) {
+            string selectedSeason = selectSeasonList.SelectedValue;
+            Session["SelectedSeason"] = selectedSeason;
+
+            // Reload table or do any necessary logic
+            CreateSeasonTable();
+        }
+
 
 
         private void CreateSeasonTable() {
@@ -204,7 +228,7 @@ namespace SML {
 
 
         // Converts two ints into a percentage value
-        private string percentageWin(int wins, int totalGames) {
+        private string PercentageWin(int wins, int totalGames) {
             string stats = "";
             // To avoid division by zero error
             if (totalGames != 0) {
@@ -256,8 +280,8 @@ namespace SML {
 
             // Prep the stats we'll be adding into the row
             int totalGames = spyWins + sniperWins;
-            string spyStats = percentageWin(spyWins, totalGames);
-            string sniperStats = percentageWin(sniperWins, totalGames);
+            string spyStats = PercentageWin(spyWins, totalGames);
+            string sniperStats = PercentageWin(sniperWins, totalGames);
 
             // Define the column values for the row
             var footerColumns = new Dictionary<string, string> {
@@ -294,13 +318,13 @@ namespace SML {
             int spyLossCount = player.Results.Spy_Losses;
 
             int spyGamesCount = spyWinsCount + player.Results.Spy_Losses;
-            string spyStats = percentageWin(spyWinsCount, spyGamesCount);
+            string spyStats = PercentageWin(spyWinsCount, spyGamesCount);
             string spyScore = $"{spyWinsCount} - {spyLossCount}";
 
             int sniperWinsCount = player.Results.Sniper_Wins;
             int sniperLossCount = player.Results.Sniper_Losses;
             int sniperGamesCount = sniperWinsCount + player.Results.Sniper_Losses;
-            string sniperStats = percentageWin(sniperWinsCount, sniperGamesCount);
+            string sniperStats = PercentageWin(sniperWinsCount, sniperGamesCount);
             string sniperScore = $"{sniperWinsCount} - {sniperLossCount}";
 
             // Define the column values for the row

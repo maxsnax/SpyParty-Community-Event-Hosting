@@ -121,6 +121,15 @@ namespace SML.Pages {
         protected global::System.Web.UI.WebControls.Button PlayersButton;
 
         /// <summary>
+        /// MatchesButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button MatchesButton;
+
+        /// <summary>
         /// SettingsButton control.
         /// </summary>
         /// <remarks>
@@ -146,6 +155,24 @@ namespace SML.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl EditPanel;
+
+        /// <summary>
+        /// PlayersUpdatePanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel PlayersUpdatePanel;
+
+        /// <summary>
+        /// PlayersGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView PlayersGridView;
 
         /// <summary>
         /// hfUserAuthorized control.

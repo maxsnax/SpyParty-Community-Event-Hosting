@@ -27,6 +27,7 @@
 
             <asp:Button id="DivisionsButton" CssClass="edit-button" Text="Divisions" OnClientClick="openModal('DivisionsModal'); return false;" runat="server"/>
             <asp:Button id="PlayersButton" CssClass="edit-button" Text="Players" OnClientClick="openModal('PlayersModal'); return false;" runat="server"/>
+            <asp:Button id="MatchesButton" CssClass="edit-button" Text="Matches" OnClientClick="openModal('MatchesModal'); return false;" runat="server"/>                        
             <asp:Button id="SettingsButton" CssClass="edit-button" Text="Settings" OnClientClick="openModal('SettingsModal'); return false;" runat="server"/>
             <asp:Button id="QuitButton" CssClass="edit-button" Text="Quit" OnClick="Submit_Quit" runat="server"/>
         </section>
@@ -48,16 +49,85 @@
             </div>
 
             <!-- Players Modal -->
-            <div class="modal fade" id="PlayersModal" tabindex="-1" aria-labelledby="PlayersModalLabel" aria-hidden="true">
+            <div class="modal fade" id="PlayersModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog d-flex flex-column justify-content-center align-items-center">
+                    <div class="modal-panel modal-header p-3">
+                        <!-- Settings Title Panel -->
+                        <div class="title-panel">
+                            <div class="title-font" id="PlayersModalLabel">Player Settings</div>
+                        </div>
+                        <div class="modal-content main-panel d-flex flex-row">
+
+                            <!-- Options List Panel -->
+                            <div id="players-list" class="settings-list-panel list-group">
+                                <a class="list-group-item list-group-item-action" href="#event-type-options"><h3 data-tip="Designate which type of event is being run.">Event Type</h3></a>
+                                <a class="list-group-item list-group-item-action" href="#tiebreaker-options"><h3 data-tip="Apply different tiebreakers for the scoreboard.">Tiebreaker</h3></a>
+                                <a class="list-group-item list-group-item-action" href="#wtl-values"><h3 data-tip="Change the points applied to a Win, Tie, or Loss.">W/T/L Values</h3></a>
+                                <a class="list-group-item list-group-item-action" href="#forfeit-processing"><h3 data-tip="Determine what happens when a player forfeits during the event.">Forfeit Processing</h3></a>
+                                <a class="list-group-item list-group-item-action" href="#upload-restrictions"><h3 data-tip="Dynamically add matches without registering the player. Anyone can upload replays of two players and they will be added as registered players.">Upload Restrictions</h3></a>
+                            </div>
+                            <div id="players-options" class="settings-options-column">
+                                 <asp:UpdatePanel ID="PlayersUpdatePanel" runat="server">
+                                     <ContentTemplate>
+                                         <div id="Players-scrollable" class="grid-container">
+                                             <asp:GridView ID="PlayersGridView" runat="server" AutoGenerateColumns="False"
+                                                    DataKeyNames="player_name"
+                                                    OnRowDataBound="PlayersGridView_RowDataBound"
+                                                    OnRowEditing="Players_RowEditing"
+                                                    OnRowCancelingEdit="Players_RowCancelingEdit"
+                                                    OnRowUpdating="Players_RowUpdating"
+                                                    CssClass="scrollable-grid">
+                                                <Columns>
+                                                    <asp:BoundField DataField="player_name" HeaderText="Player" ReadOnly="True" />
+                                                    <asp:BoundField DataField="division_name" HeaderText="Division" />
+                                                    
+                                                    <asp:TemplateField HeaderText="Forfeit">
+                                                        <ItemTemplate>
+                                                            <asp:DropDownList ID="PlayerForfeit" runat="server"
+                                                                DataValueField="forfeit"
+                                                                DataTextField="Player Status"
+                                                                OnClientClick="updateDropdownColor(this)"
+                                                                AutoPostBack="false"
+                                                                OnSelectedIndexChanged="Forfeit_SelectedIndexChanged">
+                                                                <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
+                                                                <asp:ListItem Text="Forfeit" Value="Forfeit"></asp:ListItem>                                            
+                                                            </asp:DropDownList>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <asp:CommandField ShowEditButton="True" />
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <!---------------------->
+                                <!-- Hover Option Text -->
+                                <!---------------------->
+                                <div id="player-hover-text-div">
+                                    <p id="player-hover-text">
+                                        Hover over the options to see more information.
+                                    </p>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="close-button-div">
+                        <button type="button" class="button-close modal-button" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matches Modal -->
+            <div class="modal fade" id="MatchesModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="PlayersModalLabel">Edit Players</h5>
+                            <h5 class="modal-title" id="MatchesModalLabel">Edit Divisions</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Your players content goes here -->
-                            <p>Manage players for the event.</p>
+                            <!-- Your divisions content goes here -->
+                            <p>Manage matches for the event.</p>
                         </div>
                     </div>
                 </div>
@@ -82,7 +152,7 @@
                                 <a class="list-group-item list-group-item-action" href="#upload-restrictions"><h3 data-tip="Dynamically add matches without registering the player. Anyone can upload replays of two players and they will be added as registered players.">Upload Restrictions</h3></a>
                             </div>
                             <div id="settings-options" class="settings-options-column">
-                                <div class="settings-options-panel" data-bs-spy="scroll" data-bs-target="settings-list" data-bs-offset="0" tabindex="0"> <!--class="modal-body" -->
+                                <div class="settings-options-panel" data-bs-spy="scroll" data-bs-target="settings-list" data-bs-offset="0" tabindex="0">
                                     <!---------------------->
                                     <!-- Settings Options -->
                                     <!---------------------->
@@ -142,6 +212,25 @@
 
         <asp:HiddenField ID="hfUserAuthorized" runat="server" />
     </section>
+    <script type="text/javascript">
+        function updateDropdownColor(dropdown) {
+            // Get the selected value
+            var selectedValue = dropdown.value;
+
+            // Change the background color based on the selected value
+            if (selectedValue === "Forfeit") {
+                dropdown.style.backgroundColor = "red"; // Red for Forfeit
+                dropdown.style.color = "white"; // White text for readability
+            } else if (selectedValue === "Active") {
+                dropdown.style.backgroundColor = "green"; // Green for Active
+                dropdown.style.color = "white"; // White text for readability
+            } else {
+                // Default styling if necessary
+                dropdown.style.backgroundColor = "white"; // Default white background
+                dropdown.style.color = "black"; // Default black text
+            }
+        }
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
