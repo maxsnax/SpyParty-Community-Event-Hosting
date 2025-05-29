@@ -54,7 +54,7 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light custom-bg-color">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">SpyParty League Tourneys</a>
+                <a class="navbar-brand" runat="server" href="~/">SpyParty Community Events</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

@@ -289,6 +289,7 @@ h4 {
     width: 100%;
     text-align: left;
     border: solid 5px;
+    border-color: transparent;
     border-collapse: collapse;
     table-layout: fixed;
     color: black;
@@ -402,7 +403,7 @@ th, td {
 }
 
 .Grandmaster {
-    background: linear-gradient(to bottom, #ffa500, #ffc04c);
+/*    background: linear-gradient(to bottom, #ffa500, #ffc04c);*/
 }
 
 .rank-header-row .Master-header {
@@ -410,7 +411,7 @@ th, td {
 }
 
 .Master {
-    background: linear-gradient(to bottom, #00008b, #3b3bbd);
+/*    background: linear-gradient(to bottom, #00008b, #3b3bbd);*/
 }
 
 .rank-header-row .Ruby-header {
@@ -418,7 +419,7 @@ th, td {
 }
 
 .Ruby {
-    background: linear-gradient(to bottom, #9b111e, #b14550);
+/*    background: linear-gradient(to bottom, #9b111e, #b14550);*/
 }
 
 .rank-header-row .Emerald-header {
@@ -426,7 +427,7 @@ th, td {
 }
 
 .Emerald {
-    background: linear-gradient(to bottom, #42c56e, #70d893);
+/*    background: linear-gradient(to bottom, #42c56e, #70d893);*/
 }
 
 .rank-header-row .Sapphire-header {
@@ -434,7 +435,7 @@ th, td {
 }
 
 .Sapphire {
-    background: linear-gradient(to bottom, #0f52ba, #3f6eb8);
+/*    background: linear-gradient(to bottom, #0f52ba, #3f6eb8);*/
 }
 
 .rank-header-row .Topaz-header {
@@ -442,7 +443,7 @@ th, td {
 }
 
 .Topaz {
-    background: linear-gradient(to bottom, #feb651, #ffc87c);
+/*    background: linear-gradient(to bottom, #feb651, #ffc87c);*/
 }
 
 .rank-table .Grandmaster {

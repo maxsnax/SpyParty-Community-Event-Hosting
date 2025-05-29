@@ -96,6 +96,41 @@
     font-weight: bold;
 }
 
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    align-content: flex-start;
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    flex-wrap: wrap;
+    background-color: transparent;
+    min-width: 100%;
+}
+
+
+.menu-button {
+    margin-top: 0px;
+    padding-top: 0px;
+    font-size: 2rem;
+    color: #246ddb;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+    min-width: 50vw;
+    text-align: left;
+}
+
+.option-div {
+    text-align: left;
+}
+
+
+.menu-image {
+    height: 150px;
+}
+
 /*
     Players
 */

@@ -9,9 +9,9 @@
 
             <section ID="matchResultSection" style="margin: 10px;" Visible="false" runat="server">
                 <div>
-                    <asp:Label ID="matchResultLabel" CssClass="center-label" runat="server">Results</asp:Label>
+                    <asp:Label ID="matchResultLabel" style="color: white !important" CssClass="center-label" runat="server">Results</asp:Label>
                 </div>
-                <section ID="matchResultsDiv" class="results-container" runat="server">
+                <section ID="matchResultsDiv" style="color: white !important" class="results-container" runat="server">
                     <%--
                     <asp:Label ID="matchResultsPlayerOne" CssClass="player-one" runat="server">P1</asp:Label>
                     <asp:Label ID="matchResultsVersus" CssClass="vs" runat="server"> vs </asp:Label>
@@ -46,8 +46,8 @@
                     </div>
 
                     <%-- --%>
-                    <div class="button-row">
-                        <asp:DropDownList ID="selectSeasonList" runat="server" OnSelectedIndexChanged="SelectSeasonList_SelectedIndexChanged"/>
+                    <div class="button-row" style="margin-top: 10px;">
+                        <asp:DropDownList ID="selectSeasonList" style="margin-right: 10px; height:30px; width: 200px; text-align: center;" runat="server" OnSelectedIndexChanged="SelectSeasonList_SelectedIndexChanged"/>
                         <asp:Button ID="uploadFileButton" runat="server" Text="Upload File" OnClick="UploadFileButton_Click" Width="205px" />
                     </div>
 
