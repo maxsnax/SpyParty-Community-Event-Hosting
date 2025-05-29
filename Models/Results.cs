@@ -25,6 +25,18 @@ namespace SML.Models {
         public int Total_Games => Points_Won + Points_Lost;
         public Results() { }
 
+        public void Add(Results other) {
+            Spy_SpyShot += other.Spy_SpyShot;
+            Spy_CivilianShot += other.Spy_CivilianShot;
+            Spy_MissionsWin += other.Spy_MissionsWin;
+            Spy_TimeOut += other.Spy_TimeOut;
+            Sniper_SpyShot += other.Sniper_SpyShot;
+            Sniper_CivilianShot += other.Sniper_CivilianShot;
+            Sniper_MissionsWin += other.Sniper_MissionsWin;
+            Sniper_TimeOut += other.Sniper_TimeOut;
+        }
+
+
         public override string ToString() {
             return $"Spy: [Spy_SpyShot: {Spy_SpyShot}, Spy_CivilianShot: {Spy_CivilianShot}, Spy_MissionsWin: {Spy_MissionsWin}, Spy_TimeOut: {Spy_TimeOut}]\n" +
                    $"Sniper: [Sniper_SpyShot: {Sniper_SpyShot}, Sniper_CivilianShot: {Sniper_CivilianShot}, Sniper_MissionsWin: {Sniper_MissionsWin}, Sniper_TimeOut: {Sniper_TimeOut}]\n" +

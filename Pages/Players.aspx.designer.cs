@@ -13,6 +13,15 @@ namespace SML {
     public partial class Players {
 
         /// <summary>
+        /// playerProfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl playerProfile;
+
+        /// <summary>
         /// playerProfilePhoto control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace SML {
         protected global::System.Web.UI.WebControls.Label lblPlayerName;
 
         /// <summary>
+        /// lblPlayerUsername control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPlayerUsername;
+
+        /// <summary>
         /// selectSeasonList control.
         /// </summary>
         /// <remarks>
@@ -56,6 +74,15 @@ namespace SML {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView MatchView;
+
+        /// <summary>
+        /// playerEventsPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl playerEventsPanel;
 
         /// <summary>
         /// LobbyMenu control.

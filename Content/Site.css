@@ -396,8 +396,6 @@ th, td {
     padding: 5px;
 }
 
-
-
 .rank-header-row .Grandmaster-header {
     background: #ffa500;
 }
@@ -727,4 +725,54 @@ th, td {
     height: 50px;
     justify-content: center;
     align-items: center;
+}
+
+
+/*
+    Player Profiles
+*/
+
+.players-page {
+    background: white !important;
+    border-color: black;
+    color: black;
+}
+
+.profilePicture {
+    height: 150px;
+    width: 150px;
+    border: 1px solid black;
+    margin: 15px;
+}
+
+.profileDropdown {
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.playerSeasonTable {
+    font-size: 12px !important;
+    justify-self: center;
+    align-self: center;
+    margin: auto;
+}
+
+.playerSeasonTable .player-name {
+    font-size: 12px !important;
+}
+
+.playerSeasonTable .rank-name {
+    font-size: 12px !important;
+}
+
+.playerSeasonTable .picture-cell {
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.playerSeasonTable img {
+    width: 25px;
+    height: 25px;
 }

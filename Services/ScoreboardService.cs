@@ -72,7 +72,8 @@ namespace SML {
         public List<Player> FetchPlayerSortedDivisions(Division division) {
             using UnitOfWork uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
 
-
+            
+            List<Player> playersList = uow.SeasonsRepo.GetPlayersFromDivision(division);
 
             //foreach (Player player in playersList) {
             //    try {
@@ -84,7 +85,6 @@ namespace SML {
             //        System.Diagnostics.Debug.WriteLine(ex);
             //    }
             //}
-            List<Player> playersList = uow.SeasonsRepo.GetPlayersFromDivision(division);
 
             //foreach (Player player in playersList) {
             //    try {
@@ -94,6 +94,7 @@ namespace SML {
             //        System.Diagnostics.Debug.WriteLine(ex);
             //    }
             //}
+
             //playersList = uow.SeasonsRepo.GetPlayersFromDivision(division);
 
             //playersList = uow.SeasonsRepo.GetPlayersFromDivision(division);
@@ -136,6 +137,17 @@ namespace SML {
             using UnitOfWork uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
 
             List<Player> playersList = uow.SeasonsRepo.GetPlayersFromDivision(division);
+
+            foreach (Player player in playersList) {
+                try {
+                    if (player.Username == null) {
+                        uow.PlayersRepo.UpdatePlayerUsername(player);
+                    }
+                }
+                catch (Exception ex) {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            }
 
             playersList = playersList.OrderBy(p => p.LoadOrder).ToList(); // Primary sorting by points
 

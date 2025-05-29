@@ -96,6 +96,16 @@
     font-weight: bold;
 }
 
+.menu-header {
+    align-self: flex-start;
+    max-width: 20%;
+    font-size: 1.75rem;
+    color: #a8dff4;
+    background-color: transparent;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
 .menu-container {
     display: flex;
     flex-direction: column;
@@ -113,7 +123,7 @@
 .menu-button {
     margin-top: 0px;
     padding-top: 0px;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #246ddb;
     background-color: transparent;
     border: none;

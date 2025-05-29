@@ -13,15 +13,17 @@ using System.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Windows.Forms;
 using System.Data.Common;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
+using Microsoft.Extensions.Azure;
+
 
 namespace SML {
     public partial class Players : System.Web.UI.Page {
         private readonly PlayersService _playersService = new PlayersService();
 
         protected void Page_Load(object sender, EventArgs e) {
-            if (!IsPostBack) {
-                LoadPlayersData();
-            }
+            LoadPlayersData();
+
 
             // Ensure the master page is correctly cast before accessing EnableDynamicBackground
             SiteMaster master = Master as SiteMaster;
@@ -40,10 +42,14 @@ namespace SML {
                 DataTable rawData;
                 rawData = _playersService.PopulateAllPlayerData(PlayerGridView);
                 ViewState["dataTable"] = rawData;
+                playerProfile.Visible = false;
             }
             else {
                 List<Player> playerData = _playersService.GetPlayerData(playerName);
-                //lblPlayerName.Text = playerData != null ? $"Profile of {playerName}" : "Player not found.";
+                lblPlayerName.Text = playerData != null ? $"{playerName}" : "Player not found.";
+                LobbyMenu.Visible = false;
+                playerProfile.Visible = true;
+                PopulatePlayerData(playerData);
             }
         }
 
@@ -125,21 +131,37 @@ namespace SML {
 
             Player player = playerList[0];
 
-            // Define image path
-            string playerIcon = $"/Images/playerIcons/{player.Name}.png";
-            string fullPath = Path.Combine(@"C:\Users\Max\source\repos\SML\Images\playerIcons", $"{player.Name}.png");
+            // Player Icon  
+            string playerIconVirtualPath = $"/Images/playerIcons/{player.Name}.png";
+            string playerIconPhysicalPath = Server.MapPath(playerIconVirtualPath);
 
-            // Check if file exists, else use default
-            if (!File.Exists(fullPath)) {
-                playerIcon = "/Images/icons/Smallman.png";
+            if (!File.Exists(playerIconPhysicalPath)) {
+                playerIconVirtualPath = "/Images/icons/Smallman.png";
             }
 
-            // Update Image control
-            //playerProfilePhoto.ImageUrl = playerIcon;
+            playerProfilePhoto.ImageUrl = playerIconVirtualPath;
 
-            HtmlImage playerImage = new HtmlImage();
-            playerImage.Src = playerIcon;
-            //playerPhotoCell.Controls.Add(playerImage);
+            if (player.Name != player.Username) {
+                lblPlayerUsername.Text = player.Username;
+            }
+
+
+            Division division = new Division("", 0);
+            HtmlTable table = new HtmlTable();
+            table.Attributes["class"] = "playerSeasonTable";
+            Util.AddDivisionHeaderRow(table, division);
+
+            Player runningStats = new Player(player.Name);
+
+            foreach (Player p in playerList) {
+                runningStats.Add(p);
+
+                Util.AddPlayerToTable(table, p, false);
+                playerEventsPanel.Controls.Add(table);
+            }
+
+            Util.AddPlayerToTable(table, runningStats, true);
+
         }
 
         private List<Player> GetPlayerData(string playerName) {

@@ -20,5 +20,10 @@ namespace SML.Models {
             LoadOrder = Order;
             Players = new List<Player>();
         }
+
+        public Division(string Name, int ID) {
+            DivisionName = Name;
+            DivisionID = ID;
+        }
     }
 }

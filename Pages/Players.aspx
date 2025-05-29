@@ -11,12 +11,19 @@
 
     <main class="players-page">
     
-        <section class="row" runat="server" Visible="false" aria-labelledby="aspnetTitle">
-            <asp:Image ID="playerProfilePhoto" width="150px" Height="150px" runat="server"></asp:Image>
+        <section id="playerProfile" class="row playerProfileCard" CssClass="playerProfileCard"  runat="server" aria-labelledby="aspnetTitle">
+            <asp:Image class="profilePicture" ID="playerProfilePhoto" width="150px" Height="150px" runat="server"></asp:Image>
             <asp:TableCell ID="playerPhotoCell" runat="server"></asp:TableCell>
             <asp:Label ID="lblPlayerName" runat="server" Font-Size="20px"></asp:Label>
-            <asp:DropDownList ID="selectSeasonList" runat="server" style="padding: 10px; margin: 10px;"></asp:DropDownList>
+            <asp:Label ID="lblPlayerUsername" runat="server" Font-Size="14px"></asp:Label>
+            <!--
+            <asp:DropDownList ID="selectSeasonList" CssClass="DropdownMenu profileDropdown" runat="server"></asp:DropDownList>
+            -->
             <asp:GridView ID="MatchView" runat="server"></asp:GridView>
+
+            <Panel id="playerEventsPanel" runat="server">
+
+            </Panel>
         </section>
 
 
@@ -45,7 +52,6 @@
                 </Columns>
             </asp:GridView>
 
-            
 
         </section>
 

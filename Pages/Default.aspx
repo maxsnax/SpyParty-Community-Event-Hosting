@@ -13,7 +13,7 @@
     
     <section id="AuthenticatedContent" class="edit-button-container"  runat="server">
         <section class="menu-container" id="AuthButtons" runat="server">
-            <asp:Label id="EventNameLabel" CssClass="edit-header" runat="server">Welcome To SpyParty Community Events</asp:Label>
+            <asp:Label id="EventNameLabel" CssClass="menu-header" runat="server">Welcome To SpyParty Community Events</asp:Label>
 
             <asp:Button id="FeaturesButton" CssClass="menu-button" Text="Beta Features and Future Updates" OnClientClick="openModal('FeaturesModal'); return false;" runat="server"/>
             <asp:Button id="ReplaysButton" CssClass="menu-button" Text="How to Upload Replays" OnClientClick="openModal('ReplaysModal'); return false;" runat="server"/>

@@ -12,7 +12,9 @@ namespace SML.Models {
         public string Name { get; set; } = null;
         public int Forfeit { get; set; } = 0;
         public int Season { get; set; } = 0;
+        public string SeasonName { get; set; } = null;
         public int Division { get; set; } = 0;
+        public string DivisionName { get; set; } = null;
         public int Wins { get; set; } = 0;
         public int Losses { get; set; } = 0;
         public int Ties { get; set; } = 0;
@@ -24,6 +26,13 @@ namespace SML.Models {
 
         public Player(string name) {
             Name = name;
+        }
+
+        public void Add(Player other) {
+            Wins += other.Wins;
+            Ties += other.Ties;
+            Losses += other.Losses;
+            Results.Add(other.Results);
         }
 
         public void UpdatePlayerInfo(Player SQL) {

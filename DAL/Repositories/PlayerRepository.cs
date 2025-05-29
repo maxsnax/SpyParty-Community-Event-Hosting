@@ -52,39 +52,85 @@ namespace SML.DAL.Repositories {
 
             System.Diagnostics.Debug.WriteLine($"SQL GetPlayerByName() - playerName: {playerName}");
 
-            string query = "SELECT player_id, player_name, forfeit, division_id, season_id, username FROM Player " +
-                "WHERE player_name = @playerName";
+            string query =
+                "SELECT p.player_id, p.player_name, p.forfeit, p.division_id, p.season_id, p.username, " +
+                "       s.season_name, d.division_name, " +
+                "       p.win, p.loss, p.tie, p.load_order, " +
+                "       p.spy_civilian_shot, p.spy_mission_win, p.spy_timeout, p.spy_shot, " +
+                "       p.sniper_civilian_shot, p.sniper_mission_win, p.sniper_timeout, p.sniper_shot " +
+                "FROM   Player p " +
+                "LEFT  JOIN Season   s ON p.season_id   = s.season_id " +
+                "LEFT  JOIN Division d ON p.division_id = d.division_id " +
+                "WHERE  p.player_name = @playerName";
+
 
             using SqlCommand command = new SqlCommand(query, _connection);
-
-            command.Parameters.AddWithValue("@playerName", playerName);
-
+            command.Parameters.Add("@playerName", SqlDbType.VarChar, 50).Value = playerName;
             List<Player> playerData = new List<Player>();
 
             System.Diagnostics.Debug.WriteLine($"Executing SQL Query for Player: {playerName}");
             try {
-                using (SqlDataReader reader = command.ExecuteReader()) {
-                    while (reader.Read()) {
-                        int playerId = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        int forfeit = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
-                        int divisionId = reader.IsDBNull(3) ? -1 : reader.GetInt32(3);
-                        int seasonId = reader.IsDBNull(4) ? -1 : reader.GetInt32(4);
-                        string username = reader.GetString(5);
+                using SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    int playerId = reader.GetInt32(0);
+                    string name = reader.GetString(1);
+                    int forfeit = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
+                    int divisionId = reader.IsDBNull(3) ? -1 : reader.GetInt32(3);
+                    int seasonId = reader.IsDBNull(4) ? -1 : reader.GetInt32(4);
+                    string username = reader.GetString(5);
+                    string seasonName = reader.IsDBNull(6) ? null : reader.GetString(6);
+                    string divisionName = reader.IsDBNull(7) ? null : reader.GetString(7);
 
-                        System.Diagnostics.Debug.WriteLine($"Returning Player: ID={playerId}, Name={name}, Forfeit={forfeit}, Division={divisionId}, Season={seasonId}");
-                        playerData.Add(new Player {
-                            PlayerID = playerId,
-                            Name = name,
-                            Forfeit = forfeit,
-                            Division = divisionId,
-                            Season = seasonId,
-                            Username = username
-                        });
-                    }
+                    int wins = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
+                    int losses = reader.IsDBNull(9) ? 0 : reader.GetInt32(9);
+                    int ties = reader.IsDBNull(10) ? 0 : reader.GetInt32(10);
+                    int load = reader.IsDBNull(11) ? 0 : reader.GetInt32(11);
 
-                    return playerData;
+                    int spyCivilianShot = reader.IsDBNull(12) ? 0 : reader.GetInt32(12);
+                    int spyMissionWin = reader.IsDBNull(13) ? 0 : reader.GetInt32(13);
+                    int spyTimeout = reader.IsDBNull(14) ? 0 : reader.GetInt32(14);
+                    int spyShot = reader.IsDBNull(15) ? 0 : reader.GetInt32(15);
+                    int sniperCivilianShot = reader.IsDBNull(16) ? 0 : reader.GetInt32(16);
+                    int sniperMissionWin = reader.IsDBNull(17) ? 0 : reader.GetInt32(17);
+                    int sniperTimeout = reader.IsDBNull(18) ? 0 : reader.GetInt32(18);
+                    int sniperShot = reader.IsDBNull(19) ? 0 : reader.GetInt32(19);
+
+
+                    Results stats = new Results {
+                        Spy_CivilianShot = spyCivilianShot,
+                        Spy_MissionsWin = spyMissionWin,
+                        Spy_TimeOut = spyTimeout,
+                        Spy_SpyShot = spyShot,
+                        Sniper_CivilianShot = sniperCivilianShot,
+                        Sniper_MissionsWin = sniperMissionWin,
+                        Sniper_TimeOut = sniperTimeout,
+                        Sniper_SpyShot = sniperShot
+                    };
+
+
+                    System.Diagnostics.Debug.WriteLine(
+                        $"Returning Player: ID={playerId}, Name={name}, Forfeit={forfeit}, " +
+                        $"Division={divisionId} ({divisionName}), Season={seasonId} ({seasonName}), " +
+                        $"W/L/T={wins}/{losses}/{ties}, LoadOrder={load}");
+
+                    playerData.Add(new Player {
+                        PlayerID = playerId,
+                        Username = username,
+                        Name = name,
+                        Forfeit = forfeit,
+                        Season = seasonId,
+                        SeasonName = seasonName,
+                        Division = divisionId,
+                        DivisionName = divisionName,
+                        Wins = wins,
+                        Losses = losses,
+                        Ties = ties,
+                        LoadOrder = load,
+                        Results = stats
+                    });
                 }
+
+                return playerData;
             }
             catch (Exception ex) {
                 System.Diagnostics.Debug.WriteLine($"Failed GetPlayerByName: {ex.Message}");
