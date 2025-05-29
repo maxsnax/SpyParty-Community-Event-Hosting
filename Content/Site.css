@@ -470,6 +470,49 @@ th, td {
     background-color: #ffc87c;
 }
 
+.Diamond {
+    background: #37b4c8
+}
+
+.Platinum {
+    background-color: #cccccc;
+}
+
+.Gold {
+    background-color:#efd659;
+}
+
+.Silver {
+    background-color: #5a7270;
+}
+
+.Bronze {
+    background-color: #f89c54;
+}
+
+.Copper {
+    background-color: #a84424;
+}
+
+.Iron {
+    background-color: #abb2b2;
+}
+
+.Obsidian {
+    background-color: #b63e2e;
+}
+
+.Oak {
+    background-color: #6a5032;
+}
+
+.Challenger {
+    background-color: #65ba7f;
+}
+
+
+
+
 /*  =====================================================================
     Replay sheets
     ===================================================================== */

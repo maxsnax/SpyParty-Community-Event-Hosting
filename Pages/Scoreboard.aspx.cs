@@ -214,7 +214,7 @@ namespace SML {
             rankHeaderRow.Attributes["class"] = $"rank-header-row {rankName}";
 
             // Create the cells for division logo and sniper/spy logos
-            string divisionImgPath = $@"\Images\divisions\SML_Badge_{rankName}.png";
+            string divisionImgPath = $@"\Images\divisions\{rankName}.png";
             string sniperImagePath = @"\Images\icons\sniper.png";
             string spyImagePath = @"\Images\icons\spy.png";
             HtmlTableCell logoCell = Util.cellImage(divisionImgPath, className: "picture-cell");
@@ -283,7 +283,7 @@ namespace SML {
             dataRow.Attributes["class"] = $"rank-header-row {divisionName}";
 
             // Get the division logo symbol and at it to an image cell for the row
-            string divisionImgPath = $@"\Images\divisions\SML_Badge_{divisionName}.png";
+            string divisionImgPath = $@"\Images\divisions\{divisionName}.png";
             HtmlTableCell logoCell = Util.cellImage(divisionImgPath, className: "picture-cell");
 
             // Add the logo to an array for the FillTableRow function
