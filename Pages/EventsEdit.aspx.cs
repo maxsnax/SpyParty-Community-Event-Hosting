@@ -17,9 +17,9 @@ namespace SML.Pages {
 
             LoadEventsData();
 
-            //if (IsPostBack && ViewState["ShowModal"] != null && (bool)ViewState["ShowModal"]) {
-            //    ShowModalPopup();
-            //}
+            if (IsPostBack && ViewState["ShowModal"] != null && (bool)ViewState["ShowModal"]) {
+                ShowModalPopup();
+            }
         }
 
 
@@ -30,7 +30,7 @@ namespace SML.Pages {
             if (string.IsNullOrEmpty(eventName)) {
                 System.Diagnostics.Debug.WriteLine($"{eventName} event not found.");
                 EventNameLabel.Text = $"Event not found.";
-                Response.Redirect("/Pages/EventsEdit.aspx?season=SML+1");
+                //Response.Redirect("/Pages/EventsEdit.aspx?season=SML+1");
 
             }
             else if (_eventsService.CheckEventName(eventName) == false) {
@@ -41,25 +41,29 @@ namespace SML.Pages {
 
                 // Temporarily disabling this to test edit events 
 
-                //_eventName = eventName;
-                //string authorizedEvent = HttpContext.Current.Session["AuthorizedEvent"] as string ?? string.Empty;
+                ///*
+                _eventName = eventName;
+                string authorizedEvent = HttpContext.Current.Session["AuthorizedEvent"] as string ?? string.Empty;
 
-                //if (authorizedEvent == null || authorizedEvent != eventName) {
-                //    System.Diagnostics.Debug.WriteLine($"{eventName} not currently authorized for this user.");
-                //    EventPasswordContainer.Visible = true;
-                //    passwordLabel.Text = $"Enter {eventName} Password:";
-                //    return;
-                //}
-                //System.Diagnostics.Debug.WriteLine($"{eventName} authorized.");
+                if (authorizedEvent == null || authorizedEvent != eventName) {
+                    System.Diagnostics.Debug.WriteLine($"{eventName} not currently authorized for this user.");
+                    EventPasswordContainer.Visible = true;
+                    passwordLabel.Text = $"Enter {eventName} Password:";
+                    return;
+                }
+                System.Diagnostics.Debug.WriteLine($"{eventName} authorized.");
 
-                //EventPasswordContainer.Visible = false;
-                //ViewState["eventData"] = null;
+                EventPasswordContainer.Visible = false;
+                ViewState["eventData"] = null;
+                //*/
 
 
                 EventNameLabel.Text = $"{eventName}";
                 LoadGrid();
 
+                ///*
                 //PopulateAuthenticatedUI();
+                //*/
             }
         }
 

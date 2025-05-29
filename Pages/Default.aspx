@@ -19,7 +19,7 @@
             <asp:Button id="ReplaysButton" CssClass="menu-button" Text="How to Upload Replays" OnClientClick="openModal('ReplaysModal'); return false;" runat="server"/>
                         
             <asp:Button id="SettingsButton" CssClass="menu-button" Text="How to Host an Event" OnClientClick="openModal('AdminModal'); return false;" runat="server"/>
-            <asp:Button id="QuitButton" CssClass="menu-button" Text="Contact Me" OnClick="Submit_Quit" runat="server"/>
+
         </section>
         <panel id="EditPanel" runat="server">
             <!-- Features Modal -->
@@ -34,11 +34,9 @@
 
                             <!-- Features List Panel -->
                             <div id="features-list" class="settings-list-panel list-group">
-                                <a class="list-group-item list-group-item-action" href="#beta-features"><h3 data-tip="Designate which type of event is being run.">Beta Features</h3></a>
-                                <a class="list-group-item list-group-item-action" href="#full-release-features"><h3 data-tip="Apply different tiebreakers for the scoreboard.">Full Release Features</h3></a>
-                                <a class="list-group-item list-group-item-action" href="#section-3"><h3 data-tip="Change the points applied to a Win, Tie, or Loss.">Section 3</h3></a>
-                                <a class="list-group-item list-group-item-action" href="#section-4"><h3 data-tip="Determine what happens when a player forfeits during the event.">Section 4</h3></a>
-                                <a class="list-group-item list-group-item-action" href="#section-5"><h3 data-tip="Dynamically add matches without registering the player. Anyone can upload replays of two players and they will be added as registered players.">Section 5</h3></a>
+                                <a class="list-group-item list-group-item-action" href="#beta-features"><h3 data-tip="">Beta Features</h3></a>
+                                <a class="list-group-item list-group-item-action" href="#full-release-features"><h3 data-tip="">Full Release Features</h3></a>
+                                
                             </div>
                             <div id="features-options" class="settings-options-column">
                                 <div class="settings-options-panel" data-bs-spy="scroll" data-bs-target="settings-list" data-bs-offset="0" tabindex="0">

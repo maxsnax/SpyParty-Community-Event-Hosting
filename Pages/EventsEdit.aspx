@@ -10,18 +10,20 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main class="events-create-new">
 
-            
+        
     <section id="EventPasswordContainer" class="new-event-name-container" Visible="false" runat="server">
-        <asp:Label id="eventErrorLabel" CssClass="label-red" runat="server"></asp:Label>
+        <asp:Label id="eventErrorLabel" CssClass="label-red" runat="server">This feature has been temporarily disabled during beta.</asp:Label>
+        <!--
         <asp:Label id="passwordLabel" CssClass="label-white" runat="server"></asp:Label>
         <asp:Panel ID="eventPasswordPanel" CssClass="panel" runat="server" DefaultButton="buttonContinue2">
             <asp:TextBox id="passwordTextbox" CssClass="textbox" MaxLength="50" runat="server"></asp:TextBox>
             <asp:Button ID="buttonContinue2" Style="display:none;" OnClick="Submit_EventPassword" runat="server" />
         </asp:Panel>
         <asp:Label ID="charErrorLabel" runat="server" CssClass="label-red"></asp:Label>
+        -->
     </section>
     
-    <section id="AuthenticatedContent" class="edit-button-container"  runat="server">
+    <section id="AuthenticatedContent" style="visibility:hidden;" class="edit-button-container"  runat="server">
         <section class="edit-button-container" id="AuthButtons" runat="server">
             <asp:Label id="EventNameLabel" CssClass="edit-header" runat="server"></asp:Label>
 

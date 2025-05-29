@@ -10,7 +10,9 @@
           
         <section class="new-event-name-container">
             <asp:Label ID="eventErrorLabel" CssClass="label-red" runat="server"></asp:Label>
-            <asp:Label ID="nameLabel" CssClass="label-white" runat="server">New Event Name</asp:Label>
+            <asp:Label ID="nameLabel" CssClass="label-white" runat="server">This feature has been temporarily disabled during beta.</asp:Label>
+
+            <!--
             <asp:Panel ID="eventNamePanel" CssClass="panel" MaxLength="50" runat="server" DefaultButton="buttonContinue">
                 <asp:TextBox ID="nameTextbox" CssClass="textbox" runat="server"></asp:TextBox>
                 <asp:Button ID="buttonContinue" Style="display: none;" OnClick="Submit_EventName" runat="server" />
@@ -20,7 +22,7 @@
                 <asp:Button ID="buttonContinue2" Style="display: none;" OnClick="Submit_EventPassword" runat="server" />
             </asp:Panel>
             <asp:Label ID="charErrorLabel" runat="server" CssClass="label-red"></asp:Label>
-
+                -->
         </section>
 
         <script>
