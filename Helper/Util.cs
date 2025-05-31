@@ -295,10 +295,10 @@ namespace SML {
 
 
 
-                // =========================================
-                //  Logo, Rank, Points, Win, Tie, Loss, Spy, Sniper
-                // =========================================
-                string playerName;
+            // =========================================
+            //  Logo, Rank, Points, Win, Tie, Loss, Spy, Sniper
+            // =========================================
+            string playerName;
             if (isPlayer) {
                 playerName = player.Forfeit == 0 ? player.Name : player.Name + " (Forfeit)";
             } else {

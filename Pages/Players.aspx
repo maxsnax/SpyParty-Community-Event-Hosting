@@ -21,7 +21,7 @@
             -->
             <asp:GridView ID="MatchView" runat="server"></asp:GridView>
 
-            <Panel id="playerEventsPanel" runat="server">
+            <Panel id="playerEventsPanel" class="master-table" runat="server">
 
             </Panel>
         </section>
@@ -39,19 +39,19 @@
                 </section>
             </section>
 
-  
-            <asp:GridView ID="PlayerGridView" runat="server" AutoGenerateColumns="false" AllowSorting="true" CssClass="players-grid-table"
-                HeaderStyle-CssClass="players-grid-table" RowStyle-CssClass="player" OnSorting="PlayerGridView_Sorting" OnRowDataBound="PlayerGridView_RowDataBound">
-                <Columns>
-                    <asp:BoundField DataField="player_name" HeaderText="Player" HeaderStyle-CssClass="header-col" ItemStyle-CssClass="column-data truncate" sortexpression="player_name"/>
-                    <asp:BoundField DataField="division_name" HeaderText="Division" HeaderStyle-CssClass="header-col" ItemStyle-CssClass="column-data" sortexpression="division_name"/>
-                    <asp:BoundField DataField="season_name" HeaderText="Season" HeaderStyle-CssClass="header-col" ItemStyle-CssClass="column-data" sortexpression="season_name"/>
-                    <asp:BoundField DataField="win" HeaderText="Wins" HeaderStyle-CssClass="player-stat" ItemStyle-CssClass="player-stat" sortexpression="win"/>
-                    <asp:BoundField DataField="tie" HeaderText="Ties" HeaderStyle-CssClass="player-stat" ItemStyle-CssClass="player-stat" sortexpression="tie"/>
-                    <asp:BoundField DataField="loss" HeaderText="Losses" HeaderStyle-CssClass="player-stat" ItemStyle-CssClass="player-stat" sortexpression="loss"/>
-                </Columns>
-            </asp:GridView>
-
+            <div style="overflow-x: auto; max-width: 100%">
+                <asp:GridView ID="PlayerGridView" runat="server" AutoGenerateColumns="false" AllowSorting="true" CssClass="players-grid-table"
+                    HeaderStyle-CssClass="players-grid-table" RowStyle-CssClass="player" OnSorting="PlayerGridView_Sorting" OnRowDataBound="PlayerGridView_RowDataBound">
+                    <Columns>
+                        <asp:BoundField DataField="player_name" HeaderText="Player" HeaderStyle-CssClass="header-col truncate" ItemStyle-CssClass="column-data truncate" sortexpression="player_name"/>
+                        <asp:BoundField DataField="division_name" HeaderText="Division" HeaderStyle-CssClass="header-col truncate" ItemStyle-CssClass="column-data truncate" sortexpression="division_name"/>
+                        <asp:BoundField DataField="season_name" HeaderText="Season" HeaderStyle-CssClass="header-col truncate" ItemStyle-CssClass="column-data" sortexpression="season_name"/>
+                        <asp:BoundField DataField="win" HeaderText="Wins" HeaderStyle-CssClass="player-stat truncate" ItemStyle-CssClass="player-stat" sortexpression="win"/>
+                        <asp:BoundField DataField="tie" HeaderText="Ties" HeaderStyle-CssClass="player-stat truncate" ItemStyle-CssClass="player-stat" sortexpression="tie"/>
+                        <asp:BoundField DataField="loss" HeaderText="Losses" HeaderStyle-CssClass="player-stat truncate" ItemStyle-CssClass="player-stat" sortexpression="loss"/>
+                    </Columns>
+                </asp:GridView>
+            </div>
 
         </section>
 

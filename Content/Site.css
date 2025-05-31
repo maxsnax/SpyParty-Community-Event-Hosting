@@ -112,7 +112,8 @@ h4 {
     ===================================================================== */
 .players-page {
     margin: 0 auto;
-    width: 700px;
+    width: clamp(200px, 700px, 90%) !important;
+    
     font-family: Lucida Console;
     font-weight: normal;
     font-style: normal;
@@ -178,7 +179,7 @@ h4 {
     width: 100%;
     border-collapse: collapse;
     padding-bottom: 25px;
-    font-size: 16px;
+    font-size: clamp(.75rem, .75rem, 100%) !important;
     color: #535352;
 }
 
@@ -199,9 +200,15 @@ h4 {
 }
 
 .header-col {
-    width: 20%;
+    width: clamp(10%, 20%,20%);
     text-align: left;
 }
+
+.players-grid-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
 
 .footer-row {
     text-align: center;
@@ -236,6 +243,17 @@ h4 {
     text-align: center;
     background: black;
     color:white;
+}
+
+
+@media (max-width: 1400px) {
+    .master-table {
+        width: 100% !important;
+    }
+
+    .rank-table {
+        width: 100% !important;
+    }
 }
 
 .master-table {
@@ -314,7 +332,15 @@ th, td {
 
 .picture-cell {
     width: 50px;
+    height: 50px;
     border: none;
+    justify-content: center;
+    align-content: center;
+}
+
+.picture-cell img {
+    display: block;
+    margin: 0 auto !important;
 }
 
 .rank-name {
@@ -329,7 +355,8 @@ th, td {
 
 /* Player name text */
 .player-name {
-    font-size: 24px;
+/*    font-size: 24px;*/
+    font-size: clamp(10px, 18px, 24px);
     text-align: left;
     padding-left: 10px;
     width: 20%;
@@ -353,7 +380,13 @@ th, td {
 /* Tooltip container */
 .stat-column {
     position: relative;
+    font-size: clamp(.7rem, .75rem, 1.25rem);
     /*cursor: pointer;*/ /* Show cursor effect */
+}
+
+.stat-column img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 /* Tooltip style */
@@ -732,6 +765,15 @@ th, td {
     Player Profiles
 */
 
+
+@media (max-width: 800px) {
+    .players-page {
+        width: 100% !important;
+    }
+
+
+}
+
 .players-page {
     background: white !important;
     border-color: black;
@@ -743,6 +785,7 @@ th, td {
     width: 150px;
     border: 1px solid black;
     margin: 15px;
+    padding: 0px;
 }
 
 .profileDropdown {
@@ -752,27 +795,7 @@ th, td {
     text-align: center;
 }
 
-.playerSeasonTable {
-    font-size: 12px !important;
-    justify-self: center;
-    align-self: center;
-    margin: auto;
-}
-
-.playerSeasonTable .player-name {
-    font-size: 12px !important;
-}
-
-.playerSeasonTable .rank-name {
-    font-size: 12px !important;
-}
-
-.playerSeasonTable .picture-cell {
-    border-top: 1px solid black;
-    border-left: 1px solid black;
-}
-
 .playerSeasonTable img {
-    width: 25px;
-    height: 25px;
+    width: 25px !important;
+    height: 25px !important;
 }

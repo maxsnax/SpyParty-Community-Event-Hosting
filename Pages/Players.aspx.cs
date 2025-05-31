@@ -24,7 +24,6 @@ namespace SML {
         protected void Page_Load(object sender, EventArgs e) {
             LoadPlayersData();
 
-
             // Ensure the master page is correctly cast before accessing EnableDynamicBackground
             SiteMaster master = Master as SiteMaster;
             if (master != null) {
@@ -111,21 +110,6 @@ namespace SML {
         }
 
 
-        //private void PopulateSeasons(List<Tuple<int, string>> seasonList) {
-        //    // Add option to filter by "All"
-        //    selectSeasonList.Items.Add(new ListItem("All", "0"));
-
-        //    foreach (var season in seasonList) {
-        //        int seasonID = season.Item1;
-        //        string seasonName = season.Item2;
-        //        selectSeasonList.Items.Add(new ListItem(seasonName, seasonID.ToString()));
-        //    }
-        //}
-
-        private void PopulateAllPlayerData() {
-
-        }
-
         private void PopulatePlayerData(List<Player> playerList) {
             if (playerList == null || playerList.Count == 0) return;
 
@@ -148,7 +132,7 @@ namespace SML {
 
             Division division = new Division("", 0);
             HtmlTable table = new HtmlTable();
-            table.Attributes["class"] = "playerSeasonTable";
+            table.Attributes["class"] = "playerSeasonTable rank-table";
             Util.AddDivisionHeaderRow(table, division);
 
             Player runningStats = new Player(player.Name);

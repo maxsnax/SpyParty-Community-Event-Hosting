@@ -13,12 +13,12 @@
     
     <section id="AuthenticatedContent" class="edit-button-container"  runat="server">
         <section class="menu-container" id="AuthButtons" runat="server">
-            <asp:Label id="EventNameLabel" CssClass="menu-header" runat="server">Welcome To SpyParty Community Events</asp:Label>
+            <asp:Label id="EventNameLabel" CssClass="home-menu-header menu-header" runat="server">Welcome To SpyParty Community Events</asp:Label>
 
-            <asp:Button id="FeaturesButton" CssClass="menu-button" Text="Beta Features and Future Updates" OnClientClick="openModal('FeaturesModal'); return false;" runat="server"/>
-            <asp:Button id="ReplaysButton" CssClass="menu-button" Text="How to Upload Replays" OnClientClick="openModal('ReplaysModal'); return false;" runat="server"/>
+            <asp:Button id="FeaturesButton" CssClass="home-menu-button menu-button" Text="Beta Features and Future Updates" OnClientClick="openModal('FeaturesModal'); return false;" runat="server"/>
+            <asp:Button id="ReplaysButton" CssClass="home-menu-button menu-button" Text="How to Upload Replays" OnClientClick="openModal('ReplaysModal'); return false;" runat="server"/>
                         
-            <asp:Button id="SettingsButton" CssClass="menu-button" Text="How to Host an Event" OnClientClick="openModal('AdminModal'); return false;" runat="server"/>
+            <asp:Button id="SettingsButton" CssClass="home-menu-button menu-button" Text="How to Host an Event" OnClientClick="openModal('AdminModal'); return false;" runat="server"/>
 
         </section>
         <panel id="EditPanel" runat="server">
@@ -30,7 +30,7 @@
                         <div class="title-panel">
                             <div class="title-font" id="FeaturesModalLabel">Site Content</div>
                         </div>
-                        <div class="modal-content main-panel d-flex flex-row">
+                        <div class="modal-content main-panel d-flex flex-row fadeshow1">
 
                             <!-- Features List Panel -->
                             <div id="features-list" class="settings-list-panel list-group">
@@ -291,12 +291,13 @@
                                 </div>
                                 <!---------------------->
                                 <!-- Hover Option Text -->
-                                <!---------------------->
+                                <!--
                                 <div id="hover-text-div">
                                     <p id="hover-text">
                                         Hover over the options to see more information.
                                     </p>
                                 </div>
+                                    -->
                             </div>
                             
                         </div> 

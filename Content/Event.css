@@ -130,6 +130,7 @@
     font-weight: bold;
     min-width: 50vw;
     text-align: left;
+    overflow-wrap:normal;
 }
 
 .option-div {
@@ -141,6 +142,24 @@
     height: 150px;
 }
 
+.home-menu-header {
+    font-size: clamp(2vw, 3vw, 90%);
+}
+
+.home-menu-button {
+    font-size: clamp(2vw, 2.4vw, 1rem);
+}
+
+@media (max-width: 680px) {
+    .settings-list-panel {
+        display: none !important;
+    }
+
+    .settings-options-column {
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+}
 /*
     Players
 */
@@ -236,7 +255,13 @@
 
 .button-close {
     width: 10vw !important;
+    min-width: 75px;
     height: 6vh !important;
+}
+
+.modal-panel img {
+    height: 100%;
+    max-width: 100%;
 }
 
 /* Contains the Main Content of Settings/Options Buttons */
@@ -301,6 +326,7 @@
     flex-grow: 1;
     border-radius: 10px;
 }
+
 
 .settings-options-panel {
     display: flex;
