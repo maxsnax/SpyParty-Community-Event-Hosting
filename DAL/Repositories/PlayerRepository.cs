@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.WebPages;
+using System.Diagnostics;
 using Microsoft.Graph.Models.Security;
 using SML.Models;
 using Match = SML.Models.Match;
@@ -50,7 +51,7 @@ namespace SML.DAL.Repositories {
         public List<Player> GetPlayerByName(string playerName) {
             playerName = playerName.Replace("/steam", "");
 
-            System.Diagnostics.Debug.WriteLine($"SQL GetPlayerByName() - playerName: {playerName}");
+            Debug.WriteLine($"SQL GetPlayerByName() - playerName: {playerName}");
 
             string query =
                 "SELECT p.player_id, p.player_name, p.forfeit, p.division_id, p.season_id, p.username, " +
@@ -68,7 +69,7 @@ namespace SML.DAL.Repositories {
             command.Parameters.Add("@playerName", SqlDbType.VarChar, 50).Value = playerName;
             List<Player> playerData = new List<Player>();
 
-            System.Diagnostics.Debug.WriteLine($"Executing SQL Query for Player: {playerName}");
+            Debug.WriteLine($"Executing SQL Query for Player: {playerName}");
             try {
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read()) {
@@ -108,7 +109,7 @@ namespace SML.DAL.Repositories {
                     };
 
 
-                    System.Diagnostics.Debug.WriteLine(
+                    Debug.WriteLine(
                         $"Returning Player: ID={playerId}, Name={name}, Forfeit={forfeit}, " +
                         $"Division={divisionId} ({divisionName}), Season={seasonId} ({seasonName}), " +
                         $"W/L/T={wins}/{losses}/{ties}, LoadOrder={load}");
@@ -133,7 +134,7 @@ namespace SML.DAL.Repositories {
                 return playerData;
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Failed GetPlayerByName: {ex.Message}");
+                Debug.WriteLine($"Failed GetPlayerByName: {ex.Message}");
             }
 
             return null;
@@ -141,7 +142,7 @@ namespace SML.DAL.Repositories {
 
 
         public void UpdatePlayerUsername(Player player) {
-            System.Diagnostics.Debug.WriteLine($"UpdatePlayerUsername {player.Name}");
+            Debug.WriteLine($"UpdatePlayerUsername {player.Name}");
 
             try {
                 string query = @"
@@ -159,7 +160,7 @@ namespace SML.DAL.Repositories {
                 command.Parameters.AddWithValue("@playerName", player.Name);
 
                 int rowsAffected = command.ExecuteNonQuery();
-                System.Diagnostics.Debug.WriteLine($"Updated {rowsAffected} player usernames.");
+                Debug.WriteLine($"Updated {rowsAffected} player usernames.");
             }
             catch (Exception ex) {
                 throw ex;
@@ -167,7 +168,7 @@ namespace SML.DAL.Repositories {
         }
 
         public Player GetPlayerByNameAndSeason(string playerName, int seasonId) {
-            System.Diagnostics.Debug.WriteLine($"GetPlayerByNameAndSeason {playerName}:{seasonId}");
+            Debug.WriteLine($"GetPlayerByNameAndSeason {playerName}:{seasonId}");
 
             try {
                 playerName = playerName.Replace("/steam", "");
@@ -201,21 +202,21 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Failed GetPlayerBySeason");
+                Debug.WriteLine($"Failed GetPlayerBySeason");
                 throw ex;
             }
         }
 
 
         public Results UpdatePlayerStats(Player player) {
-            System.Diagnostics.Debug.WriteLine($"UpdatePlayerStats: {player.Name}");
-            System.Diagnostics.Debug.WriteLine($"{player}");
+            Debug.WriteLine($"UpdatePlayerStats: {player.Name}");
+            Debug.WriteLine($"{player}");
 
             if (player.PlayerID <= 0) {
-                System.Diagnostics.Debug.WriteLine($"PlayerID = 0, invalid ID");
+                Debug.WriteLine($"PlayerID = 0, invalid ID");
                 throw new ArgumentNullException(nameof(player), "Null player sent in UpdatePlayerStats");
             } else if (player.Username == null) {
-                System.Diagnostics.Debug.WriteLine($"PlayerUsername is null, invalid for replay search");
+                Debug.WriteLine($"PlayerUsername is null, invalid for replay search");
                 throw new ArgumentNullException(nameof(player), "PlayerUsername is null, invalid for replay search");
             }
 
@@ -280,12 +281,12 @@ namespace SML.DAL.Repositories {
                     result.Sniper_TimeOut = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
                 }
 
-                System.Diagnostics.Debug.WriteLine($"Returning {player.Name} result: {result}");
+                Debug.WriteLine($"Returning {player.Name} result: {result}");
 
                 return result;
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Exception in UpdatePlayerStats: {ex.Message}");
+                Debug.WriteLine($"Exception in UpdatePlayerStats: {ex.Message}");
                 throw;
             }
         }
@@ -303,7 +304,7 @@ namespace SML.DAL.Repositories {
         }
 
         public void UpdatePlayerStatsFromResults(Player player, int winner) {
-            System.Diagnostics.Debug.WriteLine($"UpdatePlayerStats: {player.Name}");
+            Debug.WriteLine($"UpdatePlayerStats: {player.Name}");
 
             try {
                 Results result = player.Results;
@@ -349,10 +350,10 @@ namespace SML.DAL.Repositories {
                 command.Parameters.AddWithValue("@seasonID", player.Season);
 
                 int rowsAffected = command.ExecuteNonQuery();
-                System.Diagnostics.Debug.WriteLine($"Updated {rowsAffected} rows for Player: {player.Username} in Season: {player.Season}");
+                Debug.WriteLine($"Updated {rowsAffected} rows for Player: {player.Username} in Season: {player.Season}");
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Exception in UpdatePlayerStatsByMatch: {ex.Message}");
+                Debug.WriteLine($"Exception in UpdatePlayerStatsByMatch: {ex.Message}");
                 throw;
             }
         }

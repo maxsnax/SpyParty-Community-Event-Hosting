@@ -30,10 +30,48 @@ namespace SML.Models {
             public string file_path { get; set; }
         }
 
-        public static ReplayData ReadFile(string filePath) {
-            ParserServiceReference.ParserServiceClient parserDataConnection = new ParserServiceReference.ParserServiceClient();
+        public static string GetData(string filePath) {
+            string pythonExe = HttpContext.Current.Server.MapPath("~/Python313/python.exe");
+            string script = HttpContext.Current.Server.MapPath("~/SpyPartyParse-master/SpyPartyParser.py");
 
-            string response = parserDataConnection.GetData(filePath);
+            var psi = new ProcessStartInfo {
+                FileName = pythonExe,
+                Arguments = $"\"{script}\" \"{filePath}\"",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                WorkingDirectory = Path.GetDirectoryName(script)
+            };
+
+            var errors = "";
+            var jsonResults = "";
+
+            Debug.WriteLine("Running SpyPartyParser.py...");
+            Debug.WriteLine($"Arguments: {psi.Arguments}");
+
+            using (var process = Process.Start(psi)) {
+                errors = process.StandardError.ReadToEnd();
+                jsonResults = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+            }
+
+            if (!string.IsNullOrEmpty(errors)) {
+                Debug.WriteLine("Python stderr:");
+                Debug.WriteLine(errors);
+            }
+
+            Debug.WriteLine($"Python stdout: {jsonResults}");
+
+            return errors + jsonResults;
+        }
+
+
+        public static ReplayData ReadFile(string filePath) {
+            //ParserServiceReference.ParserServiceClient parserDataConnection = new ParserServiceReference.ParserServiceClient();
+
+            //string response = parserDataConnection.GetData(filePath);
+            string response = GetData(filePath);
             response = response.Replace("\'", "\"");
 
             try {
@@ -42,6 +80,7 @@ namespace SML.Models {
                 return jsonObject;
             }
             catch (Exception e) {
+                Debug.WriteLine("Error in ReadFile of SML.Models.Replays");
                 response = response + e.Message + e.StackTrace;
                 return null;
             }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;
 using Image = System.Web.UI.WebControls.Image;
 
@@ -24,24 +25,24 @@ namespace SML {
 
         
         public void Submit_EditDivision(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Edit Division Click");
+            Debug.WriteLine("Edit Division Click");
             //ShowModalPopup();
         }
 
         public void Submit_EditPlayers(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Edit Players Click");
+            Debug.WriteLine("Edit Players Click");
             //ShowModalPopup();
         }
 
         public void Submit_EditSettings(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Edit Settings Click");
+            Debug.WriteLine("Edit Settings Click");
             ViewState["ShowModal"] = true;
             ShowModalPopup();
         }
 
         // Navigates back to normal view events page
         public void Submit_Quit(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Quit Click");
+            Debug.WriteLine("Quit Click");
             Response.Redirect("/Pages/Events?season=" + HttpUtility.UrlEncode(_eventName));
         }
 
@@ -253,7 +254,7 @@ namespace SML {
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine("RadioButton Click");
+            Debug.WriteLine("RadioButton Click");
         }
 
     }

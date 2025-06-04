@@ -1,5 +1,6 @@
 using System.Web.Routing;
 using Microsoft.AspNet.FriendlyUrls;
+using System.Diagnostics;
 
 namespace SML {
     public static class RouteConfig {
@@ -11,7 +12,7 @@ namespace SML {
             routes.EnableFriendlyUrls(settings);
 
             // Debug output to confirm FriendlyUrls was added
-            System.Diagnostics.Debug.WriteLine("FriendlyUrls enabled. Now registering custom routes...");
+            Debug.WriteLine("FriendlyUrls enabled. Now registering custom routes...");
 
             routes.Ignore("{resource}.axd/{*pathInfo}");
 
@@ -51,7 +52,7 @@ namespace SML {
 
             // Debug registered routes
             foreach (var routeItem in routes) {
-                System.Diagnostics.Debug.WriteLine($"Registered Route: {routeItem}");
+                Debug.WriteLine($"Registered Route: {routeItem}");
             }
         }
     }

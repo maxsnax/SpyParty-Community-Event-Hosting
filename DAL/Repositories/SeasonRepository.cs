@@ -6,6 +6,7 @@ using System.EnterpriseServices;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Diagnostics;
 using SML.Models;
 using static SML.Models.Player;
 
@@ -43,14 +44,14 @@ namespace SML.DAL.Repositories {
                 }
 
                 // Debugging: Check the data after filling the table
-                System.Diagnostics.Debug.WriteLine("Fetched Rows: " + table.Rows.Count);
+                Debug.WriteLine("Fetched Rows: " + table.Rows.Count);
                 foreach (DataRow row in table.Rows) {
-                    System.Diagnostics.Debug.WriteLine($"Row Data - Name: {row["season_name"]}, Status: {row["status"]}, Players: {row["player_count"]}");
+                    Debug.WriteLine($"Row Data - Name: {row["season_name"]}, Status: {row["status"]}, Players: {row["player_count"]}");
                 }
 
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine("SQL Query Error: " + ex.Message);
+                Debug.WriteLine("SQL Query Error: " + ex.Message);
             }
 
             return table;
@@ -91,7 +92,7 @@ namespace SML.DAL.Repositories {
 
 
         public List<Season> LoadSeasons() {
-            System.Diagnostics.Debug.WriteLine($"LoadSeasons()");
+            Debug.WriteLine($"LoadSeasons()");
 
             List<Season> seasons = new List<Season>();
 
@@ -109,7 +110,7 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Error loading seasons: {ex.Message}");
+                Debug.WriteLine($"Error loading seasons: {ex.Message}");
             }
 
             return seasons;
@@ -134,7 +135,7 @@ namespace SML.DAL.Repositories {
 
 
         public List<Division> GetSeasonDivisions(int seasonID) {
-            System.Diagnostics.Debug.WriteLine($"GetSeasonDivisions {seasonID}");
+            Debug.WriteLine($"GetSeasonDivisions {seasonID}");
 
             List<Division> divisionList = new List<Division>();
 
@@ -145,7 +146,7 @@ namespace SML.DAL.Repositories {
                 using SqlCommand command = new SqlCommand(query, _connection, _transaction);
 
                 command.Parameters.AddWithValue("@seasonID", seasonID);
-                System.Diagnostics.Debug.WriteLine($"Fetching all divisions for seasonID:{seasonID}");
+                Debug.WriteLine($"Fetching all divisions for seasonID:{seasonID}");
 
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read()) {
@@ -158,7 +159,7 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Error fetching divisions for seasonID: {seasonID}\n{ex.Message}");
+                Debug.WriteLine($"Error fetching divisions for seasonID: {seasonID}\n{ex.Message}");
                 throw;
             }
 
@@ -167,10 +168,10 @@ namespace SML.DAL.Repositories {
 
 
         public List<Player> GetPlayersFromDivision(Division division) {
-            System.Diagnostics.Debug.WriteLine($"GetPlayersFromDivision: {division.DivisionName}");
+            Debug.WriteLine($"GetPlayersFromDivision: {division.DivisionName}");
 
             if (division == null) throw new ArgumentNullException();
-            System.Diagnostics.Debug.WriteLine($"Fetching players for seasonID:{division.SeasonID}\n divisionID:{division.DivisionID} division:{division.DivisionName}");
+            Debug.WriteLine($"Fetching players for seasonID:{division.SeasonID}\n divisionID:{division.DivisionID} division:{division.DivisionName}");
 
             List<Player> playersList = new List<Player>();
 
@@ -211,7 +212,7 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Error fetching players from divisionID:{division.DivisionID}, seasonID:{division.SeasonID}\n{ex.Message}");
+                Debug.WriteLine($"Error fetching players from divisionID:{division.DivisionID}, seasonID:{division.SeasonID}\n{ex.Message}");
             }
 
             return playersList;

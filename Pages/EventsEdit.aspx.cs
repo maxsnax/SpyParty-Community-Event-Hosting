@@ -4,6 +4,7 @@ using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Diagnostics;
 
 namespace SML.Pages {
     public partial class EventsEdit : System.Web.UI.Page {
@@ -28,13 +29,13 @@ namespace SML.Pages {
             _eventName = eventName;
 
             if (string.IsNullOrEmpty(eventName)) {
-                System.Diagnostics.Debug.WriteLine($"{eventName} event not found.");
+                Debug.WriteLine($"{eventName} event not found.");
                 EventNameLabel.Text = $"Event not found.";
                 //Response.Redirect("/Pages/EventsEdit.aspx?season=SML+1");
 
             }
             else if (_eventsService.CheckEventName(eventName) == false) {
-                System.Diagnostics.Debug.WriteLine($"{eventName} event not found.");
+                Debug.WriteLine($"{eventName} event not found.");
                 EventNameLabel.Text = $"{eventName} not found.";
             }
             else {
@@ -46,12 +47,12 @@ namespace SML.Pages {
                 string authorizedEvent = HttpContext.Current.Session["AuthorizedEvent"] as string ?? string.Empty;
 
                 if (authorizedEvent == null || authorizedEvent != eventName) {
-                    System.Diagnostics.Debug.WriteLine($"{eventName} not currently authorized for this user.");
+                    Debug.WriteLine($"{eventName} not currently authorized for this user.");
                     EventPasswordContainer.Visible = true;
                     passwordLabel.Text = $"Enter {eventName} Password:";
                     return;
                 }
-                System.Diagnostics.Debug.WriteLine($"{eventName} authorized.");
+                Debug.WriteLine($"{eventName} authorized.");
 
                 EventPasswordContainer.Visible = false;
                 ViewState["eventData"] = null;
@@ -87,7 +88,7 @@ namespace SML.Pages {
         }
 
         private void LoadGrid() {
-            System.Diagnostics.Debug.WriteLine($"Fetching {_eventName} Data");
+            Debug.WriteLine($"Fetching {_eventName} Data");
             DataTable eventData = _eventsService.FetchEventData(_eventName);
 
             if (eventData == null || eventData.Rows.Count == 0) {
@@ -98,11 +99,11 @@ namespace SML.Pages {
             }
 
             // Log the number of rows retrieved
-            System.Diagnostics.Debug.WriteLine($"Data retrieved: {eventData.Rows.Count} rows");
+            Debug.WriteLine($"Data retrieved: {eventData.Rows.Count} rows");
 
             // Log the first row as an example
             foreach (DataRow row in eventData.Rows) {
-                System.Diagnostics.Debug.WriteLine($"Player: {row["player_name"]}, Division: {row["division_name"]}");
+                Debug.WriteLine($"Player: {row["player_name"]}, Division: {row["division_name"]}");
             }
 
             PlayersGridView.DataSource = eventData;
@@ -171,7 +172,7 @@ namespace SML.Pages {
 
                 // Update via the Business Layer
                 //_eventsService.UpdatePlayer(playerID, division, forfeit);
-                System.Diagnostics.Debug.WriteLine($"Update Player {playerID}, {division} ,{forfeit}");
+                Debug.WriteLine($"Update Player {playerID}, {division} ,{forfeit}");
 
                 PlayersGridView.EditIndex = -1;
                 LoadGrid(); // Refresh data
@@ -232,24 +233,24 @@ namespace SML.Pages {
         }
 
         public void Submit_EditDivision(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Edit Division Click");
+            Debug.WriteLine("Edit Division Click");
             //ShowModalPopup();
         }
 
         public void Submit_EditPlayers(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Edit Players Click");
+            Debug.WriteLine("Edit Players Click");
             //ShowModalPopup();
         }
 
         public void Submit_EditSettings(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Edit Settings Click");
+            Debug.WriteLine("Edit Settings Click");
             ViewState["ShowModal"] = true;
             ShowModalPopup();
         }
 
         // Navigates back to normal view events page
         public void Submit_Quit(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Quit Click");
+            Debug.WriteLine("Quit Click");
             Response.Redirect("/Pages/Events?season=" + HttpUtility.UrlEncode(_eventName));
         }
 
@@ -461,7 +462,7 @@ namespace SML.Pages {
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine("RadioButton Click");
+            Debug.WriteLine("RadioButton Click");
         }
 
 

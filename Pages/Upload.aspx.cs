@@ -116,13 +116,13 @@ namespace SML {
         }
 
         protected async void ConfirmUploadButton_Click(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine($"confirmUploadButton_Click()");
+            Debug.WriteLine($"confirmUploadButton_Click()");
 
             try {
                 await dataLayer.ConfirmUpload();
 
             } catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
 
             ResetMatchResults();
@@ -131,7 +131,7 @@ namespace SML {
         }
 
         protected void CancelUploadButton_Click(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine($"cancelUploadButton_Click()");
+            Debug.WriteLine($"cancelUploadButton_Click()");
 
             ResetMatchResults();
             //updateLabel(matchResultLabel, Color.Red, "Match results were not uploaded.");
@@ -143,7 +143,7 @@ namespace SML {
         // Button click function to initiate upload of replays into the server's directories
         // =======================================================================================
         protected void UploadFileButton_Click(object sender, EventArgs e) {
-            System.Diagnostics.Debug.WriteLine("uploadFileButton_Click()");
+            Debug.WriteLine("uploadFileButton_Click()");
 
             // Check if the fileUploadData object in the browser has anything uploaded into it
             if (!fileUploadData.HasFile) {
@@ -218,7 +218,7 @@ namespace SML {
         //  Iterates through a filePath, creating rows for each game and adding it to the table
         // =======================================================================================
         private void AddMatchToTable(HtmlTable table, Match match) {
-            System.Diagnostics.Debug.WriteLine($"Processing {match.PlayerOne.Name} vs {match.PlayerTwo.Name}");
+            Debug.WriteLine($"Processing {match.PlayerOne.Name} vs {match.PlayerTwo.Name}");
 
             foreach (ReplayData replay in match.Replays) {
                 BuildReplayRow(table, replay);
@@ -237,7 +237,7 @@ namespace SML {
         //  Creates a single HtmlTableRow of a game's venue, players, and result
         // =======================================================================================
         private void BuildReplayRow(HtmlTable table, ReplayData replay) {
-            //System.Diagnostics.Debug.WriteLine($"Creating replay row");
+            //Debug.WriteLine($"Creating replay row");
             HtmlTableRow replayRow = new HtmlTableRow();
             replayRow.Attributes["class"] = "replay-row";
 
@@ -277,7 +277,7 @@ namespace SML {
                 dateTextCell
             });
 
-            //System.Diagnostics.Debug.WriteLine("Adding replayRow to masterTablePlaceholder");
+            //Debug.WriteLine("Adding replayRow to masterTablePlaceholder");
             table.Controls.Add(replayRow);
         }
 
@@ -286,7 +286,7 @@ namespace SML {
         // Update labels in a single line of code
         // =======================================================================================
         private void UpdateLabel(Label label, System.Drawing.Color forecolor, string text) {
-            System.Diagnostics.Debug.WriteLine($"updateLabel()");
+            Debug.WriteLine($"updateLabel()");
             label.ForeColor = forecolor;
             label.Text = text;
         }

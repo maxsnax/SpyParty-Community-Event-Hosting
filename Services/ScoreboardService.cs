@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Web;
 using System.IO;
+using System.Diagnostics;
 using SML.Exceptions;
 using System.IO.Compression;
 using SML.DAL.Repositories;
@@ -82,7 +83,7 @@ namespace SML {
             //        }
             //    }
             //    catch (Exception ex) {
-            //        System.Diagnostics.Debug.WriteLine(ex);
+            //        Debug.WriteLine(ex);
             //    }
             //}
 
@@ -91,7 +92,7 @@ namespace SML {
             //        uow.PlayersRepo.UpdatePlayerStats(player);
             //    }
             //    catch (Exception ex) {
-            //        System.Diagnostics.Debug.WriteLine(ex);
+            //        Debug.WriteLine(ex);
             //    }
             //}
 
@@ -145,7 +146,7 @@ namespace SML {
                     }
                 }
                 catch (Exception ex) {
-                    System.Diagnostics.Debug.WriteLine(ex);
+                    Debug.WriteLine(ex);
                 }
             }
 

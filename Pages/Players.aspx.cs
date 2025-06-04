@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using System.Diagnostics;
 using SML.Models;
 using System.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -36,7 +37,7 @@ namespace SML {
             string playerName = Page.RouteData.Values["playerName"] as string ?? Request.QueryString["playerName"];
 
             if (string.IsNullOrEmpty(playerName)) {
-                System.Diagnostics.Debug.WriteLine("No specific player requested. Loading all players...");
+                Debug.WriteLine("No specific player requested. Loading all players...");
 
                 DataTable rawData;
                 rawData = _playersService.PopulateAllPlayerData(PlayerGridView);
@@ -53,7 +54,7 @@ namespace SML {
         }
 
         public void PlayerGridView_Sorting(object sender, GridViewSortEventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Sort GridView");
+            Debug.WriteLine("Sort GridView");
 
             if (ViewState["dataTable"] is DataTable dataTable) {
                 DataView dataView = new DataView(dataTable);
@@ -166,12 +167,12 @@ namespace SML {
                     foreach (Player p in playerData) {
                         int seasonID = p.Season;
                         string seasonName = db.GetSeasonNameById(seasonID, connection, null);
-                        System.Diagnostics.Debug.WriteLine($"SeasonID:{seasonID}:{seasonName}");
+                        Debug.WriteLine($"SeasonID:{seasonID}:{seasonName}");
                         seasonList.Add(Tuple.Create(seasonID, seasonName));
                     }
                 }
                 catch (Exception ex) {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                 }
             }
 

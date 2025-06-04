@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI.HtmlControls;
+using System.Diagnostics;
 using static SML.Util;
 using static SML.Models.Player;
 using static SML.Models.Division;
@@ -87,7 +88,7 @@ namespace SML {
                 }
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
 
             return rankTable;
@@ -166,19 +167,26 @@ namespace SML {
             HtmlTableRow rankHeaderRow = new HtmlTableRow();
             rankHeaderRow.Attributes["class"] = $"rank-header-row {rankName}";
 
-            // Create the cells for division logo and sniper/spy logos
-            string divisionImgPath = $@"\Images\divisions\{rankName}.png";
-            string sniperImagePath = @"\Images\icons\sniper.png";
-            string spyImagePath = @"\Images\icons\spy.png";
+            // Create the cell for division logo
+            string virtualPath = $"/Images/divisions/{rankName}.png";
+            string physicalPath = Path.Combine(HttpContext.Current.Server.MapPath("~/"), virtualPath.TrimStart('/'));
 
             HtmlTableCell logoCell = new HtmlTableCell();
-            if (File.Exists(divisionImgPath)) {
-                 logoCell = Util.cellImage(divisionImgPath, className: "picture-cell");
-            } else {
+            if (File.Exists(physicalPath)) {
+                Debug.WriteLine($"Logo: {physicalPath} Exists");
+                logoCell = Util.cellImage(virtualPath, className: "picture-cell"); // pass virtual path
+            }
+            else {
+                Debug.WriteLine($"Logo: {physicalPath} Not Found");
                 logoCell.Attributes["class"] = "picture-cell";
             }
 
-                HtmlTableCell sniperCell = Util.cellImage(sniperImagePath, className: "stat-column");
+            // Create cells for sniper/spy logos
+            string sniperImagePath = @"\Images\icons\sniper.png";
+            string spyImagePath = @"\Images\icons\spy.png";
+
+
+            HtmlTableCell sniperCell = Util.cellImage(sniperImagePath, className: "stat-column");
             HtmlTableCell spyCell = Util.cellImage(spyImagePath, className: "stat-column");
 
             var headerImages = new HtmlTableCell[] { logoCell, sniperCell, spyCell };
@@ -221,7 +229,7 @@ namespace SML {
             foreach (Player player in playersList) {
 
                 if (player == null) {
-                    System.Diagnostics.Debug.WriteLine("Error null player");
+                    Debug.WriteLine("Error null player");
                 }
 
                 divisionSpyWin += player.Results.Spy_Wins;

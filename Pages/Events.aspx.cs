@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -36,14 +37,14 @@ namespace SML.Pages {
             string eventName = Request.QueryString["season"];
 
             if (string.IsNullOrEmpty(eventName)) {
-                System.Diagnostics.Debug.WriteLine("No specific event requested. Loading all events...");
+                Debug.WriteLine("No specific event requested. Loading all events...");
 
                 DataTable rawData;
                 rawData = _eventsService.PopulateAllEventData(EventGridView);
 
                 // DEBUG: Print all column names
                 foreach (DataColumn col in rawData.Columns) {
-                    System.Diagnostics.Debug.WriteLine("Column: " + col.ColumnName);
+                    Debug.WriteLine("Column: " + col.ColumnName);
                 }
 
                 if (rawData.Rows.Count > 0) {
@@ -73,7 +74,7 @@ namespace SML.Pages {
         }
 
         public void EventGridView_Sorting(object sender, GridViewSortEventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Sort GridView");
+            Debug.WriteLine("Sort GridView");
 
             if (ViewState["dataTable"] is DataTable dataTable) {
                 DataView dataView = new DataView(dataTable);
@@ -97,7 +98,7 @@ namespace SML.Pages {
 
 
         public void EventPlayerView_Sorting(object sender, GridViewSortEventArgs e) {
-            System.Diagnostics.Debug.WriteLine("Sort PlayerView");
+            Debug.WriteLine("Sort PlayerView");
 
             if (ViewState["eventData"] is DataTable dataTable) {
                 DataView dataView = new DataView(dataTable);
@@ -224,12 +225,12 @@ namespace SML.Pages {
         //            foreach (Player p in playerData) {
         //                int seasonID = p.Season;
         //                string seasonName = db.GetSeasonNameById(seasonID, connection, null);
-        //                System.Diagnostics.Debug.WriteLine($"SeasonID:{seasonID}:{seasonName}");
+        //                Debug.WriteLine($"SeasonID:{seasonID}:{seasonName}");
         //                seasonList.Add(Tuple.Create(seasonID, seasonName));
         //            }
         //        }
         //        catch (Exception ex) {
-        //            System.Diagnostics.Debug.WriteLine(ex.Message);
+        //            Debug.WriteLine(ex.Message);
         //        }
         //    }
 

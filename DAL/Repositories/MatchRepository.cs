@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using static SML.Models.Replays;
+using System.Diagnostics;
 
 namespace SML.DAL.Repositories {
     public class MatchRepository : BaseRepository {
@@ -26,7 +27,7 @@ namespace SML.DAL.Repositories {
 
         // Upload a single replay into the matchID provided
         public void UploadGame(ReplayData replay, int matchID) {
-            System.Diagnostics.Debug.WriteLine($"SQL UploadGame:{matchID}-{replay.spy_displayname} vs {replay.sniper_displayname}");
+            Debug.WriteLine($"SQL UploadGame:{matchID}-{replay.spy_displayname} vs {replay.sniper_displayname}");
 
             try {
 
@@ -59,13 +60,13 @@ namespace SML.DAL.Repositories {
             // Unique Constraint Violation (Duplicate UUID)
             catch (SqlException ex) when (ex.Number == 2627) {
                 string errorMessage = $"Upload failed: A replay with the same UUID ({replay.uuid}) already exists.";
-                System.Diagnostics.Debug.WriteLine(errorMessage);
+                Debug.WriteLine(errorMessage);
 
                 // Throw a custom exception to be handled by the calling function
                 throw new InvalidOperationException(errorMessage);
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Exception: {ex.Message}");
+                Debug.WriteLine($"Exception: {ex.Message}");
                 throw;
             }
         }
@@ -89,9 +90,9 @@ namespace SML.DAL.Repositories {
         //        command.Parameters.AddWithValue("@playerTwoName", match.PlayerTwo.Name);
         //        command.Parameters.AddWithValue("@divisionId", match.DivisionID);
 
-        //        System.Diagnostics.Debug.WriteLine("Submitted query for new match.");
+        //        Debug.WriteLine("Submitted query for new match.");
         //        matchId = Convert.ToInt32(command.ExecuteScalar());
-        //        System.Diagnostics.Debug.WriteLine($"MatchID:{matchId}");
+        //        Debug.WriteLine($"MatchID:{matchId}");
 
         //        match.ID = matchId;
 
@@ -109,7 +110,7 @@ namespace SML.DAL.Repositories {
         //}
 
         public void CreateMatchWithReplays(Match match) {
-            System.Diagnostics.Debug.WriteLine($"SQL CreateMatchWithReplays: {match.PlayerOne.Name} vs {match.PlayerTwo.Name}");
+            Debug.WriteLine($"SQL CreateMatchWithReplays: {match.PlayerOne.Name} vs {match.PlayerTwo.Name}");
 
             try {
                 Player playerOne = match.PlayerOne;
@@ -122,9 +123,9 @@ namespace SML.DAL.Repositories {
                 match.CalculateWinner();
                 int? winner = match.Winner; // Nullable int
 
-                System.Diagnostics.Debug.WriteLine($"Creating match for {playerOne.Name} vs {playerTwo.Name}");
-                System.Diagnostics.Debug.WriteLine($"{playerOne.Name}\n:ID={playerOne.PlayerID}:Div={playerOne.Division}:Forfeit={playerOne.Forfeit}:Username{playerOne.Username}\n");
-                System.Diagnostics.Debug.WriteLine($"{playerTwo.Name}\n:ID={playerTwo.PlayerID}:Div={playerTwo.Division}:Forfeit={playerTwo.Forfeit}:Username{playerTwo.Username}\n");
+                Debug.WriteLine($"Creating match for {playerOne.Name} vs {playerTwo.Name}");
+                Debug.WriteLine($"{playerOne.Name}\n:ID={playerOne.PlayerID}:Div={playerOne.Division}:Forfeit={playerOne.Forfeit}:Username{playerOne.Username}\n");
+                Debug.WriteLine($"{playerTwo.Name}\n:ID={playerTwo.PlayerID}:Div={playerTwo.Division}:Forfeit={playerTwo.Forfeit}:Username{playerTwo.Username}\n");
 
                 string query = "INSERT INTO Match (division_id, player_one_id, player_one_score, player_one_name, player_two_id, player_two_score, player_two_name, winner, forfeit) " +
                     "OUTPUT INSERTED.match_id VALUES (@division_id, @player_one_id, @player_one_score, @player_one_name, @player_two_id, @player_two_score, @player_two_name, @winner, @forfeit)";
@@ -149,14 +150,14 @@ namespace SML.DAL.Repositories {
 
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Exception: {ex.Message}");
+                Debug.WriteLine($"Exception: {ex.Message}");
                 throw;
             }
         }
 
 
         public List<int> GetMatchWinners(Player playerOne, Player playerTwo) {
-            System.Diagnostics.Debug.WriteLine($"GetMatchWinners {playerOne.Name} vs {playerTwo.Name}");
+            Debug.WriteLine($"GetMatchWinners {playerOne.Name} vs {playerTwo.Name}");
 
             List<int> winners = new List<int>();
 
@@ -180,7 +181,7 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                System.Diagnostics.Debug.WriteLine($"Exception: {ex.Message}");
+                Debug.WriteLine($"Exception: {ex.Message}");
             }
 
             return winners;
