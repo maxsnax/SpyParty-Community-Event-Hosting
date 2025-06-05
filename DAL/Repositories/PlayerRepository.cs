@@ -28,6 +28,36 @@ namespace SML.DAL.Repositories {
             _transaction = transaction;
         }
 
+        public Player CreatePlayer(Player player) {
+            Debug.WriteLine($"CreatePlayer: {player.Name} ({player.Username})");
+            Debug.WriteLine(player.ToString());
+
+            string query = @"
+                INSERT INTO Player (player_name, forfeit, division_id, season_id, username, load_order)
+                OUTPUT INSERTED.player_id
+                VALUES (@playerName, @forfeit, @divisionId, @seasonId, @username, @loadOrder)";
+
+            try {
+                using SqlCommand command = new SqlCommand(query, _connection, _transaction);
+                command.Parameters.AddWithValue("@playerName", player.Name ?? string.Empty);
+                command.Parameters.AddWithValue("@forfeit", player.Forfeit);
+                command.Parameters.AddWithValue("@divisionId", player.Division > 0 ? player.Division : (object)DBNull.Value);
+                command.Parameters.AddWithValue("@seasonId", player.Season > 0 ? player.Season : (object)DBNull.Value);
+                command.Parameters.AddWithValue("@username", string.IsNullOrEmpty(player.Username) ? string.Empty : player.Username);
+                command.Parameters.AddWithValue("@loadOrder", player.LoadOrder);
+
+                int playerId = (int)command.ExecuteScalar();
+                player.PlayerID = playerId;
+
+                Debug.WriteLine($"Created Player: " + player.ToString());
+                return player;
+            }
+            catch (Exception ex) {
+                Debug.WriteLine($"[ERROR] Failed to create player {player.Name}: {ex.Message}");
+                throw;
+            }
+        }
+
 
         public DataTable GetPlayerData() {
             string query = @"

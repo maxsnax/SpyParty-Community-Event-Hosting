@@ -24,6 +24,7 @@ namespace SML.DAL.Repositories {
             _transaction = transaction;
         }
 
+        // Season Data Table
         public DataTable GetSeasonData() {
             string query = @"
                 SELECT 
@@ -55,6 +56,33 @@ namespace SML.DAL.Repositories {
             }
 
             return table;
+        }
+
+        // Season Objects
+        public Season GetSeasonByID(int season_id) {
+            Debug.WriteLine($"GetSeason: {season_id}");
+            Season season = null;
+            try {
+                string query = "SELECT season_id, season_name, status, unregistered_upload FROM Season WHERE season_id = @season_id";
+                using SqlCommand command = new SqlCommand(query, _connection, _transaction);
+                command.Parameters.AddWithValue("@season_id", season_id);
+                using SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read()) {
+                    season = new Season(
+                        reader.GetInt32(0),
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        reader.GetInt32(3)
+                    );
+                }
+            }
+            catch (Exception ex) {
+                Debug.WriteLine($"Error fetching season: {ex.Message}");
+            }
+
+            Debug.WriteLine("Returning season from GetSeason");
+            Debug.WriteLine(season.ToString());
+            return season;
         }
 
 
@@ -97,7 +125,7 @@ namespace SML.DAL.Repositories {
             List<Season> seasons = new List<Season>();
 
             try {
-                string query = "SELECT season_ID, season_name, status FROM dbo.Season";
+                string query = "SELECT season_ID, season_name, status, unregistered_upload FROM dbo.Season";
 
                 using SqlCommand command = new SqlCommand(query, _connection, _transaction);
                 using SqlDataReader reader = command.ExecuteReader();
@@ -105,7 +133,8 @@ namespace SML.DAL.Repositories {
                     seasons.Add(new Season(
                         reader.GetInt32(0),
                         reader.GetString(1),
-                        reader.GetString(2)
+                        reader.GetString(2),
+                        reader.GetInt32(3)
                     ));
                 }
             }
@@ -154,7 +183,7 @@ namespace SML.DAL.Repositories {
                         SeasonID = seasonID,
                         DivisionID = reader.GetInt32(0),
                         DivisionName = reader.GetString(1),
-                        LoadOrder = reader.GetInt32(2),
+                        LoadOrder = reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
                     });
                 }
             }

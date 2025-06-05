@@ -27,6 +27,7 @@ namespace SML {
         protected void Page_Load(object sender, EventArgs e) {
             if (!Page.IsPostBack) {
                 InitializeSession();
+                PopulateSeasons();
             }
             else {
                 //if (Session["matchList"] != null) {
@@ -57,23 +58,56 @@ namespace SML {
                 .OrderBy(s => s.Name)
                 .ToList();
 
+            Session["seasonList"] = seasons;
+
             selectSeasonList.Items.Clear();
 
             foreach (var season in seasons) {
                 selectSeasonList.Items.Add(new ListItem(season.Name, season.SeasonID.ToString()));
             }
+            
         }
+
+        // =======================================================================================
+        // When user selects a season, populate the division options in proper load order
+        // =======================================================================================
+        protected void SelectSeasonList_SelectedIndexChanged(object sender, EventArgs e) {
+            if (!string.IsNullOrEmpty(selectSeasonList.SelectedValue)) {
+                int seasonID = int.Parse(selectSeasonList.SelectedValue);
+                string seasonName = selectSeasonList.SelectedItem.Text;
+
+                ScoreboardService dataLayer = new ScoreboardService();
+                List<Division> divisions = dataLayer.FetchOrderSortedDivisions(seasonID);
+
+                Debug.WriteLine($"Season Selected {seasonName}");
+                selectDivisionList.Items.Clear();
+
+                Debug.WriteLine("Divisions:");
+                foreach (Division division in divisions) {
+                    selectDivisionList.Items.Add(new ListItem(division.DivisionName, division.DivisionID.ToString()));
+                    Debug.WriteLine(division.DivisionName);
+                }
+            } else {
+                selectDivisionList.Items.Clear();
+            }
+        }
+        protected void SelectDivisionList_SelectedIndexChanged(object sender, EventArgs e) {
+
+        }
+        
 
 
         private void InitializeSession() {
             PopulateSeasons();
             Session["matchList"] = new List<Match>();
+            Session["seasonList"] = new List<Season>();
             Session["currentReplayDirectory"] = "";
         }
 
         private void ClearSession() {
             Session["matchList"] = null;
             Session["matchList"] = new List<Match>();
+            Session["seasonList"] = new List<Season>();
             Session["currentReplayDirectory"] = "";
         }
 
@@ -126,7 +160,7 @@ namespace SML {
             }
 
             ResetMatchResults();
-            //updateLabel(matchResultLabel, Color.Green, "Match results successfully uploaded.");
+            UpdateLabel(matchResultLabel, Color.Green, "Match results successfully uploaded.");
             ClearSession();
         }
 
@@ -134,7 +168,7 @@ namespace SML {
             Debug.WriteLine($"cancelUploadButton_Click()");
 
             ResetMatchResults();
-            //updateLabel(matchResultLabel, Color.Red, "Match results were not uploaded.");
+            UpdateLabel(matchResultLabel, Color.Red, "Match results were not uploaded.");
             ClearSession();
             dataLayer.ClearReplaysDirectory();
         }
@@ -163,7 +197,12 @@ namespace SML {
                 Session["currentReplayDirectory"] = replayDirectory;
                 // Call for the matches to be processed from the selected season value in the dropdown
                 int seasonID = Int32.Parse(selectSeasonList.SelectedValue);
-                List<Match> matchList = dataLayer.ProcessSeasonMatches(seasonID);
+                string seasonName = selectSeasonList.SelectedItem.Text;
+                int divisionID = Int32.Parse(selectDivisionList.SelectedValue);
+                string divisionName = selectDivisionList.SelectedItem.Text;
+
+                Debug.WriteLine($"Creating matches for {seasonID}: {seasonName} | {divisionID}: {divisionName}");
+                List<Match> matchList = dataLayer.ProcessSeasonMatches(seasonID, divisionID);
 
                 // Generate a table with a header to add replay results to
                 HtmlTable uploadedReplaysTable = BuildMatchReplayTable(matchList);
@@ -289,10 +328,6 @@ namespace SML {
             Debug.WriteLine($"updateLabel()");
             label.ForeColor = forecolor;
             label.Text = text;
-        }
-
-        protected void SelectSeasonList_SelectedIndexChanged(object sender, EventArgs e) {
-
         }
     }
 }

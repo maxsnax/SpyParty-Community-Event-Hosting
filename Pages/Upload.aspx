@@ -47,7 +47,9 @@
 
                     <%-- --%>
                     <div class="button-row" style="margin-top: 10px;">
-                        <asp:DropDownList ID="selectSeasonList" style="margin-right: 10px; height:30px; width: 200px; text-align: center;" runat="server" OnSelectedIndexChanged="SelectSeasonList_SelectedIndexChanged"/>
+                        <asp:DropDownList ID="selectSeasonList" AutoPostBack="True" style="margin-right: 10px; height:30px; width: 200px; text-align: center;" runat="server" OnSelectedIndexChanged="SelectSeasonList_SelectedIndexChanged"/>
+                        <asp:DropDownList ID="selectDivisionList" style="margin-right: 10px; height:30px; width: 200px; text-align: center;" runat="server" OnSelectedIndexChanged="SelectDivisionList_SelectedIndexChanged"/>
+
                         <asp:Button ID="uploadFileButton" runat="server" Text="Upload File" OnClick="UploadFileButton_Click" Width="205px" />
                     </div>
 

@@ -429,6 +429,11 @@ th, td {
     padding: 5px;
 }
 
+.default-rank {
+    background-color: white;
+    color: black;
+}
+
 .rank-header-row .Grandmaster-header {
     background: #ffa500;
 }

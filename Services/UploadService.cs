@@ -22,10 +22,21 @@ namespace SML {
         private string replayDirectoryLocation;
         private List<Match> matchList = new List<Match>();
 
+        // =======================================================================================
+        // Returns all registered seasons and their divisions
+        // =======================================================================================
         public List<Season> LoadSeasons() {
             using UnitOfWork uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
             
-            return uow.SeasonsRepo.LoadSeasons();
+            List<Season> seasons = uow.SeasonsRepo.LoadSeasons();
+
+            foreach (Season season in seasons) {
+                List<Division> divisions = uow.SeasonsRepo.GetSeasonDivisions(season.SeasonID);
+
+                season.Divisions = divisions;
+            }
+
+            return seasons;
         }
 
         // =======================================================================================
@@ -160,8 +171,8 @@ namespace SML {
         //  Process the replays uploaded and then return the match list
         // =======================================================================================
         // Call from business layer to start recursive exploration for replays from the top directory
-        public List<Match> ProcessSeasonMatches(int seasonID) {
-            ProcessDirectoryMatches(replayDirectoryLocation, seasonID);
+        public List<Match> ProcessSeasonMatches(int seasonID, int divisionID) {
+            ProcessDirectoryMatches(replayDirectoryLocation, seasonID, divisionID);
 
             return matchList;
         }
@@ -171,7 +182,7 @@ namespace SML {
         //  Directory processing of all uploaded directories/replays
         // =======================================================================================
         // Given the server directory path and the seasonID from the webpage, will return all the match data collected
-        private List<Match> ProcessDirectoryMatches(string replayFilesLocation, int seasonID) {
+        private List<Match> ProcessDirectoryMatches(string replayFilesLocation, int seasonID, int divisionID) {
             try {
                 string[] directories = Directory.GetDirectories(replayFilesLocation, "*", SearchOption.TopDirectoryOnly);
                 string[] files = Directory.GetFiles(replayFilesLocation, "*.replay", SearchOption.TopDirectoryOnly);
@@ -179,13 +190,13 @@ namespace SML {
                 if (files.Length > 0) {
                     Debug.WriteLine($"Processing Match: {replayFilesLocation}: season {seasonID}");
                     // If this directory contains .replay files, process it
-                    ProcessMatch(replayFilesLocation, seasonID);
+                    ProcessMatch(replayFilesLocation, seasonID, divisionID);
                 }
 
                 // Recursively process subdirectories
                 foreach (string directory in directories) {
-                    Debug.WriteLine($"Processing Directory: {directory}: season {seasonID}");
-                    ProcessDirectoryMatches(directory, seasonID);
+                    Debug.WriteLine($"Processing Directory: {directory}: season {seasonID}, division {divisionID}");
+                    ProcessDirectoryMatches(directory, seasonID, divisionID);
                 }
 
                 return matchList;
@@ -198,7 +209,7 @@ namespace SML {
         // =======================================================================================
         //  Directory processing of all uploaded directories/replays
         // =======================================================================================
-        private void ProcessMatch(string directoryPath, int seasonID) {
+        private void ProcessMatch(string directoryPath, int seasonID, int divisionID) {
             // Ensure directory exists
             if (!Directory.Exists(directoryPath)) {
                 Debug.WriteLine($"Invalid path: {directoryPath}");
@@ -210,7 +221,8 @@ namespace SML {
             if (files.Length == 0) return; // No replay files found, nothing to process
 
             Match match = new Match {
-                SeasonID = seasonID
+                SeasonID = seasonID,
+                DivisionID = divisionID
             };
 
             foreach (var file in files) {
@@ -327,7 +339,26 @@ namespace SML {
 
                 // Handle if either of the players were unable to be found in the current season
                 if (playerOneSQL == null || playerTwoSQL == null) {
-                    throw new NullReferenceException($"Unable to find players in current season database.");
+                    Season currentSeason = uow.SeasonsRepo.GetSeasonByID(season_id);
+                    if (currentSeason.UnregisteredUpload == 1) {
+                        Debug.WriteLine($"Unregistered upload for {playerOne.Name} vs {playerTwo.Name} in season {season_id}.");
+
+                        //// If the season allows unregistered uploads, create the players
+                        if (playerOneSQL == null) {
+                            playerOne.Season = match.SeasonID;
+                            playerOne.Division = match.DivisionID;
+                            uow.PlayersRepo.CreatePlayer(playerOne);
+                        }
+
+                        if (playerTwoSQL == null) {
+                            playerTwo.Season = match.SeasonID;
+                            playerTwo.Division = match.DivisionID;
+                            uow.PlayersRepo.CreatePlayer(playerTwo);
+                        }
+                    } else {
+                        throw new NullReferenceException($"Unable to find players in current season database.");
+
+                    }
                 }
 
                 // Update our current player info with their player_id, username, division_id, forfeit status

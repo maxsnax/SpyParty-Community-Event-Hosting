@@ -165,7 +165,8 @@ namespace SML {
             // =====================================================================================================
             // Create the table header
             HtmlTableRow rankHeaderRow = new HtmlTableRow();
-            rankHeaderRow.Attributes["class"] = $"rank-header-row {rankName}";
+            rankHeaderRow.Attributes["class"] = $"rank-header-row {rankName} default-rank";
+
 
             // Create the cell for division logo
             string virtualPath = $"/Images/divisions/{rankName}.png";
@@ -174,12 +175,14 @@ namespace SML {
             HtmlTableCell logoCell = new HtmlTableCell();
             if (File.Exists(physicalPath)) {
                 Debug.WriteLine($"Logo: {physicalPath} Exists");
-                logoCell = Util.cellImage(virtualPath, className: "picture-cell"); // pass virtual path
+                logoCell = Util.cellImage(virtualPath, className: "picture-cell");
             }
             else {
                 Debug.WriteLine($"Logo: {physicalPath} Not Found");
+                //string fallbackPath = "/Images/defaults/defaultDivision.png"; // Fallback image
                 logoCell.Attributes["class"] = "picture-cell";
             }
+
 
             // Create cells for sniper/spy logos
             string sniperImagePath = @"\Images\icons\sniper.png";
@@ -245,14 +248,25 @@ namespace SML {
 
 
         // Displays the averages as a footer row
-        public static HtmlTableRow GetDivisionAverageRow(string divisionName, int spyWins, int sniperWins) {
+        public static HtmlTableRow GetDivisionAverageRow(string rankName, int spyWins, int sniperWins) {
             // Create the initial row and assign it's class
             HtmlTableRow dataRow = new HtmlTableRow();
-            dataRow.Attributes["class"] = $"rank-header-row {divisionName}";
+            dataRow.Attributes["class"] = $"rank-header-row {rankName} default-rank";
 
-            // Get the division logo symbol and at it to an image cell for the row
-            string divisionImgPath = $@"\Images\divisions\{divisionName}.png";
-            HtmlTableCell logoCell = Util.cellImage(divisionImgPath, className: "picture-cell");
+            // Create the cell for division logo
+            string virtualPath = $"/Images/divisions/{rankName}.png";
+            string physicalPath = Path.Combine(HttpContext.Current.Server.MapPath("~/"), virtualPath.TrimStart('/'));
+
+            HtmlTableCell logoCell = new HtmlTableCell();
+            if (File.Exists(physicalPath)) {
+                Debug.WriteLine($"Logo: {physicalPath} Exists");
+                logoCell = Util.cellImage(virtualPath, className: "picture-cell");
+            }
+            else {
+                Debug.WriteLine($"Logo: {physicalPath} Not Found");
+                //string fallbackPath = "/Images/defaults/defaultDivision.png"; // Fallback image
+                logoCell.Attributes["class"] = "picture-cell";
+            }
 
             // Add the logo to an array for the FillTableRow function
             var footerImages = new HtmlTableCell[] { logoCell };
@@ -286,8 +300,7 @@ namespace SML {
             } else {
                 playerIconVirtualPath = $"/Images/divisions/{player.DivisionName}.png";
             }
-
-            // Replace the problematic line with the following code:  
+ 
             string playerIconPhysicalPath = Path.Combine(HttpContext.Current.Server.MapPath("~/"), playerIconVirtualPath.TrimStart('/'));
             // Use the virtual path for the image src in the HTML
             HtmlTableCell logoCell = new HtmlTableCell();
@@ -296,11 +309,10 @@ namespace SML {
             // Check if the image file exists on the server, else use an empty cell
             if (!File.Exists(playerIconPhysicalPath)) {
                 logoCell.Attributes["class"] = "picture-cell";
-            } else {
+            }
+            else {
                 logoCell = Util.cellImage(playerIconVirtualPath, className: "picture-cell");
             }
-
-
 
 
             // =========================================

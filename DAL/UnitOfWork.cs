@@ -25,8 +25,9 @@ namespace SML.DAL {
 
         public void BeginTransaction() {
             _transaction = _connection.BeginTransaction();
-            PlayersRepo.SetTransaction(_transaction);
             MatchesRepo.SetTransaction(_transaction);
+            SeasonsRepo.SetTransaction(_transaction);
+            PlayersRepo.SetTransaction(_transaction);
         }
 
         public void CommitTransaction() {

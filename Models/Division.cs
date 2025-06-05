@@ -25,5 +25,10 @@ namespace SML.Models {
             DivisionName = Name;
             DivisionID = ID;
         }
+
+        public override string ToString() {
+            return $"DivisionID: {DivisionID}, Name: {DivisionName}, LoadOrder: {LoadOrder}";
+        }
+
     }
 }
