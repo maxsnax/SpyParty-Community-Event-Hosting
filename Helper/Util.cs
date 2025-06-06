@@ -81,7 +81,7 @@ namespace SML {
                     division.Players = dataLayer.FetchPlayerLoadOrder(division);
 
                     // Create a table for each rank
-                    rankTable.Attributes["class"] = $"rank-table {division.DivisionName}";
+                    rankTable.Attributes["class"] = $"rank-table";
 
                     AddDivisionHeaderRow(rankTable, division);  // Create the division header
                     CreateDivisionTable(rankTable, division);   // Populate the players information

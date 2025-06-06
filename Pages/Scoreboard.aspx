@@ -13,7 +13,7 @@
                     AutoPostBack="True"
                     OnSelectedIndexChanged="Season_Selected_Change"
                     runat="server"
-                    CssClass="DropdownMenu">
+                    CssClass="DropdownMenu scoreboard-dropdown">
                 </asp:DropDownList>
             </asp:Panel>
             

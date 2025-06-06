@@ -39,6 +39,7 @@ namespace SML {
             return seasons;
         }
 
+
         // =======================================================================================
         // Upload the file into the server's App_Data/replays directory as a .zip and directory
         // =======================================================================================
@@ -76,14 +77,19 @@ namespace SML {
 
             // Ensure directory exists to extract the .zip contents into, in case there are loose .replay files
             // Ensure replays directory exists
-            if (!Directory.Exists(extractPath))
+            if (!Directory.Exists(extractPath)) {
+                Debug.WriteLine($"{extractPath} directory does not exist. Creating directory");
                 Directory.CreateDirectory(extractPath);
+            }
 
+            Debug.WriteLine($"Attempting to extract {zipFilePath} to: {extractPath}");
             try {
-                ZipFile.ExtractToDirectory(zipFilePath, extractPath);
-                Debug.WriteLine($"Files extracted to: {extractPath}");
+                string result = ExtractReplayZip(zipFilePath, extractPath);
+                Debug.WriteLine("Result from Python script: " + result);
+
             }
             catch (Exception ex) {
+                Debug.WriteLine($"Files failed to extract {zipFilePath} to: {extractPath}");
                 Debug.WriteLine(ex.Message);
             }
 
@@ -106,6 +112,45 @@ namespace SML {
             Debug.WriteLine($"Returning replayDirectoryLocation moved to server {replayDirectoryLocation}");
             return extractPath;
         }
+
+        public static string ExtractReplayZip(string zipFilePath, string outputDir) {
+            string pythonExe = HttpContext.Current.Server.MapPath("~/Python313/python.exe");
+            string script = HttpContext.Current.Server.MapPath("~/SpyPartyParse-master/extract_replays.py");
+
+            // Surround paths with quotes in case they contain spaces
+            var psi = new ProcessStartInfo {
+                FileName = pythonExe,
+                Arguments = $"\"{script}\" \"{zipFilePath}\" \"{outputDir}\"",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                WorkingDirectory = Path.GetDirectoryName(script)
+            };
+
+            var output = "";
+            var errors = "";
+
+            Debug.WriteLine("Running extract_replays.py...");
+            Debug.WriteLine($"Arguments: {psi.Arguments}");
+
+            using (var process = Process.Start(psi)) {
+                output = process.StandardOutput.ReadToEnd();
+                errors = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+            }
+
+            if (!string.IsNullOrEmpty(errors)) {
+                Debug.WriteLine("Python stderr:");
+                Debug.WriteLine(errors);
+            }
+
+            Debug.WriteLine("Python stdout:");
+            Debug.WriteLine(output);
+
+            return output + (string.IsNullOrWhiteSpace(errors) ? "" : "\nErrors:\n" + errors);
+        }
+
 
 
         // =======================================================================================
@@ -187,11 +232,9 @@ namespace SML {
                 string[] directories = Directory.GetDirectories(replayFilesLocation, "*", SearchOption.TopDirectoryOnly);
                 string[] files = Directory.GetFiles(replayFilesLocation, "*.replay", SearchOption.TopDirectoryOnly);
 
-                if (files.Length > 0) {
-                    Debug.WriteLine($"Processing Match: {replayFilesLocation}: season {seasonID}");
-                    // If this directory contains .replay files, process it
-                    ProcessMatch(replayFilesLocation, seasonID, divisionID);
-                }
+                Debug.WriteLine($"Checking directory for match: {replayFilesLocation}: season {seasonID}");
+                ProcessMatch(replayFilesLocation, seasonID, divisionID);
+
 
                 // Recursively process subdirectories
                 foreach (string directory in directories) {

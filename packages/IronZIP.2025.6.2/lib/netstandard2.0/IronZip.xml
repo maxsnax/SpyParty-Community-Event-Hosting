@@ -1,0 +1,519 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IronZip</name>
+    </assembly>
+    <members>
+        <member name="T:IronZip.BZip2SaveOptions">
+            <summary>
+            Provides options for configuring an IronBZip2 archive.
+            </summary>
+        </member>
+        <member name="T:IronZip.Enum.EncryptionMethods">
+            <summary>
+            Enumeration representing different encryption methods.
+            </summary>
+        </member>
+        <member name="F:IronZip.Enum.EncryptionMethods.Traditional">
+            <summary>
+            Traditional password-based encryption method.
+            </summary>
+        </member>
+        <member name="F:IronZip.Enum.EncryptionMethods.AES128">
+            <summary>
+            AES 128-bit password-based encryption method.
+            </summary>
+        </member>
+        <member name="F:IronZip.Enum.EncryptionMethods.AES256">
+            <summary>
+            AES 256-bit password-based encryption method.
+            </summary>
+        </member>
+        <member name="T:IronZip.IronBaseArchive">
+            <summary>
+            Base class for Iron Software Archives
+            </summary>
+        </member>
+        <member name="F:IronZip.IronBaseArchive._storedArchivePath">
+            <summary>
+             File path to store the Archive.
+            </summary>
+        </member>
+        <member name="F:IronZip.IronBaseArchive._internalStream">
+            <summary>
+             Internal MemoryStream to store ZipOutputStream
+            </summary>
+        </member>
+        <member name="F:IronZip.IronBaseArchive.isDisposed">
+            <summary>
+            Dispose method
+            </summary>
+        </member>
+        <member name="M:IronZip.IronBaseArchive.Dispose">
+            <summary>
+            Check the license before using IronZIP
+            </summary>
+            <exception cref="T:IronSoftware.Exceptions.LicensingException"></exception>
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronBaseArchive.SaveAs(System.String)">
+            <summary>
+            Save the archive to the specified path
+            </summary>
+            <param name="Path">Save path</param>
+            <remarks>Users cannot add additional entries after saving</remarks>
+        </member>
+        <member name="M:IronZip.IronBaseArchive.Save">
+            <summary>
+            Save the archive
+            </summary>
+            <remarks>Users cannot add additional entries after saving</remarks>
+        </member>
+        <member name="T:IronZip.IronBZip2Archive">
+            <summary>
+            An IronBZip2Archive for bzip2-type ".bz2" Archives
+            </summary>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.#ctor">
+            <summary>
+            Creates a blank Archive. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.#ctor(System.String)">
+            <summary>
+            Open an existing Archive with a filename. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="ArchivePath">File path to open the existing Archive. Example: <code>/output/a.bz2</code>You may use an absolute path.</param>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.FromFile(System.String)">
+            <summary>
+            Creates an Archive with a specific file to add to it. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="FilePath">File Entry to add to the Archive</param>
+            <returns>Returns the constructed <see cref="T:IronZip.IronBZip2Archive"/> with the file entry added.</returns>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.FromFiles(System.String[])">
+            <summary>
+            Creates an Archive with some files to add to it. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="Paths">File Entries to add to the Archive</param>
+            <returns>Returns the constructed <see cref="T:IronZip.IronBZip2Archive"/> with the file entries added.</returns>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.AddArchiveEntry(System.String)">
+            <summary>
+            Adds an archive entry (file) to the Archive. These entries will appear as files when the Archive is extracted.
+            </summary>
+            <param name="EntryFilePath">Filepath to the archive entry to add</param>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.Add(System.String)">
+            <summary>
+            Adds an archive entry (file) to the Archive. These entries will appear as files when the Archive is extracted.
+            </summary>
+            <param name="EntryFilePath">Filepath to the archive entry to add</param>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.ExtractArchiveToDirectory(System.String,System.String)">
+            <summary>
+            Will load an Archive and extract it to a Directory (System Folder)
+            </summary>
+            <param name="ArchiveSourcePath">Path to the Archive to extract</param>
+            <param name="SaveDirectoryPath">Directory to extract files to</param>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.SaveAs(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronBZip2Archive.Save">
+            <inheritdoc/>
+        </member>
+        <member name="T:IronZip.IronGZipArchive">
+            <summary>
+            An IronGZipArchive for gzip-type ".gz" Archives
+            </summary>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.#ctor(System.Int32)">
+            <summary>
+            Creates a blank Archive. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="Compression">Optionally set the compression level. 0 is weakest, 9 is highest compression. 9 is default.</param>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.#ctor(System.String,System.Int32)">
+            <summary>
+            Open an existing Archive with a filename. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="ArchivePath">File path to open the existing Archive. Example: <code>a.gz</code>You may use an absolute path.</param>
+            <param name="Compression">Optionally set the compression level. 0 is weakest, 9 is highest compression. 9 is default.</param>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.FromFile(System.String,System.Int32)">
+            <summary>
+            Creates an Archive with a specific file to add to it. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="FilePath">File Entry to add to the Archive</param>
+            <param name="Compression">Optionally set the compression level. 0 is weakest, 9 is highest compression. 9 is default.</param>
+            <returns>Returns the constructed <see cref="T:IronZip.IronZipArchive"/> with the file entry added.</returns>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.FromFiles(System.String[],System.Int32)">
+            <summary>
+            Creates an Archive with some files to add to it. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="Paths">File Entries to add to the Archive</param>
+            <param name="Compression">Optionally set the compression level. 0 is weakest, 9 is highest compression. 9 is default.</param>
+            <returns>Returns the constructed <see cref="T:IronZip.IronGZipArchive"/> with the file entries added.</returns>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.AddArchiveEntry(System.String)">
+            <summary>
+            Adds an archive entry (file) to the Archive. These entries will appear as files when the Archive is extracted.
+            </summary>
+            <param name="EntryFilePath">Filepath to the archive entry to add</param>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.Add(System.String)">
+            <summary>
+            Adds an archive entry (file) to the Archive. These entries will appear as files when the Archive is extracted.
+            </summary>
+            <param name="EntryFilePath">Filepath to the archive entry to add</param>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.ExtractArchiveToDirectory(System.String,System.String)">
+            <summary>
+            Will load an Archive and extract it to a Directory (System Folder)
+            </summary>
+            <param name="ArchiveSourcePath">Path to the Archive to extract</param>
+            <param name="SaveDirectoryPath">Directory to extract files to</param>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.ExtractTGZArchiveToDirectory(System.String,System.String)">
+            <summary>
+            Will load an Archive and extract it to a Directory (System Folder)
+            </summary>
+            <param name="ArchiveSourcePath">Path to the Archive to extract</param>
+            <param name="SaveDirectoryPath">Directory to extract files to</param>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.SaveAs(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronGZipArchive.Save">
+            <inheritdoc/>
+        </member>
+        <member name="T:IronZip.IronTarArchive">
+            <summary>
+            An IronTarArchive for tar-type ".tar" Archives
+            </summary>
+        </member>
+        <member name="M:IronZip.IronTarArchive.#ctor">
+            <summary>
+            Creates a blank Archive. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+        </member>
+        <member name="M:IronZip.IronTarArchive.#ctor(System.String)">
+            <summary>
+            Open an existing Archive. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="ArchivePath">File path to open the existing Archive. Example: <code>a.tar</code>You may use an absolute path.</param>
+        </member>
+        <member name="M:IronZip.IronTarArchive.FromFile(System.String)">
+            <summary>
+            Creates an Archive with a specific file to add to it. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="FilePath">File Entry to add to the Archive</param>
+            <returns>Returns the constructed <see cref="T:IronZip.IronTarArchive"/> with the file entry added.</returns>
+        </member>
+        <member name="M:IronZip.IronTarArchive.FromFiles(System.String[])">
+            <summary>
+            Creates an Archive with some files to add to it. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="Paths">File Entries to add to the Archive</param>
+            <returns>Returns the constructed <see cref="T:IronZip.IronTarArchive"/> with the file entries added.</returns>
+        </member>
+        <member name="M:IronZip.IronTarArchive.AddArchiveEntry(System.String)">
+            <summary>
+            Adds an archive entry (file) to the Archive. These entries will appear as files when the Archive is extracted.
+            </summary>
+            <param name="EntryFilePath">Filepath to the archive entry to add</param>
+        </member>
+        <member name="M:IronZip.IronTarArchive.Add(System.String)">
+            <summary>
+            Adds an archive entry (file) to the Archive. These entries will appear as files when the Archive is extracted.
+            </summary>
+            <param name="EntryFilePath">Filepath to the archive entry to add</param>
+        </member>
+        <member name="M:IronZip.IronTarArchive.ExtractArchiveToDirectory(System.String,System.String)">
+            <summary>
+            Will load an Archive and extract it to a Directory (System Folder)
+            </summary>
+            <param name="ArchiveSourcePath">Path to the Archive to extract</param>
+            <param name="SaveDirectoryPath">Directory to extract files to</param>
+        </member>
+        <member name="M:IronZip.IronTarArchive.GetArchiveEntryNames">
+            <summary>
+            Load the entry / entries of an existing Archive
+            </summary>
+        </member>
+        <member name="M:IronZip.IronTarArchive.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronTarArchive.SaveAs(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronTarArchive.Save">
+            <inheritdoc/>
+        </member>
+        <member name="T:IronZip.IronZipArchive">
+            <summary>
+            An IronZipArchive for ZIP-type ".zip" Archives
+            </summary>
+        </member>
+        <member name="P:IronZip.IronZipArchive.ZipSaveOptions">
+            <summary>
+            Set the security settings for Zip Archive
+            </summary>
+        </member>
+        <member name="M:IronZip.IronZipArchive.#ctor(System.Int32)">
+            <summary>
+            Creating an empty archive. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="Compression">Optionally sets the compression level. 0 is the weakest, 9 is the highest compression, with 9 as the default value.</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.#ctor(System.String,System.String)">
+            <summary>
+            Open an existing Archive. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="ArchivePath">File path to open the existing Archive. Example: <code>a.zip</code>You may use an absolute path.</param>
+            /// <param name="Password">Password for opening the protected archive.</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.#ctor(System.IO.Stream,System.String)">
+            <summary>
+            Open an existing protected Archive. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="StreamPath">Stream containing the existing archive.</param>
+            <param name="Password">Password for opening the protected archive.</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.#ctor(System.Byte[],System.String)">
+            <summary>
+            Open an existing protected Archive. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="Bytes">Byte[] containing the existing archive.</param>
+            <param name="Password">Password for opening the protected archive.</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.FromFile(System.String,System.Int32)">
+            <summary>
+            Creates an Archive with a specific file to add to it. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="FilePath">File Entry to add to the Archive</param>
+            <param name="Compression">Optionally set the compression level. 0 is weakest, 9 is highest compression. 9 is default.</param>
+            <returns>Returns the constructed <see cref="T:IronZip.IronZipArchive"/> with the file entry added.</returns>
+        </member>
+        <member name="M:IronZip.IronZipArchive.FromFiles(System.String[],System.Int32)">
+            <summary>
+            Creates an Archive with some files to add to it. Please use in a `using` block. Use the SaveAs method to export the archive.
+            </summary>
+            <param name="Paths">File Entries to add to the Archive</param>
+            <param name="Compression">Optionally set the compression level. 0 is weakest, 9 is highest compression. 9 is default.</param>
+            <returns>Returns the constructed <see cref="T:IronZip.IronZipArchive"/> with the file entries added.</returns>
+        </member>
+        <member name="M:IronZip.IronZipArchive.FromArchive(System.String,System.String)">
+            <summary>
+            Creates an instance of <see cref="T:IronZip.IronZipArchive"/> from an existing archive.
+            </summary>
+            <param name="ArchivePath">The path to the existing archive.</param>
+            <param name="Password">The password for decryption (null if not encrypted).</param>
+            <returns>An instance of <see cref="T:IronZip.IronZipArchive"/> representing the specified archive.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:IronZip.IronZipArchive.FromDirectory(System.String,System.Int32)" -->
+        <member name="M:IronZip.IronZipArchive.AddArchiveEntry(System.String)">
+            <summary>
+            Adds an archive entry (file) to the Archive. These entries will appear as files when the Archive is extracted.
+            </summary>
+            <param name="EntryFilePath">Filepath to the archive entry to add</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Add(System.String)">
+            <summary>
+            Adds an archive entry (file) to the Archive. These entries will appear as files when the Archive is extracted.
+            </summary>
+            <param name="EntryFilePath">Filepath to the archive entry to add</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.ExtractArchiveToDirectory(System.String,System.String,System.String)">
+            <summary>
+            Will load an Archive and extract it to a Directory (System Folder)
+            </summary>
+            <param name="ArchiveSourcePath">Path to the Archive to extract</param>
+            <param name="SaveDirectoryPath">Directory to extract files to</param>
+            <param name="Password">Optional password to open the archive</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.SetPassword(System.String,IronZip.Enum.EncryptionMethods)">
+            <summary>
+            Sets the password for a specific encryption method.
+            </summary>
+            <param name="Password">The password to set.</param>
+            <param name="EncryptionMethods">The encryption method to use. Supported types are traditional, AES128, and AES256.</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Encrypt(System.String,IronZip.Enum.EncryptionMethods)">
+            <summary>
+            Sets the password for a specific encryption method.
+            </summary>
+            <param name="Password">The password to set.</param>
+            <param name="EncryptionMethods">The encryption method to use. Supported types are traditional, AES128, and AES256.</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.RemoveEncryption">
+            <summary>
+            Remove the encryption password from the zip archive.
+            </summary>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Compression(System.Int32)">
+            <summary>
+            Sets the compression level (default is 9).
+            </summary>
+            <param name="Compression">0 is weakest, 9 is highest compression. 9 is default.</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Entries">
+            <summary>
+            Load the entries of an existing Archive
+            </summary>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Delete(System.String)">
+            <summary>
+            Deletes an entry from the archive.
+            </summary>
+            <param name="EntryName">The name of the entry to be deleted.</param>
+        </member>
+        <member name="M:IronZip.IronZipArchive.ReplaceEntry(System.String,System.String)">
+            <summary>
+            Replaces an entry within the archive with a new one.
+            </summary>
+            <param name="OldEntry">The name of the entry to be replaced.</param>
+            <param name="NewEntry">The name of the new entry to replace the existing one.</param>
+        </member>
+        <member name="P:IronZip.IronZipArchive.Comment">
+            <summary>
+            Sets/Gets the comment for the entire archive.
+            </summary>
+        </member>
+        <member name="P:IronZip.IronZipArchive.Count">
+            <summary>
+            Retrieves the total number of entries in the archive.
+            </summary>
+            <returns>The count of entries within the archive.</returns>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Contains(System.String)">
+            <summary>
+            Checks if an entry with the specified name exists in the archive.
+            </summary>
+            <param name="EntryName">The name of the entry to check for existence.</param>
+            <returns>
+              <c>true</c> if an entry with the specified name exists in the archive; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronZipArchive.SaveAs(System.String,IronZip.ZipSaveOptions)">
+            <summary>
+            Save the archive to the specified path
+            </summary>
+            <param name="Path">Save path</param>
+            <param name="ZipSaveOptions">Options for IronZipArchive</param>
+            <remarks>Users cannot add additional entries after saving</remarks>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Save(IronZip.ZipSaveOptions)">
+            <summary>
+            Save the archive
+            </summary>
+            <param name="ZipSaveOptions">Options for IronZipArchive</param>
+            <remarks>Users cannot add additional entries after saving</remarks>
+        </member>
+        <member name="M:IronZip.IronZipArchive.SaveAs(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronZipArchive.Save">
+            <inheritdoc/>
+        </member>
+        <member name="M:IronZip.IronZipArchive.ExtractEntries(ICSharpCode.SharpZipLib.Zip.ZipOutputStream)">
+            <summary>
+            Writes a <see cref="T:ICSharpCode.SharpZipLib.Zip.ZipEntry"/> into the archive. (For existing archive)
+            </summary>
+        </member>
+        <member name="T:IronZip.License">
+            <summary>
+            Allows IronZip license keys to be applied globally across an application.
+            </summary>
+        </member>
+        <member name="P:IronZip.License.IsLicensed">
+            <summary>
+            Determines whether this instance of IronZip is Licensed.
+            <para>Will return <c>false</c> unless a <see cref="P:IronZip.License.LicenseKey"></see>
+            is set to a valid trial or full license key in 
+            <see cref="P:IronZip.License.LicenseKey"/> property, <c>Web.Config</c>,
+            <c>App.Config</c> or <c>appsettings.json</c> in .Net Core.
+            </para>
+            <para>
+            See https://ironsoftware.com/csharp/zip/licensing/ and 
+            https://ironsoftware.com/csharp/zip/docs/license/license-keys/
+            </para>
+            </summary>
+            <returns><c>true</c> if the license key given is valid.</returns>
+        </member>
+        <member name="P:IronZip.License.LicenseKey">
+            <summary>
+            Get Licensed at https://ironsoftware.com/csharp/zip/licensing/
+            <para>
+            For .Net framework applications, a license key can alternatively be
+            added to <c>Web.Config</c> or <c>App.Config</c> XML file using
+            <c>&lt;add key="IronZip.LicenseKey" value="IronZip-LICENSE-KEY"/&gt;</c>
+            within the appSettings node.
+            See https://ironsoftware.com/csharp/zip/docs/license/license-keys/
+            </para>
+            <para>
+            For .Net Core applications, a license key  may be added to 
+            <c>appsettings.json</c> where the key name is <c>"IronZip.LicenseKey"</c>
+            and the value is a valid IronZip trial or full license key.
+            </para>
+            <para>
+            See https://ironsoftware.com/csharp/zip/licensing/ for licensing 
+            options.
+            </para>
+            </summary>
+        </member>
+        <member name="M:IronZip.License.IsValidLicense(System.String)">
+            <summary>
+            Determines whether a string license key is valid.
+            <para>
+            See https://ironsoftware.com/csharp/zip/licensing/ for trial,
+            development and commercial deployment licensing options.
+            </para>
+            </summary>
+            <param name="licenseKey">IronZip license key as a string</param>
+            <returns><c>true</c> if the license key given is valid.</returns>
+        </member>
+        <member name="M:IronZip.License.DisableAppAnalytics">
+            <summary>
+            Disables AppAnalytics for IronZip. Limitations apply.
+            </summary>
+        </member>
+        <member name="M:IronZip.License.AssertLicense(System.String)">
+            <summary>
+            Throw exception if license is not set.
+            </summary>
+        </member>
+        <member name="T:IronZip.ZipSaveOptions">
+            <summary>
+            Provides options for configuring an IronZip archive.
+            </summary>
+        </member>
+        <member name="P:IronZip.ZipSaveOptions.EncryptionMethod">
+            <summary>
+            Gets or sets the encryption method.
+            </summary>
+        </member>
+        <member name="P:IronZip.ZipSaveOptions.Compression">
+            <summary>
+            Gets or sets the compression level (default is 9).
+            </summary>
+        </member>
+        <member name="P:IronZip.ZipSaveOptions.Password">
+            <summary>
+            Gets or sets the password for encryption (null if not set).
+            </summary>
+        </member>
+    </members>
+</doc>

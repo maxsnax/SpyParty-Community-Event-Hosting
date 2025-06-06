@@ -160,7 +160,7 @@ namespace SML {
             }
 
             ResetMatchResults();
-            UpdateLabel(matchResultLabel, Color.Green, "Match results successfully uploaded.");
+            //UpdateLabel(matchResultLabel, Color.Green, "Match results successfully uploaded.");
             ClearSession();
         }
 
@@ -168,7 +168,7 @@ namespace SML {
             Debug.WriteLine($"cancelUploadButton_Click()");
 
             ResetMatchResults();
-            UpdateLabel(matchResultLabel, Color.Red, "Match results were not uploaded.");
+            //UpdateLabel(matchResultLabel, Color.Red, "Match results were not uploaded.");
             ClearSession();
             dataLayer.ClearReplaysDirectory();
         }
