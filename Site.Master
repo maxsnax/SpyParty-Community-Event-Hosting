@@ -52,7 +52,7 @@
             </Scripts>
         </asp:ScriptManager>
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light custom-bg-color">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light custom-bg-color mobile-nav-overlay">
             <div class="container">
                 <a class="navbar-brand" runat="server" href="~/">SpyParty Community Events</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
