@@ -125,7 +125,7 @@ namespace SML.DAL.Repositories {
             List<Season> seasons = new List<Season>();
 
             try {
-                string query = "SELECT season_ID, season_name, status, unregistered_upload FROM dbo.Season";
+                string query = "SELECT season_ID, season_name, status, unregistered_upload, scoreboard_visible FROM dbo.Season";
 
                 using SqlCommand command = new SqlCommand(query, _connection, _transaction);
                 using SqlDataReader reader = command.ExecuteReader();
@@ -134,7 +134,8 @@ namespace SML.DAL.Repositories {
                         reader.GetInt32(0),
                         reader.GetString(1),
                         reader.GetString(2),
-                        reader.GetInt32(3)
+                        reader.GetInt32(3),
+                        reader.GetInt32(4)
                     ));
                 }
             }

@@ -60,13 +60,15 @@ namespace SML {
         private void PopulateSeasons() {
             ScoreboardService dataLayer = new ScoreboardService();
             List<Season> seasons = dataLayer.LoadSeasons()
-                //.Where(s => s.Status == "open")
+                .Where(s => s.ScoreboardVisible == 1)
                 .OrderBy(s => s.Name)
                 .ToList();
+
 
             selectSeasonList.Items.Clear();
 
             foreach (var season in seasons) {
+                // Add each season to the dropdown list if there are players
                 selectSeasonList.Items.Add(new ListItem(season.Name, season.SeasonID.ToString()));
             }
         }

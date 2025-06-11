@@ -10,6 +10,7 @@ namespace SML.Models {
         public string Name { get; set; }
         public string Status { get; set; }
         public int UnregisteredUpload { get; set; } = 0;
+        public int ScoreboardVisible { get; set; } = 1;
         public List<Division> Divisions { get; set; } = new List<Division>();
 
         public Season(int id, string name, string status, int unregistered_upload) {
@@ -17,6 +18,15 @@ namespace SML.Models {
             Name = name;
             Status = status;
             UnregisteredUpload = unregistered_upload;
+            ScoreboardVisible = 1;
+        }
+
+        public Season(int id, string name, string status, int unregistered_upload, int scoreboardVisible) {
+            SeasonID = id;
+            Name = name;
+            Status = status;
+            UnregisteredUpload = unregistered_upload;
+            ScoreboardVisible = scoreboardVisible;
         }
 
         public override string ToString() {
@@ -24,6 +34,7 @@ namespace SML.Models {
                    $"Name: {Name}, " +
                    $"Status: {Status}, " +
                    $"UnregisteredUpload: {UnregisteredUpload}, " +
+                   $"ScoreboardVisible: {ScoreboardVisible}, " +
                    $"Divisions: [" + string.Join("; ", Divisions.Select(d => d.ToString())) + "]";
         }
 
