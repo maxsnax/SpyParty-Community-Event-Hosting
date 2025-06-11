@@ -45,14 +45,14 @@ namespace SML.DAL.Repositories {
                 }
 
                 // Debugging: Check the data after filling the table
-                Debug.WriteLine("Fetched Rows: " + table.Rows.Count);
+                Logger.Log("Fetched Rows: " + table.Rows.Count);
                 foreach (DataRow row in table.Rows) {
-                    Debug.WriteLine($"Row Data - Name: {row["season_name"]}, Status: {row["status"]}, Players: {row["player_count"]}");
+                    Logger.Log($"Row Data - Name: {row["season_name"]}, Status: {row["status"]}, Players: {row["player_count"]}");
                 }
 
             }
             catch (Exception ex) {
-                Debug.WriteLine("SQL Query Error: " + ex.Message);
+                Logger.Log("SQL Query Error: " + ex.Message);
             }
 
             return table;
@@ -60,7 +60,7 @@ namespace SML.DAL.Repositories {
 
         // Season Objects
         public Season GetSeasonByID(int season_id) {
-            Debug.WriteLine($"GetSeason: {season_id}");
+            Logger.Log($"GetSeason: {season_id}");
             Season season = null;
             try {
                 string query = "SELECT season_id, season_name, status, unregistered_upload FROM Season WHERE season_id = @season_id";
@@ -77,11 +77,11 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Error fetching season: {ex.Message}");
+                Logger.Log($"Error fetching season: {ex.Message}");
             }
 
-            Debug.WriteLine("Returning season from GetSeason");
-            Debug.WriteLine(season.ToString());
+            Logger.Log("Returning season from GetSeason");
+            Logger.Log(season.ToString());
             return season;
         }
 
@@ -120,7 +120,7 @@ namespace SML.DAL.Repositories {
 
 
         public List<Season> LoadSeasons() {
-            Debug.WriteLine($"LoadSeasons()");
+            Logger.Log($"LoadSeasons()");
 
             List<Season> seasons = new List<Season>();
 
@@ -140,7 +140,7 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Error loading seasons: {ex.Message}");
+                Logger.Log($"Error loading seasons: {ex.Message}");
             }
 
             return seasons;
@@ -165,7 +165,7 @@ namespace SML.DAL.Repositories {
 
 
         public List<Division> GetSeasonDivisions(int seasonID) {
-            Debug.WriteLine($"GetSeasonDivisions {seasonID}");
+            Logger.Log($"GetSeasonDivisions {seasonID}");
 
             List<Division> divisionList = new List<Division>();
 
@@ -176,7 +176,7 @@ namespace SML.DAL.Repositories {
                 using SqlCommand command = new SqlCommand(query, _connection, _transaction);
 
                 command.Parameters.AddWithValue("@seasonID", seasonID);
-                Debug.WriteLine($"Fetching all divisions for seasonID:{seasonID}");
+                Logger.Log($"Fetching all divisions for seasonID:{seasonID}");
 
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read()) {
@@ -189,7 +189,7 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Error fetching divisions for seasonID: {seasonID}\n{ex.Message}");
+                Logger.Log($"Error fetching divisions for seasonID: {seasonID}\n{ex.Message}");
                 throw;
             }
 
@@ -198,10 +198,10 @@ namespace SML.DAL.Repositories {
 
 
         public List<Player> GetPlayersFromDivision(Division division) {
-            Debug.WriteLine($"GetPlayersFromDivision: {division.DivisionName}");
+            Logger.Log($"GetPlayersFromDivision: {division.DivisionName}");
 
             if (division == null) throw new ArgumentNullException();
-            Debug.WriteLine($"Fetching players for seasonID:{division.SeasonID}\n divisionID:{division.DivisionID} division:{division.DivisionName}");
+            Logger.Log($"Fetching players for seasonID:{division.SeasonID}\n divisionID:{division.DivisionID} division:{division.DivisionName}");
 
             List<Player> playersList = new List<Player>();
 
@@ -242,7 +242,7 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Error fetching players from divisionID:{division.DivisionID}, seasonID:{division.SeasonID}\n{ex.Message}");
+                Logger.Log($"Error fetching players from divisionID:{division.DivisionID}, seasonID:{division.SeasonID}\n{ex.Message}");
             }
 
             return playersList;

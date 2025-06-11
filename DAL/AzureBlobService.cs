@@ -27,7 +27,7 @@ namespace SML {
             var containers = blobServiceClient.GetBlobContainersAsync();
 
             await foreach (var container in containers) {
-                Debug.WriteLine(container.Name);
+                Logger.Log(container.Name);
             }
         }
 
@@ -53,7 +53,7 @@ namespace SML {
             var blobs = blobContainer.GetBlobsAsync();
 
             await foreach (var blob in blobs) {
-                Debug.WriteLine(blob.Name);            
+                Logger.Log(blob.Name);            
             }
         }
 
@@ -67,14 +67,14 @@ namespace SML {
             {
                 if (blob.IsPrefix) {
                     // Write out prefix of virtual directory
-                    Debug.WriteLine("Virtual Directory prefix: {0}", blob.Prefix);
+                    Logger.Log($"Virtual Directory prefix: {blob.Prefix}");
 
                     // Call recursively with prefix to traverse virtual directory
                     await GetHierarchicalBlobsListAsync();
                 }
                 else {
                     // Write the name of the blob
-                    Debug.WriteLine("Blob name {0}", blob.Blob.Name);
+                    Logger.Log($"Blob name {blob.Blob.Name}");
                 }
             }
 

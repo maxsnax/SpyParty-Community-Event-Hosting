@@ -37,7 +37,7 @@ namespace SML {
             string playerName = Page.RouteData.Values["playerName"] as string ?? Request.QueryString["playerName"];
 
             if (string.IsNullOrEmpty(playerName)) {
-                Debug.WriteLine("No specific player requested. Loading all players...");
+                Logger.Log("No specific player requested. Loading all players...");
 
                 DataTable rawData;
                 rawData = _playersService.PopulateAllPlayerData(PlayerGridView);
@@ -54,7 +54,7 @@ namespace SML {
         }
 
         public void PlayerGridView_Sorting(object sender, GridViewSortEventArgs e) {
-            Debug.WriteLine("Sort GridView");
+            Logger.Log("Sort GridView");
 
             if (ViewState["dataTable"] is DataTable dataTable) {
                 DataView dataView = new DataView(dataTable);
@@ -167,12 +167,12 @@ namespace SML {
                     foreach (Player p in playerData) {
                         int seasonID = p.Season;
                         string seasonName = db.GetSeasonNameById(seasonID, connection, null);
-                        Debug.WriteLine($"SeasonID:{seasonID}:{seasonName}");
+                        Logger.Log($"SeasonID:{seasonID}:{seasonName}");
                         seasonList.Add(Tuple.Create(seasonID, seasonName));
                     }
                 }
                 catch (Exception ex) {
-                    Debug.WriteLine(ex.Message);
+                    Logger.Log(ex.Message);
                 }
             }
 

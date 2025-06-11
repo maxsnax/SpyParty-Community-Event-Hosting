@@ -44,14 +44,14 @@ namespace SML {
         // Upload the file into the server's App_Data/replays directory as a .zip and directory
         // =======================================================================================
         public string MoveReplaysToServer(HttpPostedFile uploadedFile, string serverPath) {
-            Debug.WriteLine("moveReplaysToServer()");
+            Logger.Log("moveReplaysToServer()");
 
             // Get the name of the uploaded file
             string uploadFileName = uploadedFile.FileName;
             FileInfo fileInfo = new FileInfo(uploadFileName);
             string fileExtension = fileInfo.Extension;
 
-            Debug.WriteLine($"Uploaded File: {uploadedFile.FileName} | Extension: {fileExtension} | serverPath: {serverPath}");
+            Logger.Log($"Uploaded File: {uploadedFile.FileName} | Extension: {fileExtension} | serverPath: {serverPath}");
 
 
             // Reject the uploaded file if it's not a .ZIP format
@@ -73,24 +73,25 @@ namespace SML {
 
             // Save the uploaded .zip file to the server in the replays directory
             uploadedFile.SaveAs(zipFilePath);
-            Debug.WriteLine($"Zip saved at: {zipFilePath}");
+            Logger.Log($"Zip saved at: {zipFilePath}");
 
             // Ensure directory exists to extract the .zip contents into, in case there are loose .replay files
             // Ensure replays directory exists
             if (!Directory.Exists(extractPath)) {
-                Debug.WriteLine($"{extractPath} directory does not exist. Creating directory");
+                Logger.Log($"{extractPath} directory does not exist. Creating directory");
                 Directory.CreateDirectory(extractPath);
             }
 
-            Debug.WriteLine($"Attempting to extract {zipFilePath} to: {extractPath}");
+            Logger.Log($"Attempting to extract {zipFilePath} to: {extractPath}");
             try {
                 string result = ExtractReplayZip(zipFilePath, extractPath);
-                Debug.WriteLine("Result from Python script: " + result);
+                Logger.Log("Result from Python script: " + result);
 
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Files failed to extract {zipFilePath} to: {extractPath}");
-                Debug.WriteLine(ex.Message);
+                Logger.Log($"Files failed to extract {zipFilePath} to: {extractPath}");
+                Logger.Log(ex.Message);
+                throw ex;
             }
 
             // Get all extracted files, searching nested directories within
@@ -98,7 +99,7 @@ namespace SML {
 
             // Ensure only .replay files are uploaded before we start opening them and reading
             foreach (string file in files) {
-                Debug.WriteLine($"Searching for non-replay files. {file}");
+                Logger.Log($"Searching for non-replay files. {file}");
                 FileInfo replayFileInfo = new FileInfo(file);
                 string replayFileExtension = replayFileInfo.Extension;
                 if (replayFileExtension != ".replay") {
@@ -109,7 +110,7 @@ namespace SML {
 
             replayDirectoryLocation = extractPath;
 
-            Debug.WriteLine($"Returning replayDirectoryLocation moved to server {replayDirectoryLocation}");
+            Logger.Log($"Returning replayDirectoryLocation moved to server {replayDirectoryLocation}");
             return extractPath;
         }
 
@@ -117,7 +118,12 @@ namespace SML {
             string pythonExe = HttpContext.Current.Server.MapPath("~/Python313/python.exe");
             string script = HttpContext.Current.Server.MapPath("~/SpyPartyParse-master/extract_replays.py");
 
-            // Surround paths with quotes in case they contain spaces
+            // Ensure output directory exists before calling Python
+            if (!Directory.Exists(outputDir)) {
+                Logger.Log("Creating output directory: " + outputDir);
+                Directory.CreateDirectory(outputDir);
+            }
+
             var psi = new ProcessStartInfo {
                 FileName = pythonExe,
                 Arguments = $"\"{script}\" \"{zipFilePath}\" \"{outputDir}\"",
@@ -128,27 +134,32 @@ namespace SML {
                 WorkingDirectory = Path.GetDirectoryName(script)
             };
 
-            var output = "";
-            var errors = "";
+            string output;
+            string errors;
 
-            Debug.WriteLine("Running extract_replays.py...");
-            Debug.WriteLine($"Arguments: {psi.Arguments}");
+            Logger.Log("Running extract_replays.py...");
+            Logger.Log($"Arguments: {psi.Arguments}");
 
             using (var process = Process.Start(psi)) {
                 output = process.StandardOutput.ReadToEnd();
                 errors = process.StandardError.ReadToEnd();
                 process.WaitForExit();
+
+                Logger.Log("Python stdout:");
+                Logger.Log(output);
+
+                if (!string.IsNullOrWhiteSpace(errors)) {
+                    Logger.Log("Python stderr:");
+                    Logger.Log(errors);
+                }
+
+                if (process.ExitCode != 0) {
+                    Logger.Log("Python script exited with code: " + process.ExitCode);
+                    throw new Exception("Python script failed with exit code " + process.ExitCode + ":\n" + errors);
+                }
             }
 
-            if (!string.IsNullOrEmpty(errors)) {
-                Debug.WriteLine("Python stderr:");
-                Debug.WriteLine(errors);
-            }
-
-            Debug.WriteLine("Python stdout:");
-            Debug.WriteLine(output);
-
-            return output + (string.IsNullOrWhiteSpace(errors) ? "" : "\nErrors:\n" + errors);
+            return output;
         }
 
 
@@ -166,16 +177,16 @@ namespace SML {
         //  Deletes the pathway and all it's subdirectories
         // =======================================================================================
         private static void DeletePath(string path) {
-            Debug.WriteLine($"DeletePath({path})");
+            Logger.Log($"DeletePath({path})");
             // Delete extracted files before removing the directory
             if (Directory.Exists(path)) {
                 foreach (string file in Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)) {
                     try {
                         File.Delete(file);
-                        Debug.WriteLine($"Deleted file: {file}");
+                        Logger.Log($"Deleted file: {file}");
                     }
                     catch (Exception ex) {
-                        Debug.WriteLine($"Failed to delete file: {file} - {ex.Message}");
+                        Logger.Log($"Failed to delete file: {file} - {ex.Message}");
                     }
                 }
 
@@ -183,10 +194,10 @@ namespace SML {
                 foreach (string dir in Directory.GetDirectories(path, "*", SearchOption.AllDirectories)) {
                     try {
                         Directory.Delete(dir, true);
-                        Debug.WriteLine($"Deleted directory: {dir}");
+                        Logger.Log($"Deleted directory: {dir}");
                     }
                     catch (Exception ex) {
-                        Debug.WriteLine($"Failed to delete directory: {dir} - {ex.Message}");
+                        Logger.Log($"Failed to delete directory: {dir} - {ex.Message}");
                     }
                 }
             }
@@ -194,19 +205,19 @@ namespace SML {
             if (Directory.Exists(path)) {
                 try {
                     Directory.Delete(path, true);
-                    Debug.WriteLine($"Deleted dir: {path}");
+                    Logger.Log($"Deleted dir: {path}");
                 }
                 catch (Exception ex) {
-                    Debug.WriteLine($"Failed to delete directory: {path} - {ex.Message}");
+                    Logger.Log($"Failed to delete directory: {path} - {ex.Message}");
                 }
             }
             if (File.Exists(path)) {
                 try {
                     File.Delete(path);
-                    Debug.WriteLine($"Deleted file: {path}");
+                    Logger.Log($"Deleted file: {path}");
                 }
                 catch (Exception ex) {
-                    Debug.WriteLine($"Failed to delete file: {path} - {ex.Message}");
+                    Logger.Log($"Failed to delete file: {path} - {ex.Message}");
                 }
             }
         }
@@ -232,13 +243,13 @@ namespace SML {
                 string[] directories = Directory.GetDirectories(replayFilesLocation, "*", SearchOption.TopDirectoryOnly);
                 string[] files = Directory.GetFiles(replayFilesLocation, "*.replay", SearchOption.TopDirectoryOnly);
 
-                Debug.WriteLine($"Checking directory for match: {replayFilesLocation}: season {seasonID}");
+                Logger.Log($"Checking directory for match: {replayFilesLocation}: season {seasonID}");
                 ProcessMatch(replayFilesLocation, seasonID, divisionID);
 
 
                 // Recursively process subdirectories
                 foreach (string directory in directories) {
-                    Debug.WriteLine($"Processing Directory: {directory}: season {seasonID}, division {divisionID}");
+                    Logger.Log($"Processing Directory: {directory}: season {seasonID}, division {divisionID}");
                     ProcessDirectoryMatches(directory, seasonID, divisionID);
                 }
 
@@ -255,7 +266,7 @@ namespace SML {
         private void ProcessMatch(string directoryPath, int seasonID, int divisionID) {
             // Ensure directory exists
             if (!Directory.Exists(directoryPath)) {
-                Debug.WriteLine($"Invalid path: {directoryPath}");
+                Logger.Log($"Invalid path: {directoryPath}");
                 return;
             }
 
@@ -273,10 +284,10 @@ namespace SML {
 
                 // Skip processing this file
                 if (replay == null) {
-                    Debug.WriteLine($"Warning: Failed to process replay file {file}. It returned null.");
+                    Logger.Log($"Warning: Failed to process replay file {file}. It returned null.");
                     continue;
                 } else if (replay.result == "In_Progress") {
-                    Debug.WriteLine($"Warning: Skipped replay file {file}. It returned In_Progress.");
+                    Logger.Log($"Warning: Skipped replay file {file}. It returned In_Progress.");
                     continue;
                 }
 
@@ -320,7 +331,7 @@ namespace SML {
         // Process upload confirmation of business layer
         // =======================================================================================
         public async Task ConfirmUpload() {
-            Debug.WriteLine($"ConfirmUpload()");
+            Logger.Log($"ConfirmUpload()");
 
             using UnitOfWork uow = new UnitOfWork(ConfigurationManager.ConnectionStrings["SML_db-connection"].ToString());
 
@@ -333,7 +344,7 @@ namespace SML {
                         SaveMatchToSQL(match, uow);
                     } catch (Exception ex) {
 
-                        Debug.WriteLine(ex.Message);
+                        Logger.Log(ex.Message);
                     }
                 }
 
@@ -344,7 +355,7 @@ namespace SML {
 
                 // Once all the SQL entries are made and the Blobs uploaded then we commit
                 uow.CommitTransaction();
-                Debug.WriteLine($"Matches successfully uploaded to SQL and Azure Blob Storage");
+                Logger.Log($"Matches successfully uploaded to SQL and Azure Blob Storage");
 
             }
             catch {
@@ -363,7 +374,7 @@ namespace SML {
         // Save the match's ReplayData to SQL
         // =======================================================================================
         private void SaveMatchToSQL(Match match, UnitOfWork uow) {
-            Debug.WriteLine($"SaveMatchToSQL()");
+            Logger.Log($"SaveMatchToSQL()");
 
             // Handle if null player data was passed
             if (match == null || match.PlayerOne == null || match.PlayerTwo == null || match.SeasonID <= 0) {
@@ -384,7 +395,7 @@ namespace SML {
                 if (playerOneSQL == null || playerTwoSQL == null) {
                     Season currentSeason = uow.SeasonsRepo.GetSeasonByID(season_id);
                     if (currentSeason.UnregisteredUpload == 1) {
-                        Debug.WriteLine($"Unregistered upload for {playerOne.Name} vs {playerTwo.Name} in season {season_id}.");
+                        Logger.Log($"Unregistered upload for {playerOne.Name} vs {playerTwo.Name} in season {season_id}.");
 
                         //// If the season allows unregistered uploads, create the players
                         if (playerOneSQL == null) {
@@ -431,7 +442,7 @@ namespace SML {
                 //updateLabel(fileUploadNameLabel, Color.Green, "Upload Successful!");
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Error Caught: Rolling back transaction");
+                Logger.Log($"Error Caught: Rolling back transaction");
                 //updateLabel(fileUploadNameLabel, Color.Red, $"Error: {ex.Message}");
                 throw ex;
             }
@@ -445,15 +456,15 @@ namespace SML {
         // =======================================================================================
         private async Task UploadReplayBlobs(Match match) {
             try {
-                Debug.WriteLine($"Uploading match {match.PlayerOne.Name} vs {match.PlayerTwo.Name}");
+                Logger.Log($"Uploading match {match.PlayerOne.Name} vs {match.PlayerTwo.Name}");
                 foreach (ReplayData replay in match.Replays) {
                     try {
                         var service = new AzureBlobService();
                         await service.UploadFilesAsync(replay.file_path, replay.uuid);
-                        Debug.WriteLine($"Uploaded blob {replay.file_path}:{replay.uuid} to server.");
+                        Logger.Log($"Uploaded blob {replay.file_path}:{replay.uuid} to server.");
                     }
                     catch (Exception ex) {
-                        Debug.WriteLine($"{replay.file_path}:{replay.uuid} \n unable to upload replays to cloud service \n {ex.Message}");
+                        Logger.Log($"{replay.file_path}:{replay.uuid} \n unable to upload replays to cloud service \n {ex.Message}");
                         //updateLabel(fileUploadNameLabel, Color.Red, $"{replay.file_path}:{replay.uuid} \n unable to upload replays to cloud service \n {ex.Message}");
                     }
                 }

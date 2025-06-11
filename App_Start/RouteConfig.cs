@@ -12,7 +12,7 @@ namespace SML {
             routes.EnableFriendlyUrls(settings);
 
             // Debug output to confirm FriendlyUrls was added
-            Debug.WriteLine("FriendlyUrls enabled. Now registering custom routes...");
+            Logger.Log("FriendlyUrls enabled. Now registering custom routes...");
 
             routes.Ignore("{resource}.axd/{*pathInfo}");
 
@@ -52,7 +52,7 @@ namespace SML {
 
             // Debug registered routes
             foreach (var routeItem in routes) {
-                Debug.WriteLine($"Registered Route: {routeItem}");
+                Logger.Log($"Registered Route: {routeItem}");
             }
         }
     }

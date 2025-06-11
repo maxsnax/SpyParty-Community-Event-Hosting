@@ -20,29 +20,30 @@ namespace SML {
             if (Master is SiteMaster master) {
                 master.EnableDynamicBackground = true;
             }
+
         }
         
 
         
         public void Submit_EditDivision(object sender, EventArgs e) {
-            Debug.WriteLine("Edit Division Click");
+            Logger.Log("Edit Division Click");
             //ShowModalPopup();
         }
 
         public void Submit_EditPlayers(object sender, EventArgs e) {
-            Debug.WriteLine("Edit Players Click");
+            Logger.Log("Edit Players Click");
             //ShowModalPopup();
         }
 
         public void Submit_EditSettings(object sender, EventArgs e) {
-            Debug.WriteLine("Edit Settings Click");
+            Logger.Log("Edit Settings Click");
             ViewState["ShowModal"] = true;
             ShowModalPopup();
         }
 
         // Navigates back to normal view events page
         public void Submit_Quit(object sender, EventArgs e) {
-            Debug.WriteLine("Quit Click");
+            Logger.Log("Quit Click");
             Response.Redirect("/Pages/Events?season=" + HttpUtility.UrlEncode(_eventName));
         }
 
@@ -254,7 +255,7 @@ namespace SML {
                 }
             }
 
-            Debug.WriteLine("RadioButton Click");
+            Logger.Log("RadioButton Click");
         }
 
     }

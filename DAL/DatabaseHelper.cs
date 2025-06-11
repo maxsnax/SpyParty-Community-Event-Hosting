@@ -38,7 +38,7 @@ namespace SML {
                 return true; // Connection is successful
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Connection test failed: {ex.Message}");
+                Logger.Log($"Connection test failed: {ex.Message}");
                 return false; // Connection failed
             }
         }
@@ -65,7 +65,7 @@ namespace SML {
         //            }
         //        }
         //        catch (Exception ex) {
-        //            Debug.WriteLine($"Error loading seasons: {ex.Message}");
+        //            Logger.Log($"Error loading seasons: {ex.Message}");
         //        }
         //    }
 
@@ -83,7 +83,7 @@ namespace SML {
 
         //    command.Parameters.AddWithValue("@seasonID", seasonID);
 
-        //    Debug.WriteLine($"Fetching all divisions for seasonID:{seasonID}");
+        //    Logger.Log($"Fetching all divisions for seasonID:{seasonID}");
 
         //    try {
         //        using (SqlDataReader reader = command.ExecuteReader()) {
@@ -98,7 +98,7 @@ namespace SML {
         //        }
         //    }
         //    catch (Exception ex) {
-        //        Debug.WriteLine($"Error fetching divisions for seasonID: {seasonID}\n{ex.Message}");
+        //        Logger.Log($"Error fetching divisions for seasonID: {seasonID}\n{ex.Message}");
         //        throw;
         //    }
 
@@ -115,7 +115,7 @@ namespace SML {
         public List<Player> GetPlayerByName(string playerName, SqlConnection connection, SqlTransaction transaction) {
             playerName = playerName.Replace("/steam", "");
             
-            Debug.WriteLine($"SQL GetPlayerByName() - playerName: {playerName}");
+            Logger.Log($"SQL GetPlayerByName() - playerName: {playerName}");
 
             using SqlCommand command = new SqlCommand(
                 "SELECT player_id, player_name, forfeit, division_id, season_id, username FROM Player " +
@@ -126,7 +126,7 @@ namespace SML {
 
             List<Player> playerData = new List<Player>();
 
-            Debug.WriteLine($"Executing SQL Query for Player: {playerName}");
+            Logger.Log($"Executing SQL Query for Player: {playerName}");
             try {
                 using (SqlDataReader reader = command.ExecuteReader()) {
                     while (reader.Read()) {
@@ -137,7 +137,7 @@ namespace SML {
                         int seasonId = reader.IsDBNull(4) ? -1 : reader.GetInt32(4);
                         string username = reader.GetString(5);
 
-                        Debug.WriteLine($"Returning Player: ID={playerId}, Name={name}, Forfeit={forfeit}, Division={divisionId}, Season={seasonId}");
+                        Logger.Log($"Returning Player: ID={playerId}, Name={name}, Forfeit={forfeit}, Division={divisionId}, Season={seasonId}");
                         playerData.Add(new Player {
                             PlayerID = playerId,
                             Name = name,
@@ -152,7 +152,7 @@ namespace SML {
                 }
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Failed GetPlayerByName: {ex.Message}");
+                Logger.Log($"Failed GetPlayerByName: {ex.Message}");
             }
 
             return null;
@@ -162,20 +162,20 @@ namespace SML {
         //public Player GetPlayerBySeason(int seasonID, string playerName, SqlConnection connection, SqlTransaction transaction) {
         //    playerName = playerName.Replace("/steam", "");
 
-        //    Debug.WriteLine($"SQL GetPlayerBySeason()");
-        //    Debug.WriteLine($"seasonID:{seasonID}\nplayerName:{playerName}");
+        //    Logger.Log($"SQL GetPlayerBySeason()");
+        //    Logger.Log($"seasonID:{seasonID}\nplayerName:{playerName}");
 
-        //    Debug.WriteLine($"Creating SqlCommand command");
+        //    Logger.Log($"Creating SqlCommand command");
         //    using SqlCommand command = new SqlCommand(
         //        "SELECT player_id, player_name, forfeit, division_id, season_id, username FROM Player " +
         //        "WHERE player_name = @playerName AND season_id = @seasonID",
         //        connection, transaction);
 
-        //    Debug.WriteLine($"command.Parameters.AddWithValue @playerName, @seasonID");
+        //    Logger.Log($"command.Parameters.AddWithValue @playerName, @seasonID");
         //    command.Parameters.AddWithValue("@playerName", playerName);
         //    command.Parameters.AddWithValue("@seasonID", seasonID);
 
-        //    Debug.WriteLine($"using SqlDataReader");
+        //    Logger.Log($"using SqlDataReader");
         //    try {
         //        using (SqlDataReader reader = command.ExecuteReader()) {
         //            if (reader.Read()) {
@@ -187,7 +187,7 @@ namespace SML {
         //                string username = reader.IsDBNull(5) ? string.Empty : reader.GetString(5);
 
 
-        //                Debug.WriteLine($"Returning Player: ID={playerId}, Name={name}, Forfeit={forfeit}, Division={divisionId}, Season={seasonId}");
+        //                Logger.Log($"Returning Player: ID={playerId}, Name={name}, Forfeit={forfeit}, Division={divisionId}, Season={seasonId}");
         //                return new Player {
         //                    PlayerID = playerId,
         //                    Name = name,
@@ -199,12 +199,12 @@ namespace SML {
         //            }
         //        }
         //    } catch (Exception ex) {
-        //        Debug.WriteLine($"Failed GetPlayerBySeason");
-        //        Debug.WriteLine($"{ex.Message}");
+        //        Logger.Log($"Failed GetPlayerBySeason");
+        //        Logger.Log($"{ex.Message}");
         //    }
 
 
-        //    Debug.WriteLine($"return null");
+        //    Logger.Log($"return null");
         //    return null;
         //}
 
@@ -276,7 +276,7 @@ namespace SML {
 
             using (SqlCommand command = new SqlCommand(query, connection, transaction)) {
                 int rowsAffected = command.ExecuteNonQuery();
-                Debug.WriteLine($"Updated {rowsAffected} player usernames.");
+                Logger.Log($"Updated {rowsAffected} player usernames.");
             }
         }
 
@@ -293,7 +293,7 @@ namespace SML {
 
 
         //public void UploadGame(ReplayData replay, int matchID, SqlConnection connection, SqlTransaction transaction) {
-        //    Debug.WriteLine($"SQL UploadGame()");
+        //    Logger.Log($"SQL UploadGame()");
 
         //    try {
         //        using SqlCommand command = new SqlCommand(
@@ -323,20 +323,20 @@ namespace SML {
         //    // Unique Constraint Violation (Duplicate UUID)
         //    catch (SqlException ex) when (ex.Number == 2627) {
         //        string errorMessage = $"Upload failed: A replay with the same UUID ({replay.uuid}) already exists.";
-        //        Debug.WriteLine(errorMessage);
+        //        Logger.Log(errorMessage);
 
         //        // Throw a custom exception to be handled by the calling function
         //        throw new InvalidOperationException(errorMessage);
         //    }
         //    catch (Exception ex) {
-        //        Debug.WriteLine($"Exception: {ex.Message}");
+        //        Logger.Log($"Exception: {ex.Message}");
         //        throw;
         //    }
         //}
 
 
         public int CreateMatch(Player playerOne, Player playerTwo, SqlConnection connection, SqlTransaction transaction) {
-            Debug.WriteLine($"SQL CreateMatch()");
+            Logger.Log($"SQL CreateMatch()");
 
             try {
                 int divisionID = playerOne.Division == playerTwo.Division ? playerOne.Division : -1;
@@ -345,9 +345,9 @@ namespace SML {
                 // Handle if one or both players have forfeited the season
                 int forfeit = playerOne.Forfeit + playerTwo.Forfeit;
 
-                Debug.WriteLine($"Creating match for {playerOne.Name} vs {playerTwo.Name}");
-                Debug.WriteLine($"{playerOne.Name}\n:ID={playerOne.PlayerID}:Div={playerOne.Division}:Forfeit={playerOne.Forfeit}:Username{playerOne.Username}\n");
-                Debug.WriteLine($"{playerTwo.Name}\n:ID={playerTwo.PlayerID}:Div={playerTwo.Division}:Forfeit={playerTwo.Forfeit}:Username{playerTwo.Username}\n");
+                Logger.Log($"Creating match for {playerOne.Name} vs {playerTwo.Name}");
+                Logger.Log($"{playerOne.Name}\n:ID={playerOne.PlayerID}:Div={playerOne.Division}:Forfeit={playerOne.Forfeit}:Username{playerOne.Username}\n");
+                Logger.Log($"{playerTwo.Name}\n:ID={playerTwo.PlayerID}:Div={playerTwo.Division}:Forfeit={playerTwo.Forfeit}:Username{playerTwo.Username}\n");
 
                 if (playerOne.Results.Points_Won > playerTwo.Results.Points_Won && forfeit != 0) {
                     winner = playerOne.PlayerID;
@@ -382,7 +382,7 @@ namespace SML {
                 return (int)command.ExecuteScalar();
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Exception: {ex.Message}");
+                Logger.Log($"Exception: {ex.Message}");
                 throw;
             }
         }
@@ -413,7 +413,7 @@ namespace SML {
         //        }
         //    }
         //    catch (Exception ex) {
-        //        Debug.WriteLine($"Exception: {ex.Message}");
+        //        Logger.Log($"Exception: {ex.Message}");
         //    }
 
         //    return winners;
@@ -424,16 +424,16 @@ namespace SML {
         //  Updating player stats
         // =======================================================================================
         //public Results GetPlayerResultsByMatch(Player player, Match match, SqlConnection connection, SqlTransaction transaction) {
-        //    Debug.WriteLine($"UpdatePlayerStats: {player.Name}");
+        //    Logger.Log($"UpdatePlayerStats: {player.Name}");
 
         //    if (player.Username == null) {
-        //        Debug.WriteLine($"PlayerID = 0, invalid ID");
+        //        Logger.Log($"PlayerID = 0, invalid ID");
         //        throw new ArgumentNullException(nameof(player), "Null match sent in UpdatePlayerStats");
         //    } else if (match.ID == 0) {
         //        throw new ArgumentNullException("Null match sent in UpdatePlayerStats");
         //    }
 
-        //    Debug.WriteLine($"Name:{player.Name}\n-User:{player.Username}\n{player.PlayerID}\n");
+        //    Logger.Log($"Name:{player.Name}\n-User:{player.Username}\n{player.PlayerID}\n");
 
         //    try {
         //        string query = @"
@@ -468,19 +468,19 @@ namespace SML {
         //            result.Sniper_TimeOut = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
         //        }
 
-        //        Debug.WriteLine($"Returning {player.Name} result: {result.ToString()}");
+        //        Logger.Log($"Returning {player.Name} result: {result.ToString()}");
 
         //        return result;
         //    }
         //    catch (Exception ex) {
-        //        Debug.WriteLine($"Exception in GetPlayerStatsByMatch: {ex.Message}");
+        //        Logger.Log($"Exception in GetPlayerStatsByMatch: {ex.Message}");
         //        throw;
         //    }
         //}
 
 
         //public void UpdatePlayerStatsByMatch(Player player, Results result, SqlConnection connection, SqlTransaction transaction) {
-        //    Debug.WriteLine($"UpdatePlayerStats: {player.Name}");
+        //    Logger.Log($"UpdatePlayerStats: {player.Name}");
 
         //    try {
         //        string query = @"
@@ -518,10 +518,10 @@ namespace SML {
         //        command.Parameters.AddWithValue("@seasonID", player.Season);
 
         //        int rowsAffected = command.ExecuteNonQuery();
-        //        Debug.WriteLine($"Updated {rowsAffected} rows for Player: {player.Username} in Season: {player.Season}");
+        //        Logger.Log($"Updated {rowsAffected} rows for Player: {player.Username} in Season: {player.Season}");
         //    }
         //    catch (Exception ex) {
-        //        Debug.WriteLine($"Exception in UpdatePlayerStatsByMatch: {ex.Message}");
+        //        Logger.Log($"Exception in UpdatePlayerStatsByMatch: {ex.Message}");
         //        throw;
         //    }
         //}

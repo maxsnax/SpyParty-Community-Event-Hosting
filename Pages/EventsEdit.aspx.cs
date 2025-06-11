@@ -29,13 +29,13 @@ namespace SML.Pages {
             _eventName = eventName;
 
             if (string.IsNullOrEmpty(eventName)) {
-                Debug.WriteLine($"{eventName} event not found.");
+                Logger.Log($"{eventName} event not found.");
                 EventNameLabel.Text = $"Event not found.";
                 //Response.Redirect("/Pages/EventsEdit.aspx?season=SML+1");
 
             }
             else if (_eventsService.CheckEventName(eventName) == false) {
-                Debug.WriteLine($"{eventName} event not found.");
+                Logger.Log($"{eventName} event not found.");
                 EventNameLabel.Text = $"{eventName} not found.";
             }
             else {
@@ -47,12 +47,12 @@ namespace SML.Pages {
                 string authorizedEvent = HttpContext.Current.Session["AuthorizedEvent"] as string ?? string.Empty;
 
                 if (authorizedEvent == null || authorizedEvent != eventName) {
-                    Debug.WriteLine($"{eventName} not currently authorized for this user.");
+                    Logger.Log($"{eventName} not currently authorized for this user.");
                     EventPasswordContainer.Visible = true;
                     passwordLabel.Text = $"Enter {eventName} Password:";
                     return;
                 }
-                Debug.WriteLine($"{eventName} authorized.");
+                Logger.Log($"{eventName} authorized.");
 
                 EventPasswordContainer.Visible = false;
                 ViewState["eventData"] = null;
@@ -88,7 +88,7 @@ namespace SML.Pages {
         }
 
         private void LoadGrid() {
-            Debug.WriteLine($"Fetching {_eventName} Data");
+            Logger.Log($"Fetching {_eventName} Data");
             DataTable eventData = _eventsService.FetchEventData(_eventName);
 
             if (eventData == null || eventData.Rows.Count == 0) {
@@ -99,11 +99,11 @@ namespace SML.Pages {
             }
 
             // Log the number of rows retrieved
-            Debug.WriteLine($"Data retrieved: {eventData.Rows.Count} rows");
+            Logger.Log($"Data retrieved: {eventData.Rows.Count} rows");
 
             // Log the first row as an example
             foreach (DataRow row in eventData.Rows) {
-                Debug.WriteLine($"Player: {row["player_name"]}, Division: {row["division_name"]}");
+                Logger.Log($"Player: {row["player_name"]}, Division: {row["division_name"]}");
             }
 
             PlayersGridView.DataSource = eventData;
@@ -172,7 +172,7 @@ namespace SML.Pages {
 
                 // Update via the Business Layer
                 //_eventsService.UpdatePlayer(playerID, division, forfeit);
-                Debug.WriteLine($"Update Player {playerID}, {division} ,{forfeit}");
+                Logger.Log($"Update Player {playerID}, {division} ,{forfeit}");
 
                 PlayersGridView.EditIndex = -1;
                 LoadGrid(); // Refresh data
@@ -233,24 +233,24 @@ namespace SML.Pages {
         }
 
         public void Submit_EditDivision(object sender, EventArgs e) {
-            Debug.WriteLine("Edit Division Click");
+            Logger.Log("Edit Division Click");
             //ShowModalPopup();
         }
 
         public void Submit_EditPlayers(object sender, EventArgs e) {
-            Debug.WriteLine("Edit Players Click");
+            Logger.Log("Edit Players Click");
             //ShowModalPopup();
         }
 
         public void Submit_EditSettings(object sender, EventArgs e) {
-            Debug.WriteLine("Edit Settings Click");
+            Logger.Log("Edit Settings Click");
             ViewState["ShowModal"] = true;
             ShowModalPopup();
         }
 
         // Navigates back to normal view events page
         public void Submit_Quit(object sender, EventArgs e) {
-            Debug.WriteLine("Quit Click");
+            Logger.Log("Quit Click");
             Response.Redirect("/Pages/Events?season=" + HttpUtility.UrlEncode(_eventName));
         }
 
@@ -462,7 +462,7 @@ namespace SML.Pages {
                 }
             }
 
-            Debug.WriteLine("RadioButton Click");
+            Logger.Log("RadioButton Click");
         }
 
 

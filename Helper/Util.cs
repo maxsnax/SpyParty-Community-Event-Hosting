@@ -88,7 +88,7 @@ namespace SML {
                 }
             }
             catch (Exception ex) {
-                Debug.WriteLine(ex.Message);
+                Logger.Log(ex.Message);
             }
 
             return rankTable;
@@ -174,11 +174,11 @@ namespace SML {
 
             HtmlTableCell logoCell = new HtmlTableCell();
             if (File.Exists(physicalPath)) {
-                Debug.WriteLine($"Logo: {physicalPath} Exists");
+                Logger.Log($"Logo: {physicalPath} Exists");
                 logoCell = Util.cellImage(virtualPath, className: "picture-cell");
             }
             else {
-                Debug.WriteLine($"Logo: {physicalPath} Not Found");
+                Logger.Log($"Logo: {physicalPath} Not Found");
                 //string fallbackPath = "/Images/defaults/defaultDivision.png"; // Fallback image
                 logoCell.Attributes["class"] = "picture-cell";
             }
@@ -232,7 +232,7 @@ namespace SML {
             foreach (Player player in playersList) {
 
                 if (player == null) {
-                    Debug.WriteLine("Error null player");
+                    Logger.Log("Error null player");
                 }
 
                 divisionSpyWin += player.Results.Spy_Wins;
@@ -259,11 +259,11 @@ namespace SML {
 
             HtmlTableCell logoCell = new HtmlTableCell();
             if (File.Exists(physicalPath)) {
-                Debug.WriteLine($"Logo: {physicalPath} Exists");
+                Logger.Log($"Logo: {physicalPath} Exists");
                 logoCell = Util.cellImage(virtualPath, className: "picture-cell");
             }
             else {
-                Debug.WriteLine($"Logo: {physicalPath} Not Found");
+                Logger.Log($"Logo: {physicalPath} Not Found");
                 //string fallbackPath = "/Images/defaults/defaultDivision.png"; // Fallback image
                 logoCell.Attributes["class"] = "picture-cell";
             }

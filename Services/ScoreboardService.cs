@@ -83,7 +83,7 @@ namespace SML {
             //        }
             //    }
             //    catch (Exception ex) {
-            //        Debug.WriteLine(ex);
+            //        Logger.Log(ex);
             //    }
             //}
 
@@ -92,7 +92,7 @@ namespace SML {
             //        uow.PlayersRepo.UpdatePlayerStats(player);
             //    }
             //    catch (Exception ex) {
-            //        Debug.WriteLine(ex);
+            //        Logger.Log(ex);
             //    }
             //}
 
@@ -146,11 +146,13 @@ namespace SML {
                     }
                 }
                 catch (Exception ex) {
-                    Debug.WriteLine(ex);
+                    Logger.Log(ex);
                 }
             }
 
-            playersList = playersList.OrderBy(p => p.LoadOrder).ToList(); // Primary sorting by points
+            playersList = playersList.OrderBy(p => p.LoadOrder) // Primary sorting by SQL load order
+                .ThenByDescending(p => p.Points) // Secondary sorting by points
+                .ToList();
 
             return playersList;
         }

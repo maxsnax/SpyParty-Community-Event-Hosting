@@ -55,6 +55,7 @@
 
                     <asp:Label ID="fileUploadNameLabel" runat="server" style="font-size: 14px;"></asp:Label>
                 </section>
+                <label id="logdump" runat="server"></label>
                 <asp:UpdatePanel ID="UpdatePanel" runat="server">
                     <ContentTemplate>
                     <asp:PlaceHolder runat="server" ID="masterTablePlaceholder"></asp:PlaceHolder>

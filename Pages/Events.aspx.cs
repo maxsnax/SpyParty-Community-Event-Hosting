@@ -37,14 +37,14 @@ namespace SML.Pages {
             string eventName = Request.QueryString["season"];
 
             if (string.IsNullOrEmpty(eventName)) {
-                Debug.WriteLine("No specific event requested. Loading all events...");
+                Logger.Log("No specific event requested. Loading all events...");
 
                 DataTable rawData;
                 rawData = _eventsService.PopulateAllEventData(EventGridView);
 
                 // DEBUG: Print all column names
                 foreach (DataColumn col in rawData.Columns) {
-                    Debug.WriteLine("Column: " + col.ColumnName);
+                    Logger.Log("Column: " + col.ColumnName);
                 }
 
                 if (rawData.Rows.Count > 0) {
@@ -74,7 +74,7 @@ namespace SML.Pages {
         }
 
         public void EventGridView_Sorting(object sender, GridViewSortEventArgs e) {
-            Debug.WriteLine("Sort GridView");
+            Logger.Log("Sort GridView");
 
             if (ViewState["dataTable"] is DataTable dataTable) {
                 DataView dataView = new DataView(dataTable);
@@ -98,7 +98,7 @@ namespace SML.Pages {
 
 
         public void EventPlayerView_Sorting(object sender, GridViewSortEventArgs e) {
-            Debug.WriteLine("Sort PlayerView");
+            Logger.Log("Sort PlayerView");
 
             if (ViewState["eventData"] is DataTable dataTable) {
                 DataView dataView = new DataView(dataTable);
@@ -225,12 +225,12 @@ namespace SML.Pages {
         //            foreach (Player p in playerData) {
         //                int seasonID = p.Season;
         //                string seasonName = db.GetSeasonNameById(seasonID, connection, null);
-        //                Debug.WriteLine($"SeasonID:{seasonID}:{seasonName}");
+        //                Logger.Log($"SeasonID:{seasonID}:{seasonName}");
         //                seasonList.Add(Tuple.Create(seasonID, seasonName));
         //            }
         //        }
         //        catch (Exception ex) {
-        //            Debug.WriteLine(ex.Message);
+        //            Logger.Log(ex.Message);
         //        }
         //    }
 

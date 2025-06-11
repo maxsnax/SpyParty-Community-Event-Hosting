@@ -29,8 +29,8 @@ namespace SML.DAL.Repositories {
         }
 
         public Player CreatePlayer(Player player) {
-            Debug.WriteLine($"CreatePlayer: {player.Name} ({player.Username})");
-            Debug.WriteLine(player.ToString());
+            Logger.Log($"CreatePlayer: {player.Name} ({player.Username})");
+            Logger.Log(player.ToString());
 
             string query = @"
                 INSERT INTO Player (player_name, forfeit, division_id, season_id, username, load_order)
@@ -49,11 +49,11 @@ namespace SML.DAL.Repositories {
                 int playerId = (int)command.ExecuteScalar();
                 player.PlayerID = playerId;
 
-                Debug.WriteLine($"Created Player: " + player.ToString());
+                Logger.Log($"Created Player: " + player.ToString());
                 return player;
             }
             catch (Exception ex) {
-                Debug.WriteLine($"[ERROR] Failed to create player {player.Name}: {ex.Message}");
+                Logger.Log($"[ERROR] Failed to create player {player.Name}: {ex.Message}");
                 throw;
             }
         }
@@ -81,7 +81,7 @@ namespace SML.DAL.Repositories {
         public List<Player> GetPlayerByName(string playerName) {
             playerName = playerName.Replace("/steam", "");
 
-            Debug.WriteLine($"SQL GetPlayerByName() - playerName: {playerName}");
+            Logger.Log($"SQL GetPlayerByName() - playerName: {playerName}");
 
             string query =
                 "SELECT p.player_id, p.player_name, p.forfeit, p.division_id, p.season_id, p.username, " +
@@ -99,7 +99,7 @@ namespace SML.DAL.Repositories {
             command.Parameters.Add("@playerName", SqlDbType.VarChar, 50).Value = playerName;
             List<Player> playerData = new List<Player>();
 
-            Debug.WriteLine($"Executing SQL Query for Player: {playerName}");
+            Logger.Log($"Executing SQL Query for Player: {playerName}");
             try {
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read()) {
@@ -139,7 +139,7 @@ namespace SML.DAL.Repositories {
                     };
 
 
-                    Debug.WriteLine(
+                    Logger.Log(
                         $"Returning Player: ID={playerId}, Name={name}, Forfeit={forfeit}, " +
                         $"Division={divisionId} ({divisionName}), Season={seasonId} ({seasonName}), " +
                         $"W/L/T={wins}/{losses}/{ties}, LoadOrder={load}");
@@ -164,7 +164,7 @@ namespace SML.DAL.Repositories {
                 return playerData;
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Failed GetPlayerByName: {ex.Message}");
+                Logger.Log($"Failed GetPlayerByName: {ex.Message}");
             }
 
             return null;
@@ -172,7 +172,7 @@ namespace SML.DAL.Repositories {
 
 
         public void UpdatePlayerUsername(Player player) {
-            Debug.WriteLine($"UpdatePlayerUsername {player.Name}");
+            Logger.Log($"UpdatePlayerUsername {player.Name}");
 
             try {
                 string query = @"
@@ -190,7 +190,7 @@ namespace SML.DAL.Repositories {
                 command.Parameters.AddWithValue("@playerName", player.Name);
 
                 int rowsAffected = command.ExecuteNonQuery();
-                Debug.WriteLine($"Updated {rowsAffected} player usernames.");
+                Logger.Log($"Updated {rowsAffected} player usernames.");
             }
             catch (Exception ex) {
                 throw ex;
@@ -198,7 +198,7 @@ namespace SML.DAL.Repositories {
         }
 
         public Player GetPlayerByNameAndSeason(string playerName, int seasonId) {
-            Debug.WriteLine($"GetPlayerByNameAndSeason {playerName}:{seasonId}");
+            Logger.Log($"GetPlayerByNameAndSeason {playerName}:{seasonId}");
 
             try {
                 playerName = playerName.Replace("/steam", "");
@@ -232,21 +232,21 @@ namespace SML.DAL.Repositories {
                 }
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Failed GetPlayerBySeason");
+                Logger.Log($"Failed GetPlayerBySeason");
                 throw ex;
             }
         }
 
 
         public Results UpdatePlayerStats(Player player) {
-            Debug.WriteLine($"UpdatePlayerStats: {player.Name}");
-            Debug.WriteLine($"{player}");
+            Logger.Log($"UpdatePlayerStats: {player.Name}");
+            Logger.Log($"{player}");
 
             if (player.PlayerID <= 0) {
-                Debug.WriteLine($"PlayerID = 0, invalid ID");
+                Logger.Log($"PlayerID = 0, invalid ID");
                 throw new ArgumentNullException(nameof(player), "Null player sent in UpdatePlayerStats");
             } else if (player.Username == null) {
-                Debug.WriteLine($"PlayerUsername is null, invalid for replay search");
+                Logger.Log($"PlayerUsername is null, invalid for replay search");
                 throw new ArgumentNullException(nameof(player), "PlayerUsername is null, invalid for replay search");
             }
 
@@ -311,12 +311,12 @@ namespace SML.DAL.Repositories {
                     result.Sniper_TimeOut = reader.IsDBNull(7) ? 0 : reader.GetInt32(7);
                 }
 
-                Debug.WriteLine($"Returning {player.Name} result: {result}");
+                Logger.Log($"Returning {player.Name} result: {result}");
 
                 return result;
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Exception in UpdatePlayerStats: {ex.Message}");
+                Logger.Log($"Exception in UpdatePlayerStats: {ex.Message}");
                 throw;
             }
         }
@@ -334,7 +334,7 @@ namespace SML.DAL.Repositories {
         }
 
         public void UpdatePlayerStatsFromResults(Player player, int winner) {
-            Debug.WriteLine($"UpdatePlayerStats: {player.Name}");
+            Logger.Log($"UpdatePlayerStats: {player.Name}");
 
             try {
                 Results result = player.Results;
@@ -380,10 +380,10 @@ namespace SML.DAL.Repositories {
                 command.Parameters.AddWithValue("@seasonID", player.Season);
 
                 int rowsAffected = command.ExecuteNonQuery();
-                Debug.WriteLine($"Updated {rowsAffected} rows for Player: {player.Username} in Season: {player.Season}");
+                Logger.Log($"Updated {rowsAffected} rows for Player: {player.Username} in Season: {player.Season}");
             }
             catch (Exception ex) {
-                Debug.WriteLine($"Exception in UpdatePlayerStatsByMatch: {ex.Message}");
+                Logger.Log($"Exception in UpdatePlayerStatsByMatch: {ex.Message}");
                 throw;
             }
         }

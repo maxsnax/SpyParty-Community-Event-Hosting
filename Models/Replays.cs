@@ -47,8 +47,8 @@ namespace SML.Models {
             var errors = "";
             var jsonResults = "";
 
-            Debug.WriteLine("Running SpyPartyParser.py...");
-            Debug.WriteLine($"Arguments: {psi.Arguments}");
+            Logger.Log("Running SpyPartyParser.py...");
+            Logger.Log($"Arguments: {psi.Arguments}");
 
             using (var process = Process.Start(psi)) {
                 errors = process.StandardError.ReadToEnd();
@@ -57,11 +57,11 @@ namespace SML.Models {
             }
 
             if (!string.IsNullOrEmpty(errors)) {
-                Debug.WriteLine("Python stderr:");
-                Debug.WriteLine(errors);
+                Logger.Log("Python stderr:");
+                Logger.Log(errors);
             }
 
-            Debug.WriteLine($"Python stdout: {jsonResults}");
+            Logger.Log($"Python stdout: {jsonResults}");
 
             return errors + jsonResults;
         }
@@ -80,7 +80,7 @@ namespace SML.Models {
                 return jsonObject;
             }
             catch (Exception e) {
-                Debug.WriteLine("Error in ReadFile of SML.Models.Replays");
+                Logger.Log("Error in ReadFile of SML.Models.Replays");
                 response = response + e.Message + e.StackTrace;
                 return null;
             }
