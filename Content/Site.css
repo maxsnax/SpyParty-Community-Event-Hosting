@@ -79,12 +79,15 @@ h4 {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    transition: background-image 1s ease-in-out;
-    filter: blur(15px);
+    filter: blur(8px); /* Reduced for better fallback */
     z-index: -1;
-    display: none; /* Hidden unless enabled */
-    box-shadow: inset 0px 0px 500px 300px rgba(0, 0, 0, 0.9);
+    display: none;
+    box-shadow: inset 0px 0px 300px 200px rgba(0, 0, 0, 0.8);
+    transition: background-image 1s ease-in-out;
+    transform: translateZ(0); /* Forces GPU layer */
+    will-change: transform, filter;
 }
+
 
 @keyframes zoomIn {
     0% {

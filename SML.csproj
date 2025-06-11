@@ -456,12 +456,6 @@
     <Content Include="Images\floorplans\Teien.png" />
     <Content Include="Images\floorplans\Terrace.png" />
     <Content Include="Images\divisions\SML-Logo.png" />
-    <Content Include="Images\divisions\SML_Badge_Emerald.png" />
-    <Content Include="Images\divisions\SML_Badge_Grandmaster.png" />
-    <Content Include="Images\divisions\SML_Badge_Master.png" />
-    <Content Include="Images\divisions\SML_Badge_Ruby.png" />
-    <Content Include="Images\divisions\SML_Badge_Sapphire.png" />
-    <Content Include="Images\divisions\SML_Badge_Topaz.png" />
     <Content Include="Images\floorplans\Veranda.png" />
     <Content Include="Images\icons\mouse.png" />
     <Content Include="Images\icons\sniper.png" />
@@ -661,7 +655,6 @@
     <Content Include="SpyPartyParse-master\spyparty\ReplayVersion4Offsets.py" />
     <Content Include="SpyPartyParse-master\spyparty\ReplayVersion5Offsets.py" />
     <Content Include="SpyPartyParse-master\spyparty\ReplayVersion6Offsets.py" />
-    <Content Include="SpyPartyParse-master\spyparty\SpyPartyReplay-20240128-01-25-05-aicovt-vs-halogenic-lOula6UTSquTBhIKI-WkuA-v27.txt" />
     <Content Include="SpyPartyParse-master\spyparty\__init__.py" />
     <Content Include="SpyPartyParse-master\extract_replays.py" />
     <Content Include="ViewSwitcher.ascx" />
